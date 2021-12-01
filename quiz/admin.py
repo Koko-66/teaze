@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Category
+from .models import *
 
 
-admin.site.register(Category)
+models = [Category, Question, Option, Quiz, QuizQuestion]
+admin.site.register(models)
