@@ -1,108 +1,98 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+<!-- ![](my logo?)  -->
+# TABLE OF CONTENTS
+1. [Introduction](#intro)
+2. [UX](#ux)<br>
+  2.1 [User Story](#user-story)
+3. [Features and design](#features-design)<br>
+  3.1. [Existing features](#existing-features)<br>
+  3.2. [Features left to implement](#left-to-implement)
+4. [Technologies](#technologies)<br>
+  4.1. [Languages used](#languages)<br>
+  4.2. [Frameworks, libraries and programs used](#libraries-and-programs)
+5. [Testing](https://github.com/Koko-66/Translate_it/blob/main/TESTING.md)
+6. [Deployment](#deployment)
+7. [Credits](#credits)
 
-Welcome Koko-66,
+## <a name="intro"></a>Translate it!
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+![Responsive Mockup]()
 
-You can safely delete this README.md file, or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **September 1, 2021**
+Link to the deployed app: 
 
-## Gitpod Reminders
+## <a name="ux"></a>UX
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
 
-`python3 -m http.server`
+### Functionality design
 
-A blue button should appear to click: _Make Public_,
 
-Another blue button should appear to click: _Open Browser_.
+### <a name="user-story"></a>User Story
 
-To run a backend Python file, type `python3 app.py`, if your Python file is named `app.py` of course.
 
-A blue button should appear to click: _Make Public_,
+## <a name="features-design"></a>Features and Design
 
-Another blue button should appear to click: _Open Browser_.
 
-In Gitpod you have superuser security privileges by default. Therefore you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+### <a name="existing-features"></a>Existing Features
 
-To log into the Heroku toolbelt CLI:
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+### <a name="left-to-implement"></a>Features Left to Implement
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you so do not share it. If you accidentally make it public then you can create a new one with _Regenerate API Key_.
 
-------
 
-## Release History
+## <a name="technologies"></a>Technologies used
+### <a name="languages"></a>Languages
+- HTML and CSS (provided in Code Institute's template)
+- Python
+- 
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+### <a name="libraries-and-programs"></a>Frameworks, Libraries and Programs used
+- __Django__
+- __GitPod__: used as a backup code editor
+- __Git__: used for version control
+- __[Git Hub](https://github.com/)__: used to store project files
+- __[Python Tutor](https://pythontutor.com/)__: used to help with debugging
+- __darw.io__: to create the data models
+- __Balsamiq__: for wireframes
+- __Cloudinary__: to store image files
+- __PostgreSQL Database__: serving as main database
+- __Python Libraries__: 
+  - Coverage
+- __[Heroku](https://www.heroku.com/)__: used to deploy the live version of the project
+- __[Am I Responsive?](http://ami.responsivedesign.is/#)__ site to generate the responsive mockup
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+## <a name="testing"></a>Testing 
+Information about testing is available in a separate file [here]().
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+## <a name="deployment">Deployment</a>
+The program was deployed to Heroku and is accessible here: 
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+The steps taken to deploy the app: 
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+1. Updated the contents of the requirements file using the `pip3 freeze > requirements.txt` command in VS Code.
+2. Checked the project structure and run the program to ensure everything is working as expected.
+3. Created the Translate it! project on Heroku, giving it the name 'translate-it7'     (translate-it was not available).
+4. In the Config Vars section of the Settings tab, added the environment variables to set up: 
+  - credentials to access the Google Sheet with the database; 
+  - port;
+  - credentials to access the e-mail account for sending e-mails.
+5. Added the python and nodejs buildpacks (in that order).
+6. In the Deployment tab:
+ - selected GitHub as deployment method,
+ - selected Connect,
+ - authorised Heroku to access the GitHub account,
+ - searched for Translate_it repository and confirmed the connection.
+7. First time deployed the app using the manual Deploy Branch button, then enabled automatic deploys.
+8. Once the first build finished, tested the app's functionality and resolved encountered issues.
+ 
+## Requirements
+The program requires Python 3 or higher. 
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+## <a name="credits">Credits</a>
+A great thank you to: 
+- My mentor, Caleb Mbakwe, for invaluable advice on the best approach to the project, organisation of code, and support throughout the whole project. 
+- Stackoverflow: for pointing in the right directio on arranging question and option models
+- Izen Oku: for his [blog post](https://medium.com/swlh/overview-building-a-full-stack-quiz-app-with-django-and-react-57fd07449e2f) on creating a Quiz app: 
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+- Creators of [Heroku documentation](https://devcenter.heroku.com/).
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
-
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
-
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
-
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
-
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
-
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
-
-------
-
-## FAQ about the uptime script
-
-**Why have you added this script?**
-
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
-
-**How will this affect me?**
-
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
-
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
-
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
-
-**So….?**
-
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
-
-**Can I opt out?**
-
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
-
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
-
-**Anything more?**
-
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
-
----
-
-Happy coding!
