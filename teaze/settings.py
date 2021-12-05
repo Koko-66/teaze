@@ -45,7 +45,11 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
+
+    'categories',
     'quiz',
+    'questions',
+    'results',
 ]
 
 MIDDLEWARE = [

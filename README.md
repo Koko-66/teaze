@@ -13,10 +13,11 @@
 6. [Deployment](#deployment)
 7. [Credits](#credits)
 
-## <a name="intro"></a>Translate it!
+## <a name="intro">Teaze</a>
 
 ![Responsive Mockup]()
 
+Teaze is an web-based quiz management and delivery application. 
 Link to the deployed app: 
 
 ## <a name="ux"></a>UX
@@ -93,6 +94,6 @@ A great thank you to:
 - My mentor, Caleb Mbakwe, for invaluable advice on the best approach to the project, organisation of code, and support throughout the whole project. 
 - Stackoverflow: for pointing in the right directio on arranging question and option models
 - Izen Oku: for his [blog post](https://medium.com/swlh/overview-building-a-full-stack-quiz-app-with-django-and-react-57fd07449e2f) on creating a Quiz app: 
-
+- https://www.youtube.com/watch?v=vXXfXRf2S4M
 - Creators of [Heroku documentation](https://devcenter.heroku.com/).
 
