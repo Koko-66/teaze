@@ -22,5 +22,4 @@ class CategoryTestCase(TestCase):
 
     def test_str_method(self):
         """Test string method"""
-        str_name = str(self.category)
-        self.assertEqual(str(self.category), str_name)
+        self.assertEqual(str(self.category), 'animals')
