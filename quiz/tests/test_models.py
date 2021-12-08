@@ -15,5 +15,5 @@ class QuizTestCase(TestCase):
         cls.category = Category.objects.create(name='Test', author=cls.user)
         cls.quiz = Quiz.objects.create(title='Test Quiz', category=cls.category)
 
-    def test_QuizQuestion_string_value(self):
+    def test_Quiz_string_value(self):
         self.assertEqual(str(self.quiz), 'Test Quiz')
