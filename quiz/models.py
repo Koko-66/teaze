@@ -10,10 +10,10 @@ class Quiz(models.Model):
     """Create a quiz"""
 
     title = models.CharField(max_length=100, unique=True)
-    category = models.ManyToManyField(Category,
-                                      related_name='quiz')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT,
+                                 related_name='quiz')
     # slug = models.SlugField(max_length=200, unique=True)
-    prepopulated_fields = {"slug": ("title",)}
+    # prepopulated_fields = {"slug": ("title",)}
     description = models.CharField(max_length=100)
     featured_image = CloudinaryField('image', default='placeholder',
                                      blank=True)

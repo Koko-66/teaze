@@ -17,7 +17,7 @@ class Question(models.Model):
     body = models.CharField(max_length=350, unique=True)
     category = models.ManyToManyField(Category,
                                       related_name='question')
-    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE,
+    quiz = models.ForeignKey(Quiz, on_delete=models.PROTECT,
                              related_name='questions')
     # slug = models.SlugField(max_length=70, unique=True)
     featured_image = CloudinaryField('image', default='placeholder',
@@ -26,6 +26,7 @@ class Question(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default=0)
+    feedback = models.CharField(max_length=200, blank=True)
 
     class Meta:
         """Ordering for questions"""
@@ -34,8 +35,8 @@ class Question(models.Model):
     def __str__(self):
         return f'{self.body} - {str(self.quiz)}'
 
-    def get_options(self):
-        return self.options_set.all()
+    # def get_options(self):
+    #     return self.options_set.all()
 
 
 # Code adapted from:
