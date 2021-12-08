@@ -1,6 +1,6 @@
 from cloudinary.models import CloudinaryField
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from categories.models import Category
 # from django.contrib.postgres.fields import ArrayField
 # from django.core.validators import MaxValueValidator, MinValueValidator
@@ -10,8 +10,8 @@ class Quiz(models.Model):
     """Create a quiz"""
 
     title = models.CharField(max_length=100, unique=True)
-    # category = models.ManyToManyField(Category,
-                                    #   related_name='quiz')
+    category = models.ManyToManyField(Category,
+                                      related_name='quiz')
     # slug = models.SlugField(max_length=200, unique=True)
     prepopulated_fields = {"slug": ("title",)}
     description = models.CharField(max_length=100)

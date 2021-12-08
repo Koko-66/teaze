@@ -3,7 +3,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
-from quiz.models import Quiz, Category
+from quiz.models import Quiz
+from categories.models import Category
 
 
 STATUS = ((0, "Draft"), (1, "Approved"))
@@ -31,7 +32,7 @@ class Question(models.Model):
         ordering = ['id']
 
     def __str__(self):
-        return self.body
+        return f'{self.body} - {str(self.quiz)}'
 
     def get_options(self):
         return self.options_set.all()
