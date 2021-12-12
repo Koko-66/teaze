@@ -5,6 +5,7 @@ from categories.models import Category
 # from django.contrib.postgres.fields import ArrayField
 # from django.core.validators import MaxValueValidator, MinValueValidator
 
+STATUS = ((0, 'Draft'), (1, 'Published'))
 
 class Quiz(models.Model):
     """Create a quiz"""
@@ -19,6 +20,7 @@ class Quiz(models.Model):
                                      blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
+    status = models.IntegerField(choices=STATUS, default=0)
 
     class Meta:
         verbose_name_plural = "Quizzes"
