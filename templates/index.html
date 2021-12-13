@@ -1,0 +1,29 @@
+{% extends "base.html"%}
+
+{% block content %}
+
+<!-- Display quizzes -->
+<div class="container-fluid">
+    <div class="row">
+        {% for quiz in quiz_list%}
+        <div class="col-4">
+            <div class="card" style="width: auto;">
+                {% if "placeholder" in quiz.featured_image.url %}
+                <img class="card-img-top"
+                    src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639349853/anne-marie_ridderhof_green_dnvdft.jpg"
+                    alt="Default's description">
+                {% else %}
+                <img class="card-img-top" src="{{ quiz.featured_image.url }}" alt="Featured image description">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ quiz.title }}<h5>
+                        <h6 class="card-title">Category: {{ quiz.category }}</h6>
+                        <p class="card-text">{{ quiz.description }}</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

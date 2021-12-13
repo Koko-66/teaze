@@ -1,0 +1,10 @@
+body {
+    height: 100vw;
+    background: lightgrey url("https://res.cloudinary.com/dcslh2m3b/image/upload/v1639385102/abstract-Image_by_Garik_Barseghyan_1264071_x46b7e.png");
+    background-size: cover;
+    padding: 86px 0 65px 0;
+}
+
+.card {
+    border: solid 2px #212529;
+}
