@@ -20,7 +20,8 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark ">
         <div class="container-fluid">
             <div>
-                <img src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639319548/teaze/teaze-logo_no-bkg_sm_z6cza3.png" calls="img-fluid" alt="Teaze logo" srcset="">
+                <img src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639319548/teaze/teaze-logo_no-bkg_sm_z6cza3.png"
+                    class="img-fluid" alt="Teaze logo" srcset="">
                 <!-- <a class="navbar-brand" href=""></a> -->
             </div>
             <div class="d-flex flex-wrap mr-auto p2">
@@ -53,35 +54,28 @@
     </nav>
     <!-- Main content -->
     <main class="flex-shrink-0 main-bg">
-        <div class="m-5">
+        <div class="py-5 mb-5">
             {% block content %}
             <!-- Content goes here -->
             {% endblock content %}
         </div>
     </main>
-    <!-- Footer -->
-    <footer
-        class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 mb-0 fixed-bottom bg-dark">
-        <div class="col-md-4 d-flex align-items-center" bis_skin_checked="1">
-            <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-                <svg class="bi" width="30" height="24">
-                    <use xlink:href="#bootstrap"></use>
-                </svg>
-            </a>
-            <span class="text-muted">© 2021 Koko Media</span>
-        </div>
 
-        <ul class="nav col-md-4 justify-content-end px-5 list-unstyled d-flex">
-            <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
-                        <use xlink:href="#twitter"><i class="fab fa-twitter"></i></use>
-                    </svg></a></li>
-            <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
-                        <use xlink:href="#instagram"><i class="fab fa-instagram"></i></use>
-                    </svg></a></li>
-            <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
-                        <use xlink:href="#facebook"><i class="fab fa-facebook"></i></use>
-                    </svg></a></li>
-        </ul>
+    <!-- Footer -->
+    <footer class="mt-5">
+        <div class="footer-img"></div>
+        <div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 mb-0 bg-dark">
+            <div class="col-md-4 d-flex align-items-center" bis_skin_checked="1">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"></a>
+                <span class="text-muted justify-content-sm-center">© 2021 kokoMedia</span>
+            </div>
+
+            <ul class="nav col-md-4 justify-content-between px-3 list-unstyled d-flex">
+                <li class="ms-3"><a class="text-muted" href="#"><i class="fab fa-twitter"></i></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><i class="fab fa-instagram"></i></a></li>
+                <li class="ms-3"><a class="text-muted" href="#"><i class="fab fa-facebook"></i></a></li>
+            </ul>
+        </div>
     </footer>
 
     <!-- Bootstrap script -->

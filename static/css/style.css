@@ -1,10 +1,47 @@
+/* ____Colors____ */
+/* grey: rgb (240,240,243) */
+/* orange: rgb(231,151,15) */
+@import url('https://fonts.googleapis.com/css2?family=Festive&display=swap');
+
+/* ____Global____ */
+/* Page background color and positioning  */
 body {
-    height: 100vw;
-    background: lightgrey url("https://res.cloudinary.com/dcslh2m3b/image/upload/v1639385102/abstract-Image_by_Garik_Barseghyan_1264071_x46b7e.png");
-    background-size: cover;
-    padding: 86px 0 65px 0;
+    background: rgb(243,243,243);
+    min-height: 100vh;
+    margin: 0;
+    padding: 68px 0 210px 0;
+    position: relative;
 }
 
-.card {
-    border: solid 2px #212529;
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100vw;
 }
+
+/* styling for button */
+.btn {
+    background: rgb(231,151,15);
+    color: #fff;
+}
+
+/* Image with the boy on top of footer */
+.footer-img {
+    display: block;
+    background: url("https://res.cloudinary.com/dcslh2m3b/image/upload/c_scale,w_200/v1639397806/man-5987447_sm_vb1qps.jpg") no-repeat bottom right;
+    height: 20vh;
+    margin: 20px 20px -20px 0;
+}
+
+/* Copyright author name */
+footer span {
+    font-family: "Festive", cursive;
+}
+
+/* .card-img-top {
+    height: 20vh;
+    overflow: hidden;
+} */
+
+
+
