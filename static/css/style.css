@@ -19,11 +19,18 @@ footer {
     width: 100vw;
 }
 
-/* styling for button */
+hr {
+    width: 30vw;
+    margin: 20px auto;
+}
+
+/* buttons */
 .btn {
     background: rgb(231,151,15);
     color: #fff;
 }
+
+
 
 /* Image with the boy on top of footer */
 .footer-img {
@@ -43,5 +50,12 @@ footer span {
     overflow: hidden;
 } */
 
+/* Welcome message div on landing page */
+#welcome {
+    display: block;
+    width: 100vw;
+    text-align: center;
+    margin-top: 20vh;
+}
 
 

@@ -4,6 +4,7 @@
 
 <!-- Display quizzes -->
 <div class="container-fluid">
+    {% if user.is_authenticated %}
     <div class="row">
         {% for quiz in quiz_list%}
         <div class="col-sm-12 col-md-6 col-lg-4">
@@ -25,6 +26,17 @@
         </div>
         {% endfor %}
     </div>
+    {% else %}
+    <div class="row">
+        <div id="welcome">
+            <h3>Welcome to Teaze!</h3>
+            <h5>Don't have an account just yet?</h5>
+            <hr>
+            <a href="" class=btn>Sign up here!</a>
+        </div>
+    </div>
+    {% endif %}
 </div>
+
 
 {% endblock %}
