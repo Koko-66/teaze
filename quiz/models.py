@@ -9,7 +9,7 @@ STATUS = ((0, 'Draft'), (1, 'Published'))
 
 
 class Quiz(models.Model):
-    """Create a quiz"""
+    """Create Quiz object"""
 
     title = models.CharField(max_length=100, unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,

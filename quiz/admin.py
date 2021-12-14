@@ -14,6 +14,7 @@ class QuestionInline(admin.TabularInline):
 
 class QuizAdmin(admin.ModelAdmin):
     inlines = [QuestionInline]
+    prepopulated_fields = {"slug": ("title",)}
 
 
 # admin.site.register(Question)

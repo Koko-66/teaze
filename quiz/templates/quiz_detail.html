@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="row m-2">
+    <h5>{{ title }}</h5>
+</div>
+
+<div class="row m-5">
+    {% for question in questions %}
+        <div class=row>
+            {% for question, options in question.items %}
+             <div class="row">{{ question }}</div>
+                {% for option in options %}
+                    <li>{{ option }}</li>
+                {% endfor %}
+             {% endfor %}
+        </div>
+    {% endfor %}
+
+
+</div>
+
+{% endblock %}
