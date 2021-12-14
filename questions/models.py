@@ -1,4 +1,4 @@
-"""Create question with answer options"""
+"""Question and answer options models with methods"""
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -10,14 +10,13 @@ from categories.models import Category
 STATUS = ((0, "Draft"), (1, "Approved"))
 
 
-# Create your models here.
 class Question(models.Model):
     """Create a question"""
 
     body = models.CharField(max_length=350, unique=True)
     category = models.ManyToManyField(Category,
                                       related_name='question')
-    quiz = models.ForeignKey(Quiz, on_delete=models.PROTECT,
+    quiz = models.ForeignKey(Quiz, null=True, on_delete=models.SET_NULL,
                              related_name='questions')
     # slug = models.SlugField(max_length=70, unique=True)
     featured_image = CloudinaryField('image', default='placeholder',
@@ -33,15 +32,18 @@ class Question(models.Model):
         ordering = ['id']
 
     def __str__(self):
+        """Question string method"""
         return f'{self.body} - {str(self.quiz)}'
 
-    # def get_options(self):
-    #     return self.options_set.all()
+    def get_options(self):
+        """"Get all options associated with the question."""
+        return self.options.all()
 
 
 # Code adapted from:
 # https://stackoverflow.com/questions/47867760/django-quiz-app-model-for-multiple-choice-questions#47867939
 class Option(models.Model):
+    """Create Option object"""
     question = models.ForeignKey(Question, related_name="options",
                                  on_delete=models.CASCADE)
     option = models.CharField("option", max_length=50)
@@ -52,6 +54,9 @@ class Option(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
+        """
+        Set meta data for the object: uniqueness, ordering and plural name
+        """
         unique_together = [
             # no duplicated option per question
             ("question", "option"),
@@ -62,4 +67,5 @@ class Option(models.Model):
         verbose_name_plural = 'Answer options'
 
     def __str__(self):
+        """Option string method"""
         return self.option
