@@ -1,11 +1,12 @@
+"""Quiz model and methods"""
+
 from cloudinary.models import CloudinaryField
 from django.db import models
-# from django.contrib.auth.models import User
 from categories.models import Category
-# from django.contrib.postgres.fields import ArrayField
-# from django.core.validators import MaxValueValidator, MinValueValidator
+
 
 STATUS = ((0, 'Draft'), (1, 'Published'))
+
 
 class Quiz(models.Model):
     """Create a quiz"""
@@ -13,8 +14,7 @@ class Quiz(models.Model):
     title = models.CharField(max_length=100, unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='quiz')
-    # slug = models.SlugField(max_length=200, unique=True)
-    # prepopulated_fields = {"slug": ("title",)}
+    slug = models.SlugField(max_length=200, unique=True)
     description = models.CharField(max_length=100)
     featured_image = CloudinaryField('image', default='placeholder',
                                      blank=True)
@@ -23,12 +23,13 @@ class Quiz(models.Model):
     status = models.IntegerField(choices=STATUS, default=0)
 
     class Meta:
+        """Set plural name to show in admin"""
         verbose_name_plural = "Quizzes"
 
-    def __str__(self):
-        return self.title
-
     def get_questions(self):
-        return self.questions_set.all()
+        """Get all questions assigned to thie quiz"""
+        return self.questions.all()
 
-
+    def __str__(self):
+        """Quiz string method"""
+        return self.title
