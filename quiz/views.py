@@ -15,13 +15,13 @@ class QuizDetails(View):
         queryset = Quiz.objects.filter(status=1)
         quiz = get_object_or_404(queryset, slug=slug)
         title = quiz.title
-        # Code below: curtesy of Pyplane youtube.com/watch?v=T9xOjVJI1rg
+        # Code below adapted from tutorial prepared by Pyplane (youtube.com/watch?v=T9xOjVJI1rg)
         questions = []
         for question in quiz.get_questions():
             options = []
             for option in question.get_options():
-                options.append(option.option)
-            questions.append({question.body: options})
+                options.append({option.pk: option.option})
+            questions.append({question.pk: {question.body: options}})
 
         return render(
             request,
@@ -29,5 +29,6 @@ class QuizDetails(View):
             {
                 "title": title,
                 "questions": questions,
+
             },
         )

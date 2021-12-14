@@ -2,23 +2,42 @@
 
 {% block content %}
 
+<!-- quiz title -->
 <div class="row m-2">
     <h5>{{ title }}</h5>
 </div>
 
-<div class="row m-5">
-    {% for question in questions %}
-        <div class=row>
-            {% for question, options in question.items %}
-             <div class="row">{{ question }}</div>
-                {% for option in options %}
-                    <li>{{ option }}</li>
+<form action="POST">
+    <div class="row m-5">
+        <ol>
+            <!-- loop through the list to get list of items (id: question + options) -->
+            {% for item in questions %}
+            <!-- loop thorugh the dictionary to extract question ids and questions with answers -->
+            {% for question_id, question in item.items %}
+            <div class=row>
+                <!-- loop through questions to get the quesiton text and answer options -->
+                {% for question, options in question.items %}
+                <li><strong>{{ question }}</strong>
+                    <!-- loop through answer options to get individual dic entries-->
+                    {% for option in options %}
+                    <!-- loop through answer options to get ids to use in the answer id and option text-->
+                    {% for option_id, option_text in option.items %}
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="{{ question_id }}"
+                            id="{{ question_id }}-{{ option_id }}">
+                        <label class="form-check-label" for="{{ question_id }}">
+                            {{ option_text }}</label>
+                    </div>
+                    {% endfor %}
+                    {% endfor %}
+                </li>
                 {% endfor %}
-             {% endfor %}
-        </div>
-    {% endfor %}
-
-
-</div>
-
+            </div>
+            <hr>
+            {% endfor %}
+            {% endfor %}
+            <button type="submit" class="btn">Submit answers</button>
+        </ol>
+    </div>
+</form>
 {% endblock %}

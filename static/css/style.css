@@ -1,6 +1,7 @@
 /* ____Colors____ */
 /* grey: rgb (240,240,243) */
 /* orange: rgb(231,151,15) */
+
 @import url('https://fonts.googleapis.com/css2?family=Festive&display=swap');
 
 /* ____Global____ */
@@ -24,19 +25,23 @@ hr {
     margin: 20px auto;
 }
 
-/* buttons */
+/* hr in the quiz */
+form hr {
+    width: 80vw;
+}
+
+/* Buttons */
 .btn {
     background: rgb(231,151,15);
     color: #fff;
 }
 
-
-
+/* ____Footer____ */
 /* Image with the boy on top of footer */
 .footer-img {
     display: block;
     background: url("https://res.cloudinary.com/dcslh2m3b/image/upload/c_scale,w_200/v1639397806/man-5987447_sm_vb1qps.jpg") no-repeat bottom right;
-    height: 20vh;
+    height: 150px;
     margin: 20px 20px -20px 0;
 }
 
@@ -45,12 +50,7 @@ footer span {
     font-family: "Festive", cursive;
 }
 
-/* .card-img-top {
-    height: 20vh;
-    overflow: hidden;
-} */
-
-/* Welcome message div on landing page */
+/* ____Landing page____ */
 #welcome {
     display: block;
     width: 100vw;
@@ -58,4 +58,9 @@ footer span {
     margin-top: 20vh;
 }
 
-
+/* ____Quiz____ */
+/* Quiz radio button */
+.form-check-input:checked {
+    background-color: rgb(231,151,15);
+    border-color: #0d6efd;
+}
