@@ -3,7 +3,7 @@
 {% block content %}
 
 <!-- Display quizzes -->
-<div class="container-fluid">
+<div class="container-fluid mt-5">
     {% if user.is_authenticated %}
     <div class="row">
         {% for quiz in quiz_list%}
@@ -28,11 +28,15 @@
     </div>
     {% else %}
     <div class="row">
-        <div id="welcome">
-            <h3>Welcome to Teaze!</h3>
-            <h5>Don't have an account yet?</h5>
-            <hr>
-            <a href="{% url 'account_signup' %}" class=btn>Sign up here!</a>
+        <div id="welcome" class="centered">
+            <h5>Welcome to Teaze!</h5>
+            <br>
+            <p>Welcome to our site. If you already have an account with us, sign in and enjoy.</p>
+            <a href="{% url 'account_login' %}" class="btn"> Sign in</a>
+            <p class="mt-5">If you have an account with us, you can  
+                <a href="{% url 'account_signup' %}">sign up here</a>.
+            </p>
+
         </div>
     </div>
     {% endif %}

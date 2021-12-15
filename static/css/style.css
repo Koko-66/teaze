@@ -25,9 +25,11 @@ hr {
     margin: 20px auto;
 }
 
-/* hr in the quiz */
-form hr {
-    width: 80vw;
+.centered {
+    /* display: block; */
+    width: 100vw;
+    text-align: center;
+    margin: auto;
 }
 
 /* Buttons */
@@ -50,17 +52,15 @@ footer span {
     font-family: "Festive", cursive;
 }
 
-/* ____Landing page____ */
-#welcome {
-    display: block;
-    width: 100vw;
-    text-align: center;
-    margin-top: 20vh;
-}
-
 /* ____Quiz____ */
 /* Quiz radio button */
 .form-check-input:checked {
     background-color: rgb(231,151,15);
     border-color: #0d6efd;
 }
+
+/* hr in the quiz */
+form hr {
+    width: 80vw;
+}
+
