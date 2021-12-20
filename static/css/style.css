@@ -1,8 +1,10 @@
 /* ____Colors____ */
 /* grey: rgb (240,240,243) */
 /* orange: rgb(231,151,15) */
+/* teal: rgb(10, 76, 104) */
 
 @import url('https://fonts.googleapis.com/css2?family=Festive&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Festive&family=Oswald:wght@300;400;600&display=swap');
 
 /* ____Global____ */
 /* Page background color and positioning  */
@@ -23,6 +25,11 @@ footer {
 hr {
     width: 30vw;
     margin: 20px auto;
+}
+
+.teal {
+    color: rgb(10, 76, 104);
+    /* font-family: 'Oswald', sans-serif; */
 }
 
 .centered {
@@ -47,6 +54,11 @@ hr {
     margin: 20px 20px -20px 0;
 }
 
+.quiz-feat-img {
+    width: 100%;
+    height: auto;
+}
+
 /* Copyright author name */
 footer span {
     font-family: "Festive", cursive;
@@ -61,6 +73,7 @@ footer span {
 
 /* hr in the quiz */
 form hr {
-    width: 80vw;
+    width: 30vw;
+    margin: 20px 0;
 }
 

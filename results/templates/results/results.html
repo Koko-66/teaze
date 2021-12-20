@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<!-- Quiz title -->
+<div class="container">
+    <div class="row mx-md-5 my-md-4 my-sm-2">
+        <div class="col-12 teal">
+            <h4>{{ quiz.title }}</h4>
+        </div>
+    </div>
+    <!-- Score summary -->
+    <div class="row mx-md-5 my-md-4 my-sm-2">
+        <div class="col-12 teal">
+            <h6>Your score = {{ assessment.score }} out of {{ number_of_questions }}</h6>
+        </div>
+    </div>
+</div>
+
+<!-- Quiz questions -->
+<div class="container">
+    <div class="row">
+        <div class="col m-md-5 m-sm-3">
+            <ol>
+                <!-- Loop through questions in the quiz to list them -->
+                {% for item in questions %}
+                    {% for question, options in item.items %}
+                    <li><strong>{{ question.body }}</strong>
+                        <!-- Loop through options for each qustio and list these -->
+                        <ol>
+                            {% for option in options %}
+                            <!-- Add 'required' property to the first item -->
+                            <li type="a" class="{% if option.is_correct %}text-success{% endif %}"> {{ option.option }}</li>
+                            {% endfor %}
+                        </ol>
+                    </li>
+                    <!-- Loop through the question to check which has been answered and which answers are correct -->
+                        {% for answered_question, answer in data %}
+                            {% if answered_question.pk == question.pk %}
+                            <br>
+                            <p>Your answer: {{ answer.option }}</p>
+                            <p class="{% if answer.is_correct %}text-success{% else %}text-danger{% endif %}">
+                                {% if answer.is_correct %}
+                                <strong>Correct</strong>. {{ answered_question.feedback }}
+                                {% else %}
+                                <strong>Incorrect</strong>. {{ answered_question.feedback }}
+                                {% endif %}
+                            </p>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                    <hr>
+                {% endfor %}
+            </ol>
+            <!-- Link to go back to the main page -->
+            <a href="{% url 'quiz:home' %}" class="btn">Go back</a>
+            <!-- </div> -->
+        </div>
+        <div class="col">
+            <img src="{{ quiz.featured_image.url }}" class="question-feat-img" alt="">
+        </div>
+    </div>
+</div>
+{% endblock %}

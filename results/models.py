@@ -1,8 +1,9 @@
 """"Test """
 from django.db import models
 from django.contrib.auth.models import User
-from quiz.models import Quiz
+# from cloudinary.models import CloudinaryField
 from questions.models import Option, Question
+from quiz.models import Quiz
 
 
 class Assessment(models.Model):
@@ -18,8 +19,8 @@ class Assessment(models.Model):
     def __str__(self):
         return f'{self.quiz}-{self.user}'
 
-    # def get_answers(self):
-    #     return self.answer_set.all()
+    def get_answers(self):
+        return self.answer.all()
 
 
 class Answer(models.Model):
@@ -34,4 +35,4 @@ class Answer(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{str(self.question)} - {self.answer}'
+        return f'{str(self.question)} - {self.answer}' 

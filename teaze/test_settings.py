@@ -42,6 +42,10 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
@@ -50,6 +54,7 @@ INSTALLED_APPS = [
     'quiz',
     'questions',
     'results',
+    # 'templatetags',
 ]
 
 MIDDLEWARE = [
