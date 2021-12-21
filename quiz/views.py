@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404, reverse, redirect
 from django.views import generic, View
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 from .models import Quiz
 from .forms import NewQuizForm
 from results.models import Assessment
@@ -58,6 +58,10 @@ class QuizListView(generic.ListView):
         else:
             return redirect('account_signup')
 
+
+class QuizDetailsView(DetailView):
+    queryset = Quiz.objects.all()
+    template = 'quiz/quiz_detail.html'
 
 
 class TakeQuizView(View):

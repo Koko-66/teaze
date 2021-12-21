@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h5>{{ quiz.title}}</h5>
+<p>Quiz id: {{ quiz.id }}</p>
+<p>Quiz status: {{ quiz.status }}</p>
+<p>Total questions: {{ quiz.questions.count }}</p>
+<p>Question List</p>
+<ol>
+{% for question in quiz.questions.all %}
+    <li>{{ question }}</li>
+{% endfor %}
+</ol>
+{% endblock %}
