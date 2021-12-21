@@ -3,7 +3,8 @@
 {% block content %}
 <h5>{{ quiz.title}}</h5>
 <p>Quiz id: {{ quiz.id }}</p>
-<p>Quiz status: {{ quiz.status }}</p>
+<p>Quiz status: {% if quiz.status == 0 %}Draft{% else %}Published{% endif %}
+</p>
 <p>Total questions: {{ quiz.questions.count }}</p>
 <p>Question List</p>
 <ol>
@@ -11,4 +12,5 @@
     <li>{{ question }}</li>
 {% endfor %}
 </ol>
+<a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
 {% endblock %}

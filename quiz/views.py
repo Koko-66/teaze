@@ -1,7 +1,13 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render, get_object_or_404, reverse, redirect
+from django.urls import reverse
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
-from django.views.generic import CreateView, DetailView
+from django.views.generic import (
+    CreateView,
+    DetailView,
+    UpdateView,
+    DeleteView,
+)
 from .models import Quiz
 from .forms import NewQuizForm
 from results.models import Assessment
@@ -11,29 +17,36 @@ class AddQuizView(CreateView):
     model = Quiz
     form_class = NewQuizForm
     template_name = 'quiz/add_quiz.html'
-    # form.instance.name = request.user.username
     queryset = Quiz.objects.all()
-    # success_url = 'new_question'
 
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
 
+
+class EditQuizView(UpdateView):
+    template_name = 'quiz/edit_quiz.html'
+    form_class = NewQuizForm
+    queryset = Quiz.objects.all()
+
+    def get_object(self):
+        slug = self.kwargs.get("slug")
+        return get_object_or_404(Quiz, slug=slug)
+
+    def form_valid(self, form):
+        print(form.cleaned_data)
+        return super().form_valid(form)  
+
+class DeleteQuizView(DeleteView):
+    # queryset = Quiz.objects.all()
+    template = 'quiz/delete_quiz.html'
+
+    def get_object(self):
+        slug = self.kwargs.get("slug")
+        return get_object_or_404(Quiz, slug=slug)
+
     def get_success_url(self):
-        return 'new_question'
-
-# class DeleteQuiz()
-
-# def add_quiz_view(request):
-#     form = NewQuizForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-#         form = NewQuizForm()
-
-#     context = {
-#         'form': form
-#     }
-#     return render(request, 'quiz/add_quiz.html', context)
+        return reverse('quiz:home')
 
 
 class QuizListView(generic.ListView):
@@ -42,7 +55,11 @@ class QuizListView(generic.ListView):
     template_name = 'index.html'
 
     def get(self, request):
-        quiz_list = Quiz.objects.filter(status=1).order_by('-created_on')
+        if request.user.groups.filter(name='Admin').exists():
+            quiz_list = Quiz.objects.order_by('-created_on')
+        else:
+            quiz_list = Quiz.objects.filter(status=1).order_by('-created_on')
+
         if request.user.is_authenticated:
             assessments = Assessment.objects.filter(user=request.user)
             completed_quizzes = []
@@ -56,12 +73,16 @@ class QuizListView(generic.ListView):
                 }
             )
         else:
-            return redirect('account_signup')
+            return redirect('account_login')
 
 
 class QuizDetailsView(DetailView):
-    queryset = Quiz.objects.all()
+    # queryset = Quiz.objects.all()
     template = 'quiz/quiz_detail.html'
+
+    def get_object(self):
+        slug = self.kwargs.get("slug")
+        return get_object_or_404(Quiz, slug=slug)
 
 
 class TakeQuizView(View):
