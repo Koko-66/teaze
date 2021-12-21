@@ -1,8 +1,9 @@
 """Quiz model and methods"""
-
-from cloudinary.models import CloudinaryField
+from django.urls import reverse
 from django.db import models
+from cloudinary.models import CloudinaryField
 from categories.models import Category
+# import random
 
 
 STATUS = ((0, 'Draft'), (1, 'Published'))
@@ -16,6 +17,7 @@ class Quiz(models.Model):
                                  related_name='quiz')
     slug = models.SlugField(max_length=200, unique=True)
     description = models.CharField(max_length=100)
+    # number_of_questions = models.IntegerField()
     featured_image = CloudinaryField('image', default='placeholder',
                                      blank=True)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -28,8 +30,16 @@ class Quiz(models.Model):
 
     def get_questions(self):
         """Get all questions assigned to thie quiz"""
+        # Randomisation of quesitons taken from Pyplane tutorial:
+        # https://www.youtube.com/watch?v=T9xOjVJI1rg
+        # questions = list(self.questions.all())
+        # random.shuffle(questions)
+        # return questions[:self.num_of_questions]
         return self.questions.all()
 
     def __str__(self):
         """Quiz string method"""
         return self.title
+
+    def get_absolute_url(self):
+        return reverse('quiz:quiz_detail', kwargs={"slug": self.slug})
