@@ -17,4 +17,3 @@ class QuizTestCase(TestCase):
 
     def test_Quiz_string_value(self):
         self.assertEqual(str(self.quiz), 'Test Quiz')
-    
