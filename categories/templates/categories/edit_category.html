@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="POST">
+    <div class="container">
+        <div class="row">
+            <h3 class="centered">Edit Category</h3>
+            <div class="col-md-6 py-5 offset-3">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <!-- <a href="{% url 'questions:add_question' %}">Add Question</a> -->
+                    {{ question_form.as_p }}
+                    <input type="submit" class="btn" value="Save">
+                    <a href="{% url 'categories:delete_category' category.id %}" class="btn">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        {{ categories.all }}
+        <div class="col">Categories List:</div>
+        {% for category in categories %}
+        <li>{{ category }}</li>
+        <a href="{% url 'categories:edit_category' category.id %}" class="btn">Edit Category</a>
+<a href="{% url 'categories:delete_category' category.id %}" class="btn">Delete Category</a>
+        {% endfor %}
+    </div>
+</div>
+<a href="{% url 'categories:add_category' %}" class="btn">Add Category</a>
+
+{% endblock %}
