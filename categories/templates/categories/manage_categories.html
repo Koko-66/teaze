@@ -1,16 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        {{ categories.all }}
-        <div class="col">Categories List:</div>
-        {% for category in categories %}
-        <li>{{ category }}</li>
-        <a href="{% url 'categories:edit_category' category.id %}" class="btn">Edit Category</a>
-<a href="{% url 'categories:delete_category' category.id %}" class="btn">Delete Category</a>
-        {% endfor %}
+    <div class="row mb-5">
+        <div class="col-12">
+            <a href="{% url 'quiz:home' %}">Back to Home</a>
+        </div>
     </div>
+    <div class="row">
+        <!-- {{ categories.all }} -->
+        <div class="col-6">
+            <h4>Categories List</h4>
+        </div>
+        <div class="col-5">
+            <a href="{% url 'categories:add_category' %}" class="btn" alt="Add category"><i class="fas fa-plus"></i></a>
+        </div>
+        <br><br>
+        <hr>
+        {% for category in categories %}
+        <div class="col-6 m-1" style="border: solid 1px brown;">
+            {{ category }}
+            <br>
+        </div>
+        <div class="col-5">
+            <a href="{% url 'categories:edit_category' category.id %}" class="btn"><i class="far fa-edit"></i></a>
+            <a href="{% url 'categories:delete_category' category.id %}" class="btn"><i class="fas fa-trash"></i></a>
+        </div>
+        {% endfor %}
+    </div> 
 </div>
-<a href="{% url 'categories:add_category' %}" class="btn">Add Category</a>
+
 
 {% endblock %}

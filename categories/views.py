@@ -14,18 +14,18 @@ class AddCategoryView(CreateView):
     form_class = NewCategoryForm
     template_name = 'categories/add_category.html'
     queryset = Category.objects.all()
-    success_url = '/'
+    # success_url = 'categories:manage_categories'
 
     def form_valid(self, form):
         print(form.cleaned_data)
         return super().form_valid(form)
-    
 
 
 class EditCategoryView(UpdateView):
     template_name = 'categories/edit_category.html'
     form_class = NewCategoryForm
     queryset = Category.objects.all()
+    # success_url = ''
 
     def get_object(self):
         category_id = self.kwargs.get('id')
@@ -44,7 +44,7 @@ class DeleteCategoryView(DeleteView):
         return get_object_or_404(Category, id=category_id)
 
     def get_success_url(self):
-        return reverse('quiz:home')
+        return reverse('categories:manage_categories')
 
 
 class CategoriesListView(ListView):

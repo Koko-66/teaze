@@ -4,6 +4,11 @@
 
 <form method="POST">
     <div class="container">
+        <div class="row mb-5">
+            <div class="col-12">
+                <a href="{% url 'categories:manage_categories' %}">Back to Manage Categories</a>
+            </div>
+        </div>
         <div class="row">
             {{ categories.all }}
             <h3 class="centered">Add Category</h3>

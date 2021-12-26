@@ -1,6 +1,7 @@
 """Construct category"""
 from django.db import models
 from django.contrib.auth.models import User
+from django.shortcuts import reverse
 
 
 class Category(models.Model):
@@ -20,4 +21,4 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('categories:manage_categories', kwargs={'id': self.id})
+        return reverse('categories:manage_categories')
