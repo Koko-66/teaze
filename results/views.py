@@ -1,15 +1,13 @@
 from django.shortcuts import render, get_object_or_404
-# from django.views import generic, View
 from .models import Answer, Assessment
 from quiz.models import Quiz
-# from quiz.views import QuizDetailsView
 from questions.models import Question, Option
 
 
 def results(request, slug):
+    """Get and process answers to the quiz and return feedback"""
     user = request.user
     score = 0
-    completed = False
     quiz = get_object_or_404(Quiz, slug=slug)
     questions = []
     for question in quiz.get_questions():
@@ -44,7 +42,6 @@ def results(request, slug):
                     'quiz': quiz,
                     'questions': questions,
                     'number_of_questions': number_of_questions,
-                    # 'completed': completed,
             }
 
         return render(request, template_name, context)
