@@ -27,7 +27,7 @@ hr {
     margin: 20px auto;
 }
 
-.teal {
+.teal-text {
     color: rgb(10, 76, 104);
     /* font-family: 'Oswald', sans-serif; */
 }
@@ -41,8 +41,15 @@ hr {
 
 /* Buttons */
 .btn {
-    background: rgb(231,151,15);
+    background: rgb(10, 76, 104);
     color: #fff;
+    margin: 2px;
+}
+
+.btn:active,
+.btn:focus,
+.btn:hover {
+    background: rgb(231,151,15);
 }
 
 /* ____Footer____ */
@@ -77,3 +84,11 @@ form hr {
     margin: 20px 0;
 }
 
+/* ____Forms____ */
+
+input {
+    border: none;
+    border-bottom: solid 1px;
+    border-color: rgb(231,151,15);
+    color: rgb(10, 76, 104);
+}
