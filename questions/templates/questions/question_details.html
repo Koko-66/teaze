@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+    {{ question.body }} - {{ question.status }}
+
+{% for option in question.options.all %}
+    {{ option.option }}
+{% endfor %}
+
+{% endblock %}

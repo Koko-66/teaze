@@ -17,7 +17,8 @@
 
 ![Responsive Mockup]()
 
-Teaze is an web-based quiz management and delivery application. 
+Teaze is a web-based application aimed to be used as a self-testing tool in aid of training.
+
 Link to the deployed app: 
 
 ## <a name="ux"></a>UX
@@ -56,8 +57,10 @@ Link to the deployed app:
 - __Balsamiq__: for wireframes
 - __Cloudinary__: to store image files
 - __PostgreSQL Database__: serving as main database
-- __Python Libraries__: 
+- __Libraries__: 
   - Coverage
+  - AllAuth
+
 - __[Heroku](https://www.heroku.com/)__: used to deploy the live version of the project
 - __[Am I Responsive?](http://ami.responsivedesign.is/#)__ site to generate the responsive mockup
 

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <div class="row mb-5">
+        <div class="col-12">
+            <a href="{% url 'quiz:home' %}">Back to Home</a>
+        </div>
+    </div>
+    <div class="row">
+        <!-- {{ categories.all }} -->
+        <div class="col-6">
+            <h4>Questions List</h4>
+        </div>
+        <div class="col-5">
+            <a href="" class="btn" alt="Add question"><i class="fas fa-plus"></i></a>
+        </div>
+        <br><br>
+        <hr>
+        {% for question in question_list %}
+        <div class="col-6 m-1" style="border: solid 1px brown;">
+            {{ question.body }}
+            <br>
+            <strong>Categories:</strong> {{ question.get_categories }}
+        </div>
+        <div class="col-5">
+            <a href="{% url 'questions:question_details' question.id %}" class="btn"><i class="far fa-info"></i></a>
+            <a href="{% url 'questions:edit_question' question.id %}" class="btn"><i class="far fa-edit"></i></a>
+            <a href="{% url 'questions:delete_question' question.id %}" class="btn"><i class="fas fa-trash"></i></a>
+        </div>
+        {% endfor %}
+    </div> 
+</div>
+
+
+{% endblock %}

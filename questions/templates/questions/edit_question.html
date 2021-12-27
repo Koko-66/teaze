@@ -5,13 +5,13 @@
 <form method="POST">
     <div class="container">
         <div class="row">
-            <h3 class="centered">Delete Quiz</h3>
+            <h3 class="centered">Edit question</h3>
             <div class="col-md-6 py-5 offset-3">
                 <div class="form-group">
                     {% csrf_token %}
-                    <h3> Do you want to delete "{{ object.title }}"?</h3>
-                    <input type="submit" value='Yes' class="btn">
-                    <a href="../../" class="btn">No</a>
+                    {{ form.as_p }}
+                    <input type="submit" class="btn" value="Save">
+                    <a href="questions/{{ question_id }}/delete_question" class="btn">Delete</a>
                 </div>
             </div>
         </div>

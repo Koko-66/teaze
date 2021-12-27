@@ -1,9 +1,8 @@
-from django.http import HttpResponseRedirect
+# from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic, View
 from django.views.generic import (
-    CreateView,
     DetailView,
     UpdateView,
     DeleteView,
@@ -13,15 +12,32 @@ from .forms import NewQuizForm
 from results.models import Assessment
 
 
-class AddQuizView(CreateView):
-    model = Quiz
-    form_class = NewQuizForm
-    template_name = 'quiz/add_quiz.html'
-    queryset = Quiz.objects.all()
+def add_quiz_view(request):
+    if request.method == 'POST':
+        form = NewQuizForm(request.POST)
+        if form.is_valid():
+            quiz = Quiz.objects.create(**form.cleaned_data)
+            return redirect(f'../{quiz.slug}/add_question', kwargs=[quiz.slug])
+        else:
+            print(form.errors)
+    else:
+        form = NewQuizForm()
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+    context = {
+        'form': form,
+    }
+    return render(request, 'quiz/add_quiz.html', context)
+
+
+# class AddQuizView(CreateView):
+#     model = Quiz
+#     form_class = NewQuizForm
+#     template_name = 'quiz/add_quiz.html'
+#     queryset = Quiz.objects.all()
+
+#     def form_valid(self, form):
+#         print(form.cleaned_data)
+#         return super().form_valid(form)
 
 
 class EditQuizView(UpdateView):
@@ -35,7 +51,8 @@ class EditQuizView(UpdateView):
 
     def form_valid(self, form):
         print(form.cleaned_data)
-        return super().form_valid(form)  
+        return super().form_valid(form)
+
 
 class DeleteQuizView(DeleteView):
     # queryset = Quiz.objects.all()

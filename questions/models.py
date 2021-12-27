@@ -1,5 +1,5 @@
 """Question and answer options models with methods"""
-
+from django.shortcuts import reverse
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
@@ -18,7 +18,6 @@ class Question(models.Model):
                                       related_name='question')
     quiz = models.ForeignKey(Quiz, null=True, on_delete=models.SET_NULL,
                              related_name='questions')
-    # slug = models.SlugField(max_length=70, unique=True)
     featured_image = CloudinaryField('image', default='placeholder',
                                      blank=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
@@ -33,11 +32,24 @@ class Question(models.Model):
 
     def __str__(self):
         """Question string method"""
-        return f'{self.body} - {str(self.quiz)}'
+        return self.body
 
     def get_options(self):
         """"Get all options associated with the question."""
         return self.options.all()
+
+    # code adapted from https://www.dev2qa.com/how-to-get-many-to-many-model-field-values-in-django-view/
+    def get_categories(self):
+        """Get list of categories to display in the template."""
+        categories = ''
+
+        for category in self.category.all():
+            categories = categories + category.name + ','
+        return categories[:-1]
+
+    def get_absolute_url(self):
+        """Asbolute url for Qustion model."""
+        return reverse('questions:question_detail', kwargs={'id': self.id})
 
 
 # Code adapted from:

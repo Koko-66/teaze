@@ -8,9 +8,18 @@
 <p>Total questions: {{ quiz.questions.count }}</p>
 <p>Question List</p>
 <ol>
+    
 {% for question in quiz.questions.all %}
-    <li>{{ question }}</li>
+    <li>{{ question.body }}</li>
+    <div class="col-md-5">
+        <div class="d-flex justify-content-end">
+        <a href="{% url 'questions:question_details' question.id %}" class="btn" ><i class="fas fa-info-circle"></i></a>
+        <a href="{% url 'questions:edit_question' question.id %}" class="btn"><i class="far fa-edit"></i></a>
+        <a href="{% url 'questions:delete_question' question.id %}" class="btn"><i class="fas fa-trash"></i></a>
+    </div>
+    </div>
 {% endfor %}
 </ol>
 <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
+
 {% endblock %}

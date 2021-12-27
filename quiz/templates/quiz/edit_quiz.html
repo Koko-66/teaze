@@ -10,10 +10,9 @@
                 <div class="form-group">
                     {% csrf_token %}
                     {{ form.as_p }}
-                    <!-- <a href="{% url 'questions:add_question' %}">Add Question</a> -->
-                    {{ question_form.as_p }}
                     <input type="submit" class="btn" value="Save">
                     <a href="{% url 'quiz:delete_quiz' quiz.slug %}" class="btn">Delete</a>
+                    <a href="{% url 'questions:add_question' quiz.slug %}" class="btn">Add question</a>
                 </div>
             </div>
         </div>

@@ -24,15 +24,3 @@ class NewQuizForm(forms.ModelForm):
             'status': forms.Select(attrs={'class': 'form-control'}),
             'slug': forms.TextInput(attrs={'class': 'form-control'}),
         }
-# class NewQuestionForm(forms.ModelForm):
-
-#     class Meta:
-#         model: Question
-#         fields = (
-#             'body',
-#             'category',
-#             'quiz',
-#             'featured_image',
-#             'status',
-#             'feedback'
-#         )
