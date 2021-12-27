@@ -14,7 +14,6 @@ class AddCategoryView(CreateView):
     form_class = NewCategoryForm
     template_name = 'categories/add_category.html'
     queryset = Category.objects.all()
-    # success_url = 'categories:manage_categories'
 
     def form_valid(self, form):
         print(form.cleaned_data)
@@ -25,7 +24,6 @@ class EditCategoryView(UpdateView):
     template_name = 'categories/edit_category.html'
     form_class = NewCategoryForm
     queryset = Category.objects.all()
-    # success_url = ''
 
     def get_object(self):
         category_id = self.kwargs.get('id')
@@ -48,13 +46,9 @@ class DeleteCategoryView(DeleteView):
 
 
 class CategoriesListView(ListView):
-    # model = Category
-    # template_name = 'categories/manage_categories.html'
-    # queryset = Category.objects.all()
 
     def get(self, request):
         queryset = Category.objects.all()
-        # template_name = 'categories/manage_categories.html'
         return render(request, 'categories/manage_categories.html', {
             'categories': queryset
         })

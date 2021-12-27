@@ -9,5 +9,5 @@ class NewCategoryForm(forms.ModelForm):
         model = Category
         fields = (
             'name',
-            'author'
+            # 'author'
         )
