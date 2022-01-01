@@ -2,14 +2,18 @@
 /* grey: rgb (240,240,243) */
 /* orange: rgb(231,151,15) */
 /* teal: rgb(10, 76, 104) */
+/* purple: rgb(100, 65, 93) */
 
-@import url('https://fonts.googleapis.com/css2?family=Festive&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Festive&display=swap'); */
 @import url('https://fonts.googleapis.com/css2?family=Festive&family=Oswald:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Spline+Sans:wght@300&display=swap');
 
 /* ____Global____ */
 /* Page background color and positioning  */
 body {
-    background: rgb(243,243,243);
+    background: url("https://res.cloudinary.com/dcslh2m3b/image/upload/w_1000,ar_1:1,c_fill,g_auto,e_art:hokusai/v1639385108/black-by_stux_1072366_gcffqv.jpg") center;
+    /* background: url("https://res.cloudinary.com/dcslh2m3b/image/upload/v1639385103/play-stone-Alexas_Fotos_1744790_1920_v1n1tl.jpg") center center no-repeat; */
+    /* background: rgb(243,243,243); */
     min-height: 100vh;
     margin: 0;
     padding: 68px 0 210px 0;
@@ -27,9 +31,43 @@ hr {
     margin: 20px auto;
 }
 
-.teal-text {
-    color: rgb(10, 76, 104);
+.divide {
+    height: 100px;
+    margin: 20px 0;
+    border: solid 1px rgba(231,151,15);
+    width: 40%;
+}
+
+.card {
+    border: solid 1px rgb(10, 76, 104);
+}
+
+.card p {
+    font-size: 0.8em;
+    font-weight: 300;
+    /* font-family: 'Oswald', 'sans-serif'; */
+}
+
+.nav-tabs {
+    /* background: #D4CAD8; */
+    background: rgb(240,240,243);
+    border-bottom: solid 2px rgb(240,240,243);
+}
+
+.nav-link {
+    color: #2b2e31;
     /* font-family: 'Oswald', sans-serif; */
+}
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
+    color: #2b2e31;
+    background-color: rgb(100, 65, 93, 0.3);
+    border-color: #dee2e6 #dee2e6 #fff;
+}
+
+.nav-link:hover,
+.nav-link:active {
+    color: #941445;;
 }
 
 .centered {
@@ -49,7 +87,11 @@ hr {
 .btn:active,
 .btn:focus,
 .btn:hover {
-    background: rgb(231,151,15);
+    /* background: slategrey; */
+    background: #941445;
+    /* background: #e0ab37; */
+
+    color: rgb(240,240,243)
 }
 
 /* ____Footer____ */
