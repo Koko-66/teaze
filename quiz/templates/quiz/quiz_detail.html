@@ -3,7 +3,10 @@
 {% block content %}
 <h5>{{ quiz.title}}</h5>
 <p>Quiz id: {{ quiz.id }}</p>
-<p>Quiz status: {% if quiz.status == 0 %}Draft{% else %}Published{% endif %}
+
+    <div>Quiz status: {% if quiz.status == 0 %}Draft{% else %}Published{% endif %}
+        <a href="/{{ quiz.slug }}/toggle/" class="btn">{% if quiz.status == 0 %}Approve{% else %}Revert to Draft{% endif %}</a>
+      </div>
 </p>
 <p>Total questions: {{ quiz.questions.count }}</p>
 <p>Question List</p>

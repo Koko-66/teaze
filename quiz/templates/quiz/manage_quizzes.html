@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load quiz_extras %}
+
+{% block content %}
+
+<!-- Navigation bar at the top for admin user -->
+{% if user.is_authenticated %}
+    {% if request.user|has_group:"Admin" %}
+    <div class="row py-1" role="navigation">
+        <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link active" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+{% endif %}
+
+<div class="container my-5 mx-auto col-lg-7 col-md-8">
+    <div class="row">
+        <div class="col">
+            {% for quiz in quiz_list %}
+            <div class="card m-1" style="max-width: 100vw;">
+                <!-- {% if "placeholder" in quiz.featured_image.url %}
+                    <img class="card-img-top"
+                        src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639349853/anne-marie_ridderhof_green_dnvdft.jpg"
+                        alt="Default's description">
+                    {% else %}
+                    <img class="card-img-top" src="{{ quiz.featured_image.url }}" alt="Featured image description">
+                    {% endif %} -->
+                <div class="card-body">
+                    <h5>{{ quiz.title }}<h5>
+                        <div class="row">
+                            <div class="col-md-7">
+                                <h6 style="font-style:italic;">Category: {{ quiz.category }}</h6>
+                                <hr class="divide">
+                                <p class="card-text">{{ quiz.description }}</p>
+                                {% if quiz in completed_quizzes %}
+                                Completed
+                                {% endif %}
+                            </div>
+                            <div class="col-md-5">
+                                <div class="d-flex justify-content-end">
+                                    <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn" ><i class="fas fa-info-circle"></i></a>
+                                    <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn"><i class="far fa-edit"></i></a>
+                                    <a href="{% url 'quiz:delete_quiz' quiz.slug %}" class="btn"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+            {% endfor %}
+    </div>
+
+{% endblock %}
