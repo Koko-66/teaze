@@ -131,7 +131,16 @@ def question_delete_view(request, question_id, *args, **kwargs):
         'object': obj
     }
     return render(request, 'questions/question_confirm_delete.html', context)
+     
 
+def toggle_status(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    if question.status != 0:
+        question.status = 0
+    else:
+        question.status = 1
+    question.save()
+    return redirect('../')
 
 
 # class QuestionDetailsView(DetailView):

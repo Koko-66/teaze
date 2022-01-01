@@ -2,7 +2,11 @@
 
 {% block content %}
 
-    {{ question.body }} - {{ question.status }}
+    {{ question.body }} - 
+    <div>Question status: {% if question.status == 0 %}Draft{% else %}Published{% endif %}
+        <a href="/questions/{{ question.id }}/toggle_question/" class="btn">
+            {% if question.status == 0 %}Approve{% else %}Revert to Draft{% endif %}</a>
+      </div>
 
 {% for option in question.options.all %}
     {{ option.option }}
