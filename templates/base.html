@@ -1,4 +1,5 @@
 {% load static %}
+<!-- {% load quiz_extras %} -->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,7 +17,7 @@
 </head>
 
 <body>
-    <!-- Navigation -->
+    <!-- Top Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark ">
         <div class="container-fluid">
             <div>
@@ -25,7 +26,6 @@
                 <img src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639319548/teaze/teaze-logo_no-bkg_sm_z6cza3.png"
                     class="img-fluid" alt="Teaze logo" srcset="">
                 </a>
-                <!-- <a class="navbar-brand" href=""></a> -->
             </div>
             <div class="d-flex flex-wrap mr-auto p2">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -57,7 +57,7 @@
     </nav>
     <!-- Main content -->
     <main class="flex-shrink-0 main-bg">
-        <div class="py-5 m-md-3">
+        <div class="py-2 my-3">
             {% block content %}
             <!-- Content goes here -->
             {% endblock content %}
@@ -66,7 +66,7 @@
 
     <!-- Footer -->
     <footer class="mt-5">
-        <div class="footer-img"></div>
+        <!-- <div class="footer-img"></div> -->
         <div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 mb-0 bg-dark">
             <div class="col-md-4 d-flex align-items-center" bis_skin_checked="1">
                 <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"></a>
