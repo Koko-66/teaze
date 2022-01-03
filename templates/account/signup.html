@@ -5,33 +5,26 @@
 {% block head_title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<div class="container">
-  <!-- <div class="row"> -->
-    <div class="card col-md-6 p-5 mx-auto">
-      <div class="col-2 teal">
+<div class="container col-md-7 mx-auto my-5">
+  <div class="row">
+    <!-- card styling -->
+    <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg p-5">
+      <h1 class="pb-2 border-bottom">{% trans "Sign up to Teaze!" %}</h1>
+
+      <div class="row">
+        <h6 class="p-2">{% blocktrans %}Already have an account? <a href="{{ login_url }}" class="text-warning ms-2">Sign in here</a>.{% endblocktrans %}</h6>
+        <!-- Sign up form -->
+        <form class="login" method="POST" action="{% url 'account_login' %}">
+          {% csrf_token %}
+          <div class="accounts mt-2">{{ form.as_p }}</div>
+          {% if redirect_field_value %}
+          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+          {% endif %}
+          <button type="submit" class="btn">{% trans "Sign Up" %} &raquo;</button>
+        </form>
 
       </div>
-      <div class="col-10">
-
-      
-      <h1 class="mx-auto">Welcome to Teaze!</h1>
-      <br>
-      <h3 class="mx-auto">{% trans "Sign Up" %}</h3>
-
-      <p class="mx-auto">{% blocktrans %}Already have an account? Please <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}
-      </p>
- 
-      <form class="signup mx-auto" id="signup_form" method="post" action="{% url 'account_signup' %}">
-        {% csrf_token %}
-        {{ form.as_p }}
-        {% if redirect_field_value %}
-        <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-        {% endif %}
-        <button type="submit" class="btn">{% trans "Sign Up" %} &raquo;</button>
-      </form>
     </div>
-    </div>
-  <!-- </div> -->
+  </div>
 </div>
-
 {% endblock %}
