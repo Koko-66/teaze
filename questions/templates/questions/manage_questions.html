@@ -11,7 +11,7 @@
             <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
             </li>
             <li class="nav-item">
-            <a class="nav-link" href="">Manage quizzes</a>
+            <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
             </li>
             <li class="nav-item">
             <a class="nav-link active" href="{% url 'questions:manage_questions' %}">Manage questions</a>
@@ -24,59 +24,32 @@
     {% endif %}
 {% endif %}
 
-<div class="container my-5 mx-auto col-lg-7 col-md-8">
-    <div class="row">
-        <div class="col">
-            {% for question in question_list %}
-            <div class="card m-1" style="max-width: 100vw;">
-                <div class="card-body">
-                    <h5>{{ question.body }}<h5>
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <h6 style="font-style:italic;">Category: {{ question.get_categories }}</h6>
-                                    <hr class="divide">
-                                </div>
-                                <div class="col-3">
-                                    <a href="{% url 'questions:question_details' question.id %}" class="btn"><i
-                                            class="fas fa-info-circle"></i></a>
-                                    <a href="{% url 'questions:edit_question' question.id %}" class="btn"><i
-                                            class="far fa-edit"></i></a>
-                                    <a href="{% url 'questions:delete_question' question.id %}" class="btn"><i
-                                            class="fas fa-trash"></i></a>
-                                </div>
-
-                            </div>
-                </div>
-            </div>
-            {% endfor %}
+<div class="container px-4 py-5" id="custom-cards">
+    <div class="d-flex justify-content-between">
+        <div>
+            <h2 class="pb-2 border-bottom">Questions</h2>
+        </div>
+        <div class="me-3">
+            <h3 class="pb-2 border-bottom"><a href="" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>   
         </div>
     </div>
-</div>
-<!-- <div class="container my-5 mx-auto col-lg-7 col-md-8">
-    <div class="row">
-        <div class="col">
-            <div class="card m-1" style="max-width: 100vw;">
-            <h4>Questions List</h4>
-        </div>
-        <div class="col-5">
-            <a href="" class="btn" alt="Add question"><i class="fas fa-plus"></i></a>
-        </div>
-        <br><br>
-        <hr>
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
         {% for question in question_list %}
-        <div class="col-6 m-1" style="border: solid 1px brown;">
-            {{ question.body }}
-            <br>
-            <strong>Categories:</strong> {{ question.get_categories }}
-        </div>
-        <div class="col-5">
-            <a href="{% url 'questions:question_details' question.id %}" class="btn"><i class="far fa-info"></i></a>
-            <a href="{% url 'questions:edit_question' question.id %}" class="btn"><i class="far fa-edit"></i></a>
-            <a href="{% url 'questions:delete_question' question.id %}" class="btn"><i class="fas fa-trash"></i></a>
-        </div>
-        {% endfor %}
-    </div> 
-</div> -->
-
+            <div class="col">
+                <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg" style="background: {% if 'placeholder' not in question.featured_image.url %} url('{{question.featured_image.url}}'){% endif %};">
+                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                        <h5 class="pt-3 mt-2 mb-4 lh-1.7 border-bottom">{{ question.body }}</h5>
+                        <h6 class="card-title">Category: <small>{{ question.get_categories }}</small></h6>
+                        <ul class="d-flex list-unstyled mt-auto justify-content-end">
+                                <li><a href="{% url 'questions:question_details' question.id %}" class="" alt="Details" title="Details">Details<i class="fas fa-info-circle me-3 ms-2"></i></a></li>
+                                <li><a href="{% url 'questions:edit_question' question.id %}" class="" alt="Edit" title="Edit">Edit<i class="far fa-edit me-3 ms-2"></i></a></li>
+                                <li><a href="{% url 'questions:delete_question' question.id %}" class="" alt="Delete" title="Delete">Delete<i class="fas fa-trash me-3 ms-2"></i></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}  
+    </div>
+</div>
 
 {% endblock %}
