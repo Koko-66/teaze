@@ -1,4 +1,9 @@
-from django.shortcuts import get_object_or_404, reverse, render
+from django.shortcuts import (
+    get_object_or_404,
+    redirect,
+    render,
+    reverse
+)
 from .forms import NewCategoryForm
 from .models import Category
 from django.views.generic import (
@@ -9,15 +14,34 @@ from django.views.generic import (
 )
 
 
-class AddCategoryView(CreateView):
-    model = Category
-    form_class = NewCategoryForm
-    template_name = 'categories/add_category.html'
-    queryset = Category.objects.all()
+# class AddCategoryView(CreateView):
+#     model = Category
+#     form_class = NewCategoryForm
+#     template_name = 'categories/add_category.html'
+#     queryset = Category.objects.all()
 
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         print(form.cleaned_data)
+#         return super().form_valid(form)
+    
+def add_category_view(request):
+    user = request.user
+    if request.method == 'POST':
+        form = NewCategoryForm(request.POST)
+        if form.is_valid():
+            name = form.cleaned_data.get('name')
+            Category.objects.create(name=name, author=user)
+            print(form.cleaned_data)
+            return redirect('../')
+        else:
+            print(form.errors)
+    else:
+        form = NewCategoryForm()
+
+    context = {
+        'form': form,
+    }
+    return render(request, 'categories/add_category.html' , context)
 
 
 class EditCategoryView(UpdateView):

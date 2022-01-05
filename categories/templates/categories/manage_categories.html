@@ -25,12 +25,12 @@
 {% endif %}
 
 <div class="container px-4 py-5" id="custom-cards">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between border-bottom">
         <div>
-            <h2 class="pb-2 border-bottom">Categories</h2>
+            <h2 class="pb-2">Categories</h2>
         </div>
         <div class="me-3">
-            <h3 class="pb-2 border-bottom"><a href="{% url 'categories:add_category' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>   
+            <h3 class="pb-2"><a href="{% url 'categories:add_category' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>   
         </div>
 
     </div>
@@ -39,7 +39,7 @@
         <div class="col">
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                    <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold">{{ category.name }}</h5>
+                    <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">{{ category.name }}</h5>
                     <ul class="d-flex list-unstyled mt-auto justify-content-end">
                         <li class="d-flex align-items-center me-3">
                             <a href="{% url 'categories:edit_category' category.id %}"><i class="far fa-edit"></i>
