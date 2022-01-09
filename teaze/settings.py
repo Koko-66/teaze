@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     'cloudinary_storage',
     'django.contrib.staticfiles',
     'cloudinary',
+    'bootstrap_modal_forms',
+    'widget_tweaks',
 
     'categories',
     'quiz',
