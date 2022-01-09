@@ -3,34 +3,53 @@
 
 {% block content %}
 
+
 {% if user.is_authenticated %}
-    {% if request.user|has_group:"Admin" %}
-    <div class="row py-1" role="navigation">
-        <ul class="nav nav-tabs justify-content-center">
-            <li class="nav-item">
+{% if request.user|has_group:"Admin" %}
+<div class="row py-1" role="navigation">
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
             <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
-            </li>
-            <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
-            </li>
-            <li class="nav-item">
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link active" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
-            </li>
-        </ul>
-    </div>
-    {% endif %}
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage
+                categories</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
 {% endif %}
 
+<!-- Modal 1 with id="add-category-model"-->
+<div class="modal fade" id="add-category-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content"></div>
+    </div>
+</div>
+
+<!-- Cards with links to quizzes, questions and categories sub-pages -->
 <div class="container px-4 py-5" id="custom-cards">
     <div class="d-flex justify-content-between border-bottom">
         <div>
             <h2 class="pb-2">Categories</h2>
         </div>
         <div class="me-3">
-            <h3 class="pb-2"><a href="{% url 'categories:add_category' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>   
+            <!-- <button id="add-category" class="add-button" type="button" name="button"><h3>Add new<i
+                class="fas fa-plus ms-3"></i></h3></button> -->
+
+            <h3 class="pb-2"><a data-form-url="{% url 'categories:add_category' %}" id="add-category" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
         </div>
 
     </div>
@@ -40,14 +59,22 @@
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                     <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">{{ category.name }}</h5>
+                    <p>Created on: {{ category.created_on|date:'d M Y' }} by {{ category.author }}</p>
+                    {% if category.updated_on|date:'d M Y' != category.created_on|date:'d M Y' %}<p>Modified on:
+                        {{ category.updated_on|date:'d M Y' }} by {{ category.author }}</p>{% endif %}
+
                     <ul class="d-flex list-unstyled mt-auto justify-content-end">
                         <li class="d-flex align-items-center me-3">
                             <a href="{% url 'categories:edit_category' category.id %}"><i class="far fa-edit"></i>
                                 <small class="p-2">Edit</small></a>
                         </li>
                         <li class="d-flex align-items-center">
-                            <a href="{% url 'categories:delete_category' category.id %}"><i class="fas fa-trash"></i>
-                                <small class="p-2">Delete</small></a>
+                        </li>
+                        <a data-form-url="{% url 'categories:delete_category' category.id %}"  class="delete-category bs-modal"><i class="fas fa-trash"></i>
+                            <small class="p-2">Delete</small></a>
+                            <!-- <button type="button" class="delete-category bs-modal" data-form-url="{% url 'categories:delete_category' category.id %}">
+                            <span class="fa fa-trash"></span>
+                          </button> -->
                         </li>
                     </ul>
                 </div>
