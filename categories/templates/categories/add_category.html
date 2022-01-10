@@ -1,5 +1,5 @@
 {% load widget_tweaks %}
-
+<!-- Form to add new category. -->
 <form method="POST" action="">
     {% csrf_token %}
 
@@ -7,14 +7,12 @@
         <h3 class="modal-title">Add category</h3>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
     </div>
-
     <div class="modal-body">
         <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
             {% for error in form.non_field_errors %}
             {{ error }}
             {% endfor %}
         </div>
-
         {% for field in form %}
         <div class="form-group">
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -25,12 +23,10 @@
                 {% endfor %}
             </div>
         </div>
-        {% endfor %}
-        
+        {% endfor %} 
     </div>
 
     <div class="modal-footer">
-        <!-- <button type="button" class="btn-secondary" data-bs-dismiss="modal">Cancel</button> -->
         <button type="submit" class="btn">Save</button>
     </div>
 </form>

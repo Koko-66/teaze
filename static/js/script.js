@@ -6,6 +6,11 @@ $( document ).ready(function () {
         $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
     });
 
+    // Edit category button - formURL is retrieved from the data of the element
+    $(".edit-category").each(function () {
+        $(this).modalForm({formURL: $(this).data("form-url")});
+    });
+
     // Add category button opens form in modal with id="add-category-modal"
     $("#add-category").modalForm({
         formURL: "/categories/add_category/",

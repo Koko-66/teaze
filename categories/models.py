@@ -10,7 +10,7 @@ class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
     created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
+    updated_on = models.DateTimeField(auto_now=True)   
 
     class Meta:
         """Set pluaral name for Category"""

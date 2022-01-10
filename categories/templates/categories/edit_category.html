@@ -1,45 +1,35 @@
-{% extends 'base.html' %}
-{% load quiz_extras %}
+{% load widget_tweaks %}
+<!-- Form with category details that is being edited. -->
+<form method="post" action="">
+  {% csrf_token %}
 
-{% block content %}
-{% if user.is_authenticated %}
-    {% if request.user|has_group:"Admin" %}
-    <div class="row py-1" role="navigation"></div>
-        <ul class="nav nav-tabs justify-content-center">
-            <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link active" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
-            </li>
-        </ul>
+  <div class="modal-header">
+    <h3 class="modal-title">Update Book</h3>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+      {% for error in form.non_field_errors %}
+        {{ error }}
+      {% endfor %}
     </div>
-    {% endif %}
-{% endif %}
-<form method="POST">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="col-12">
-                <a href="{% url 'categories:manage_categories' %}">Back to Manage Categories</a>
-            </div>
+    {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {% render_field field class="form-control" placeholder=field.label %}
+        <div class="{% if field.errors %} invalid{% endif %}">
+          {% for error in field.errors %}
+            <p class="help-block">{{ error }}</p>
+          {% endfor %}
         </div>
-        <div class="row">
-            <h3 class="centered">Edit Category</h3>
-            <div class="col-md-6 py-5 offset-3">
-                <div class="form-group">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" class="btn" value="Save">
-                    <a href="{% url 'categories:delete_category' category.id %}" class="btn">Delete</a>
-                </div>
-            </div>
-        </div>
-    </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">Update</button>
+  </div>
+
 </form>
-{% endblock %}
