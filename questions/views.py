@@ -4,6 +4,7 @@ from django.shortcuts import (
     redirect,
     reverse
 )
+from django.urls import reverse_lazy
 from django.views.generic import (
     # DetailView,
     UpdateView,
@@ -11,9 +12,23 @@ from django.views.generic import (
     ListView,
     View
 )
+# views provided by django-bootstrap-modal-forms
+from bootstrap_modal_forms.generic import (
+    BSModalCreateView,
+    BSModalUpdateView,
+    BSModalDeleteView
+)
 from .forms import NewOptionForm, NewQuestionForm
 from .models import Question, Option
 from quiz.models import Quiz
+
+class AddQuestionView(BSModalCreateView):
+    """Add new question independently, from question management view."""
+
+    template_name = 'questions/add_question.html'
+    form_class = NewQuestionForm
+    success_message = 'Success: Question was created.'
+    success_url = reverse_lazy('questions:manage_questions')
 
 
 def add_question_view(request, slug):
@@ -122,15 +137,13 @@ class EditQuestionView(View):
         return render(request, "questions/edit_question.html", context)
 
 
-def question_delete_view(request, question_id, *args, **kwargs):
-    obj = get_object_or_404(Question, id=question_id)
-    if request.method == 'POST':
-        obj.delete()
-        return redirect('../')
-    context = {
-        'object': obj
-    }
-    return render(request, 'questions/question_confirm_delete.html', context)
+class DeleteQuestionView(BSModalDeleteView):
+    """Delete question."""
+
+    model = Question
+    template_name = 'questions/question_confirm_delete.html'
+    success_message = 'Success: Category was deleted.'
+    success_url = reverse_lazy('questions:manage_questions')
      
 
 def toggle_status(request, question_id):
@@ -167,17 +180,6 @@ def toggle_status(request, question_id):
 #         print(form.cleaned_data)
 #         return super().form_valid(form)
 
-
-# class DeleteQuestionView(DeleteView):
-#     template = 'questions/question_confirm_delete.html'
-#     queryset = Question.objects.all()
-
-#     def get_object(self):
-#         question_id = self.kwargs.get('id')
-#         return get_object_or_404(Question, id=question_id)
-
-#     def get_success_url(self):
-#         return reverse('quiz:home')
 
 
 # class AddQuestionView(CreateView):
