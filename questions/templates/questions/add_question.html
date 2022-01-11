@@ -1,33 +1,33 @@
-{% extends 'base.html'%}
-{% load quiz_extras %}
+{% load widget_tweaks %}
+<!-- Form to add new category. -->
+<form method="POST" action="">
+    {% csrf_token %}
 
-{% block content %}
-
-<form method="POST">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="d-flex flex-row justify-content-end">
-            <!-- {% if user.is_authenticated %} -->
-            {% if request.user|has_group:"Admin" %}
-                <!-- <div class="col"> -->
-                        <a href="{% url 'quiz:home' %}" class=" btn">Back to home</a>
-                        <a href="{% url 'categories:manage_categories' %}" class="btn">Manage categories</a>
-                <!-- </div> -->
-            {% endif %}
-            <!-- {% endif %} -->
+    <div class="modal-header">
+        <h3 class="modal-title">Add question</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+            {% for error in form.non_field_errors %}
+            {{ error }}
+            {% endfor %}
+        </div>
+        {% for field in form %}
+        <div class="form-group">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            {{field.help_texts}}
+            {% render_field field class="form-control" placeholder=field.label %}
+            <div class="{% if field.errors %} invalid{% endif %}">
+                {% for error in field.errors %}
+                <p class="help-block">{{ error }}</p>
+                {% endfor %}
             </div>
         </div>
-        <div class="row">
-            <h3 class="centered">Add question</h3>
-            <div class="col-md-6 py-5 offset-3">
-                <div class="form-group">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" class="btn" value="Save">
-                    <a href="../../" class="btn">Cancel</a>
-                </div>
-            </div>
-        </div>
+        {% endfor %} 
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn">Save</button>
     </div>
 </form>
-{% endblock %}

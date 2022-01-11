@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<form method="POST">
+    <div class="container">
+        <div class="row">
+            <h3 class="centered">Edit question</h3>
+            <div class="col-md-6 py-5 offset-3">
+                <div class="form-group">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" class="btn" value="Save">
+                    <a href="questions/{{ question_id }}/delete_question" class="btn">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
