@@ -1,6 +1,7 @@
 """Quiz model and methods"""
 from django.urls import reverse
 from django.db import models
+from django.template.defaultfilters import slugify
 from cloudinary.models import CloudinaryField
 from categories.models import Category
 # import random
@@ -19,7 +20,7 @@ class Quiz(models.Model):
     description = models.CharField(max_length=100)
     # number_of_questions = models.IntegerField()
     featured_image = CloudinaryField('image', default='placeholder',
-                                     blank=True)
+                                     blank=True) 
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     status = models.IntegerField(choices=STATUS, default=0)
@@ -36,6 +37,10 @@ class Quiz(models.Model):
         # random.shuffle(questions)
         # return questions[:self.num_of_questions]
         return self.questions.all()
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Quiz, self).save(*args, **kwargs)
 
     def __str__(self):
         """Quiz string method"""
