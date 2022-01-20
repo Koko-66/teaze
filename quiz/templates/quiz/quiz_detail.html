@@ -1,28 +1,77 @@
 {% extends 'base.html' %}
+{% load quiz_extras %}
 
 {% block content %}
-<h5>{{ quiz.title}}</h5>
-<p>Quiz id: {{ quiz.id }}</p>
+<!-- Navigation bar at the top for admin user -->
+{% if user.is_authenticated %}
+{% if request.user|has_group:"Admin" %}
+<div class="row py-1" role="navigation">
+    <ul class="nav nav-tabs justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
+        </li>
+    </ul>
+</div>
+{% endif %}
+{% endif %}
 
-    <div>Quiz status: {% if quiz.status == 0 %}Draft{% else %}Published{% endif %}
-        <a href="/{{ quiz.slug }}/toggle/" class="btn">{% if quiz.status == 0 %}Approve{% else %}Revert to Draft{% endif %}</a>
-      </div>
-</p>
-<p>Total questions: {{ quiz.questions.count }}</p>
-<p>Question List</p>
-<ol>
-    
-{% for question in quiz.questions.all %}
-    <li>{{ question.body }}</li>
-    <div class="col-md-5">
-        <div class="d-flex justify-content-end">
-        <a href="{% url 'questions:question_details' question.id %}" class="btn" ><i class="fas fa-info-circle"></i></a>
-        <a href="{% url 'questions:edit_question' question.id %}" class="btn"><i class="far fa-edit"></i></a>
-        <a href="{% url 'questions:delete_question' question.id %}" class="btn"><i class="fas fa-trash"></i></a>
+<div class="container">
+    <div class="row m-5">
+        <div class="col-lg-9 box-shadow m-auto transparent-gray">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ quiz.title}}</h3>
+            </div>
+            <div class="modal-body">
+                <!-- <p>Quiz id: {{ quiz.id }}</p> -->
+
+                <div class="d-flex align-items-center justify-content-between">
+                    <h5>Quiz status:</h5>
+                    <!-- {% if quiz.status == 0 %}{% else %}Published{% endif %} -->
+                    <a href="{% url 'quiz:toggle' quiz.slug %}"
+                        class="btn offset-1">{% if quiz.status == 0 %}Draft{% else %}Approved{% endif %}</a>
+                </div>
+                
+                <div class="">
+                    <h5>Number of questions: {{ quiz.questions.count }}</h5>
+                </div>
+                <h5>Quiz Questions</h5>
+                <ol>
+                    {% for question in quiz.questions.all %}
+                    <div class="d-flex justify-content-between">
+                        <li>{{ question.body }}</li>
+                        <!-- <div class="col-md-5"> -->
+                            <!-- <div > -->
+                                <ul class="d-flex list-unstyled mt-auto justify-content-between">
+                                    <li><a href="{% url 'questions:question_details' question.id %}" class="text-dark"><i
+                                        class="fas fa-info-circle mx-2"></i></a></li>
+                                    <li> <a href="{% url 'questions:edit_question' question.id %}" class="text-dark"><i
+                                        class="far fa-edit mx-2"></i></a></li>
+                                    <li><a href="{% url 'questions:delete_question' question.id %}" class="text-dark"><i
+                                        class="fas fa-trash mx-2"></i></a></li>
+                                </ul>
+                            <!-- </div> -->
+                        <!-- </div> -->
+                    </div>
+                    {% endfor %}
+                </ol>
+                <div class="modal-footer">
+                    <!-- <button type="submit" class="btn m-auto">Save</button> -->
+
+                    <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
+                    <a href="{% url 'questions:add_question_in_quiz' quiz.slug %}" class="btn">Add question</a>
+                </div>
+            </div>
+        </div>
     </div>
-    </div>
-{% endfor %}
-</ol>
-<a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
+</div>
 
 {% endblock %}

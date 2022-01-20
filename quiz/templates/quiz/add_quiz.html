@@ -1,33 +1,78 @@
 {% extends 'base.html' %}
 {% load quiz_extras %}
+{% load widget_tweaks %}
 
 {% block content %}
 
-<form method="POST">
-    <div class="container">
-        <div class="row mb-5">
-            <div class="d-flex flex-row justify-content-end">
-            <!-- {% if user.is_authenticated %} -->
-            {% if request.user|has_group:"Admin" %}
-                <!-- <div class="col"> -->
-                        <a href="{% url 'quiz:home' %}" class=" btn">Back to home</a>
-                        <a href="{% url 'categories:manage_categories' %}" class="btn">Manage categories</a>
-                <!-- </div> -->
-            {% endif %}
-            <!-- {% endif %} -->
-            </div>
-        </div>
-        <div class="row">
-            <h3 class="centered">Add Quiz</h3>
-            <div class="col-md-6 py-5 offset-3">
-                <div class="form-group">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" class="btn" value="Save">
-                </div>
-            </div>
+<!-- Navigation bar at the top for admin user -->
+{% if user.is_authenticated %}
+    {% if request.user|has_group:"Admin" %}
+    <div class="row py-1" role="navigation">
+        <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+            <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+{% endif %}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Form goes here -->
         </div>
     </div>
-</form>
+</div>
+
+<div class="container mt-3">
+    <div class="row">
+        <div class="col-md-7 my-2 mx-auto box-shadow transparent-gray">
+            <form method="POST" action="">
+                {% csrf_token %}
+            
+                <div class="modal-header">
+                    <h3 class="modal-title">Add quiz</h3>
+                </div>
+                <div class="modal-body">
+                    <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+                        {% for error in form.non_field_errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% if field.label == "Category" %}
+                        <div class="d-flex flex-row">{% render_field field class="form-control" placeholder=field.label %}
+                        <a data-form-url="{% url 'categories:add_category' %}" class="add-category"><i class="fas fa-plus btn py-2"></i></a></div>
+                        {% else %}
+                        {% render_field field class="form-control" placeholder=field.label %}
+                        {% endif %}
+                        <div class="{% if field.errors %} invalid{% endif %}">
+                            {% for error in field.errors %}
+                            <p class="help-block">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %} 
+                </div>
+            
+                <div class="modal-footer">
+                    <button type="submit" class="btn m-auto">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

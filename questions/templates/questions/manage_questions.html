@@ -47,7 +47,7 @@
         <div>
             <h2 class="pb-2">Questions</h2>
         </div>
-        <h3 class="pb-2"><a data-form-url="{% url 'questions:add_question' %}" id="add-question" alt="Add question" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
+        <h3 class="pb-2"><a data-form-url="{% url 'questions:add_question' %}" id="add-question" alt="Add question" class="add-question text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
     </div>
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
         {% for question in question_list %}
@@ -57,9 +57,17 @@
                         <h5 class="pt-3 mt-2 mb-4 lh-1.7 border-bottom">{{ question.body }}</h5>
                         <h6 class="card-title">Category: <small>{{ question.get_categories }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
-                                <li><a href="{% url 'questions:question_details' question.id %}" class="" alt="Details" title="Details">Details<i class="fas fa-info-circle me-3 ms-2"></i></a></li>
-                                <li><a href="{% url 'questions:edit_question' question.id %}" class="" alt="Edit" title="Edit">Edit<i class="far fa-edit me-3 ms-2"></i></a></li>
-                                <li><a data-form-url="{% url 'questions:delete_question' question.id %}" class="delete-category bs-modal" aria-label="Delete question" title="Delete">Delete<i class="fas fa-trash me-3 ms-2"></i></a></li>
+                                <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
+                                    Details
+                                    <i class="fa fa-eye me-3 ms-2"></i></a></li>
+
+                                    <!-- <i class="fas fa-info-circle me-3 ms-2"></i></a></li> -->
+                                <li><a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" alt="Edit" title="Edit">
+                                    Edit
+                                    <i class="far fa-edit me-3 ms-2"></i></a></li>
+                                <li><a data-form-url="{% url 'questions:delete_question' question.id %}" class="delete-question bs-modal" aria-label="Delete question" title="Delete">
+                                    Delete
+                                    <i class="fas fa-trash me-3 ms-2"></i></a></li>
                         </ul>
                     </div>
                 </div>

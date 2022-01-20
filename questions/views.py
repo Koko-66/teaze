@@ -1,34 +1,44 @@
+from django.http import JsonResponse
 from django.shortcuts import (
     render,
     get_object_or_404,
     redirect,
-    reverse
+    # reverse
 )
 from django.urls import reverse_lazy
 from django.views.generic import (
     # DetailView,
-    UpdateView,
-    DeleteView,
+    # UpdateView,
+    # DeleteView,
     ListView,
-    View
+    # View
 )
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
+    BSModalReadView,
     BSModalCreateView,
     BSModalUpdateView,
     BSModalDeleteView
 )
-from .forms import NewOptionForm, NewQuestionForm
+from .forms import NewOptionForm, NewQuestionForm, AddQuestionToQuizForm
 from .models import Question, Option
 from quiz.models import Quiz
+
 
 class AddQuestionView(BSModalCreateView):
     """Add new question independently, from question management view."""
 
-    template_name = 'questions/add_question.html'
+    template_name = 'questions/add_question-modal.html'
     form_class = NewQuestionForm
     success_message = 'Success: Question was created.'
-    success_url = reverse_lazy('questions:manage_questions')
+    success_url = reverse_lazy('questions:add_question')
+
+
+class AddOptionView(BSModalCreateView):
+    template_name = 'questions/add_option.html'
+    form_class = NewOptionForm
+    success_message = 'Success: Option was created.'
+    success_url = reverse_lazy('questions:add_question')
 
 
 def add_question_view(request, slug):
@@ -36,7 +46,7 @@ def add_question_view(request, slug):
     quiz = get_object_or_404(Quiz, slug=slug)
     quiz_title = quiz.title
     if request.method == 'POST':
-        form = NewQuestionForm(request.POST)
+        form = AddQuestionToQuizForm(request.POST)
         if form.is_valid():
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
@@ -50,10 +60,11 @@ def add_question_view(request, slug):
         else:
             print(form.errors)
     else:
-        form = NewQuestionForm()
+        form = AddQuestionToQuizForm()
 
     context = {
         'form': form,
+        'quiz': quiz,
     }
     return render(request, 'questions/add_question.html', context)
 
@@ -72,7 +83,7 @@ def add_option_view(request, slug, question_id):
                                            position=position,
                                            is_correct=is_correct, author=user)
             print(form.cleaned_data)
-            return redirect(f'../add_option',
+            return redirect('../add_option',
                             args=[question.id, quiz.slug])
         else:
             print(form.errors)
@@ -81,17 +92,22 @@ def add_option_view(request, slug, question_id):
 
     context = {
         'form': form,
-        'question_id': question.id,
-        'quiz_slug': quiz.slug,
+        'question': question,
+        'quiz': quiz,
+        # 'question_id': question.id,
+        # 'quiz_slug': quiz.slug,
     }
     return render(request, 'questions/add_option.html', context)
 
 
-class QuestionDetailsView(View):
+class QuestionDetailsView(BSModalReadView):
 
-    def get(self, request, question_id, *args, **kwargs):
+    model = Question
+    template_name = 'questions/question_details.html'
+
+    def get(self, request, pk, *args, **kwargs):
         queryset = Question.objects.all()
-        question = get_object_or_404(queryset, id=question_id)
+        question = get_object_or_404(queryset, pk=pk)
         options = question.options.all()
 
         return render(
@@ -102,7 +118,6 @@ class QuestionDetailsView(View):
                 "options": options,
             },
         )
-
 
 class QuestionListView(ListView):
     model = Question
@@ -119,22 +134,14 @@ class QuestionListView(ListView):
             return redirect('login.html')
 
 
-class EditQuestionView(View):
+class EditQuestionView(BSModalUpdateView):
+    """Edit question."""
 
-    def get(self, request, question_id, *args, **kwargs):
-        question = get_object_or_404(Question, id=question_id)
-        if request.method == 'POST':
-            form = NewQuestionForm(request.POST, instance=question)
-            fields = __all__
-            if form.is_valid():
-                form.save()
-                return redirect('questions/manage_questions')
-
-        form = NewQuestionForm(instance=question)
-        context = {
-                "form": form,
-            }
-        return render(request, "questions/edit_question.html", context)
+    model = Question
+    template_name = 'questions/edit_question.html'
+    form_class = NewQuestionForm
+    success_message = 'Success: Question was updated.'
+    success_url = reverse_lazy('questions:manage_questions')
 
 
 class DeleteQuestionView(BSModalDeleteView):
@@ -144,17 +151,31 @@ class DeleteQuestionView(BSModalDeleteView):
     template_name = 'questions/question_confirm_delete.html'
     success_message = 'Success: Category was deleted.'
     success_url = reverse_lazy('questions:manage_questions')
-     
 
-def toggle_status(request, question_id):
-    question = get_object_or_404(Question, id=question_id)
-    if question.status != 0:
-        question.status = 0
-    else:
-        question.status = 1
-    question.save()
-    return redirect('../')
 
+def toggle_question_status(request):
+   
+    print(request.POST)
+    if request.method == "POST":
+        status_value = request.POST['status']
+        question_id = request.POST['id']
+        question = get_object_or_404(Question, pk=question_id)
+        question.status = status_value
+        print(status_value, question_id)
+        print(f"Question status: {question.status}")
+        question.save()
+
+    return render(request, 'questions/question_details.html', {
+        'question': question,
+    })
+    # return JsonResponse({'text': 'works'})
+    # question = get_object_or_404(Question, pk=pk)
+    # if question.status != 0:
+    #     question.status = 0
+    # else:
+    #     question.status = 1
+    # question.save()
+    # return redirect(manage_questions)
 
 # class QuestionDetailsView(DetailView):
 #     model = Question

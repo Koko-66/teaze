@@ -25,13 +25,21 @@
     {% endif %}
 {% endif %}
 
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Form goes here -->
+        </div>
+    </div>
+</div>
+
 <div class="container px-4 py-5" id="custom-cards">
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between border-bottom">
         <div>
-            <h2 class="pb-2 border-bottom">Quizzes</h2>
+            <h2 class="pb-2">Quizzes</h2>
         </div>
         <div class="me-3">
-            <h3 class="pb-2 border-bottom"><a href="{% url 'quiz:add_quiz' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>   
+            <h3 class="pb-2"><a href="{% url 'quiz:add_quiz' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>   
         </div>
     </div>
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
@@ -45,7 +53,7 @@
                     <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li><a href="{% url 'quiz:quiz_details' quiz.slug %}" class="" alt="Details" title="Details">Details<i class="fas fa-info-circle me-3 ms-2"></i></a></li>
                             <li><a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="" alt="Edit" title="Edit">Edit<i class="far fa-edit me-3 ms-2"></i></a></li>
-                            <li><a href="{% url 'quiz:delete_quiz' quiz.slug %}" class="" alt="Delete" title="Delete">Delete<i class="fas fa-trash me-3 ms-2"></i></a></li>
+                            <li><a <a data-form-url="{% url 'quiz:delete_quiz' quiz.slug %}" class="delete-quiz" aria-label="Delete" title="Delete">Delete<i class="fas fa-trash me-3 ms-2"></i></a></li>
                         <!-- {% if quiz in completed_quizzes %}
                         <li class="d-flex align-items-center me-3">Completed<i class="fas fa-check-square ms-3"></i></li>
                         <li class="d-flex align-items-center me-3 btn">See results</li>

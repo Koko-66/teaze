@@ -1,15 +1,52 @@
-{% extends 'base.html' %}
+{% load widget_tweaks %}
 
-{% block content %}
+<div class="modal-header">
+    <h3 class="modal-title">Question details</h3>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+</div>
 
-    {{ question.body }} - 
-    <div>Question status: {% if question.status == 0 %}Draft{% else %}Published{% endif %}
-        <a href="/questions/toggle_question/{{ question.id }}/" class="btn">
-            {% if question.status == 0 %}Approve{% else %}Revert to Draft{% endif %}</a>
-      </div>
+<div class="modal-body m-2">
+    <div class="mb-2">
+        <strong class="mb-2 text-decoration-underline">Question:</strong>
+        <p> {{ question.body }}</p>
+    </div>
+    <div class="my-2">
+        <strong class="text-decoration-underline">Answer options:</strong>
+        <ul class="mx-5">
+            {% for option in question.options.all %}
+            <li>{{ option.option }}{% if option.is_correct %}<span class="small text-muted"> (Correct)</span> {% endif %}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div class="mb-2">
+        <!-- {% csrf_token %} -->
+        <strong class="text-decoration-underline">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</strong>
+        <!-- <button id="status" type="submit" class="toggle-btn btn" data-id="{{question.pk}}" name="status" value="{{ question.status }}"> -->
+            <span> {{ question.get_categories }}</span>
+                <!-- <a href="" class="btn toggle"></a> -->
+        <!-- </button> -->
+    </div>
+    <div class="mb-2">
+        <!-- {% csrf_token %} -->
+        <strong class="text-decoration-underline">Question status:</strong>
+        <!-- <button id="status" type="submit" class="toggle-btn btn" data-id="{{question.pk}}" name="status" value="{{ question.status }}"> -->
+            <span>{% if question.status == 0 %}Draft{% else %}Published{% endif %}</span>
+                <!-- <a href="" class="btn toggle"></a> -->
+        <!-- </button> -->
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Form goes here -->
+        </div>
+    </div>
+</div>
 
-{% for option in question.options.all %}
-    {{ option.option }}
-{% endfor %}
-
-{% endblock %}
+<div class="modal-footer m-2 bg-secondary">
+    <a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" title="Edit">
+        Edit
+        <i class="far fa-edit me-3 ms-2"></i></a>
+    <button type="" class="btn btn-default" data-bs-dismiss="modal">Close</button>
+</div>

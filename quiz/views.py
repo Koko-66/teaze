@@ -1,6 +1,6 @@
 # from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
 from django.views import generic, View
 from django.views.generic import (
     DetailView,
@@ -19,7 +19,8 @@ def add_quiz_view(request):
         form = NewQuizForm(request.POST)
         if form.is_valid():
             quiz = Quiz.objects.create(**form.cleaned_data)
-            return redirect(f'../{quiz.slug}/add_question', kwargs=[quiz.slug])
+            # return redirect(f'../{quiz.slug}/add_question', kwargs=[quiz.slug])
+            return redirect(f'../quizzes/{quiz.slug}/details', kwargs=[quiz.slug])
         else:
             print(form.errors)
     else:
@@ -27,6 +28,7 @@ def add_quiz_view(request):
 
     context = {
         'form': form,
+
     }
     return render(request, 'quiz/add_quiz.html', context)
 
@@ -65,7 +67,7 @@ class DeleteQuizView(DeleteView):
         return get_object_or_404(Quiz, slug=slug)
 
     def get_success_url(self):
-        return reverse('quiz:home')
+        return reverse('quiz:manage_quizzes')
 
 
 class QuizListView(generic.ListView):
@@ -131,7 +133,7 @@ def toggle_status(request, slug):
     else:
         quiz.status = 1
     quiz.save()
-    return redirect('../details')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 def welcome_page_view(request):
