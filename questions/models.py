@@ -44,8 +44,8 @@ class Question(models.Model):
         categories = ''
 
         for category in self.category.all():
-            categories = categories + category.name + ','
-        return categories[:-1]
+            categories = categories + category.name + ', '
+        return categories[:-2]
 
     def get_absolute_url(self):
         """Asbolute url for Qustion model."""
