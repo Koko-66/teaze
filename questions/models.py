@@ -13,10 +13,10 @@ STATUS = ((0, "Draft"), (1, "Approved"))
 class Question(models.Model):
     """Create a question"""
 
-    body = models.CharField(max_length=350, unique=True)
+    body = models.CharField(max_length=900, unique=True)
     category = models.ManyToManyField(Category,
                                       related_name='question')
-    quiz = models.ForeignKey(Quiz, null=True, on_delete=models.SET_NULL,
+    quiz = models.ForeignKey(Quiz, null=True, blank=True, on_delete=models.SET_NULL,
                              related_name='questions')
     featured_image = CloudinaryField('image', default='placeholder',
                                      blank=True)
@@ -58,7 +58,7 @@ class Option(models.Model):
     """Create Option object"""
     question = models.ForeignKey(Question, related_name="options",
                                  on_delete=models.CASCADE)
-    option = models.CharField("option", max_length=50)
+    option = models.CharField("option", max_length=500)
     position = models.IntegerField("position")
     is_correct = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
