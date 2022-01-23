@@ -25,6 +25,7 @@
     {% endif %}
 {% endif %}
 
+<!-- Modal to display delete view -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -37,6 +38,7 @@
     <div class="d-flex justify-content-between border-bottom">
         <div>
             <h2 class="pb-2">Quizzes</h2>
+            
         </div>
         <div class="me-3">
             <h3 class="pb-2"><a href="{% url 'quiz:add_quiz' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>   
@@ -48,8 +50,9 @@
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg" style="background: {% if 'placeholder' not in quiz.featured_image.url %} url('{{quiz.featured_image.url}}'){% endif %};">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                     <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">{{ quiz.title }}</h5>
-                    <h6 class="card-title">Category: <small>{{ quiz.category }}</small></h6>
                     <p>{{ quiz.description }}</p>
+                    <h6 class="card-title">Category: <small>{{ quiz.category }}</small></h6>
+                    <h6 class="card-title">Number of questions: <small>{{ quiz.questions.count }}</small></h6>
                     <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li><a href="{% url 'quiz:quiz_details' quiz.slug %}" class="" alt="Details" title="Details">Details<i class="fas fa-info-circle me-3 ms-2"></i></a></li>
                             <li><a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="" alt="Edit" title="Edit">Edit<i class="far fa-edit me-3 ms-2"></i></a></li>

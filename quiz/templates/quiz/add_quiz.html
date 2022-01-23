@@ -26,6 +26,7 @@
     {% endif %}
 {% endif %}
 
+<!-- Modal to display add category -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -34,14 +35,16 @@
     </div>
 </div>
 
+<!-- Add quiz form -->
 <div class="container mt-3">
     <div class="row">
         <div class="col-md-7 my-2 mx-auto box-shadow transparent-gray">
             <form method="POST" action="">
                 {% csrf_token %}
-            
                 <div class="modal-header">
                     <h3 class="modal-title">Add quiz</h3>
+                    <!-- Cancel button -->
+                    <a href="{% url 'quiz:manage_quizzes' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
                 </div>
                 <div class="modal-body">
                     <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
@@ -52,6 +55,7 @@
                     {% for field in form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <!-- Check if field is category and add button to add new category -->
                         {% if field.label == "Category" %}
                         <div class="d-flex flex-row">{% render_field field class="form-control" placeholder=field.label %}
                         <a data-form-url="{% url 'categories:add_category' %}" class="add-category"><i class="fas fa-plus btn py-2"></i></a></div>
@@ -66,9 +70,12 @@
                     </div>
                     {% endfor %} 
                 </div>
-            
-                <div class="modal-footer">
-                    <button type="submit" class="btn m-auto">Save</button>
+                <!-- Form footer -->
+                <div class="modal-footer m-auto">
+                    <div class="m-auto">
+                        <a href="{% url 'quiz:manage_quizzes' %}"><button type="button" class="btn" aria-label="Cancel">Cancel</button></a>
+                        <button type="submit" class="btn" aria-label="Save">Save</button>
+                    </div>
                 </div>
             </form>
         </div>

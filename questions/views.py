@@ -3,6 +3,7 @@ from django.shortcuts import (
     render,
     get_object_or_404,
     redirect,
+    HttpResponseRedirect
     # reverse
 )
 from django.urls import reverse_lazy
@@ -31,14 +32,14 @@ class AddQuestionView(BSModalCreateView):
     template_name = 'questions/add_question-modal.html'
     form_class = NewQuestionForm
     success_message = 'Success: Question was created.'
-    success_url = reverse_lazy('questions:add_question')
+    success_url = reverse_lazy('questions:add_new_question')
 
 
 class AddOptionView(BSModalCreateView):
     template_name = 'questions/add_option.html'
     form_class = NewOptionForm
     success_message = 'Success: Option was created.'
-    success_url = reverse_lazy('questions:add_question')
+    success_url = reverse_lazy('questions:add_new_question')
 
 
 def add_question_view(request, slug):
@@ -153,21 +154,29 @@ class DeleteQuestionView(BSModalDeleteView):
     success_url = reverse_lazy('questions:manage_questions')
 
 
-def toggle_question_status(request):
-   
-    print(request.POST)
-    if request.method == "POST":
-        status_value = request.POST['status']
-        question_id = request.POST['id']
-        question = get_object_or_404(Question, pk=question_id)
-        question.status = status_value
-        print(status_value, question_id)
-        print(f"Question status: {question.status}")
-        question.save()
+def toggle_question_status(request, pk, *args, **kwargs):
+    question = get_object_or_404(Question, pk=pk)
+    if question.status != 0:
+        question.status = 0
+    else:
+        question.status = 1
+    question.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
-    return render(request, 'questions/question_details.html', {
-        'question': question,
-    })
+    # print(request.POST)
+    # if request.method == "POST":
+    #     status_value = request.POST['status']
+    #     question_id = request.POST['id']
+    #     question = get_object_or_404(Question, pk=question_id)
+    #     question.status = status_value
+    #     print(status_value, question_id)
+    #     print(f"Question status: {question.status}")
+    #     question.save()
+
+    # return render(request, 'questions/question_details.html', {
+    #     'question': question,
+    # })
+
     # return JsonResponse({'text': 'works'})
     # question = get_object_or_404(Question, pk=pk)
     # if question.status != 0:
@@ -177,48 +186,3 @@ def toggle_question_status(request):
     # question.save()
     # return redirect(manage_questions)
 
-# class QuestionDetailsView(DetailView):
-#     model = Question
-#     template_name = 'questions/question_details.html'
-#     queryset = Question.objects.all()
-
-#     def get_object(self):
-#         question_id = self.kwargs.get("id")
-#         return get_object_or_404(Question, id=question_id)
-
-
-# class EditQuestionView(View):
-#     model = Question
-#     template_name = 'questions/edit_question.html'
-#     form_class = NewQuestionForm
-    
-#     def get_object(self):
-#         queryset = Question.objects.all()
-#         question_id = self.kwargs.get('id')
-#         return get_object_or_404(queryset, id=question_id)
-
-#     def form_valid(self, form):
-#         print(form.cleaned_data)
-#         return super().form_valid(form)
-
-
-
-# class AddQuestionView(CreateView):
-
-#     model = Question
-#     form_class = NewQuestionForm()
-#     template_name = 'questions/add_question.html'
-#     success_url = '/'
-    
-
-# class AddOptionView(CreateView):
-
-#     model = Option
-#     form_class = NewOptionForm
-#     template_name = 'questions/add_option.html'
-#     # success_url = '/'
-
-    # context = {
-    #     'form': form,
-    # }
-    # return render(request, 'quiz/add_quiz.html', context)

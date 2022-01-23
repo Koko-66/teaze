@@ -1,0 +1,18 @@
+{% load widget_tweaks %}
+<!-- Form with category details -->
+<form method="post">
+  {% csrf_token %}
+  <!-- Modal content injected into the modal div in the main manage categories view  -->
+  <div class="modal-header">
+    <h3 class="modal-title">Remove qustion from quiz</h3>
+    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+  </div>
+
+  <div class="modal-body">
+    <p>Are you sure you want to remove question {{ question.body }} from <strong>{{ quiz.title }}</strong>? You will be able to add this question to the quiz later.</p>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn">Remove</button>
+  </div>
+</form>

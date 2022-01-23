@@ -1,6 +1,11 @@
 # from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django.shortcuts import render, get_object_or_404, redirect, HttpResponseRedirect
+from django.shortcuts import (
+    render,
+    get_object_or_404,
+    redirect,
+    HttpResponseRedirect
+    )
 from django.views import generic, View
 from django.views.generic import (
     DetailView,
@@ -15,11 +20,12 @@ from results.models import Assessment
 
 
 def add_quiz_view(request):
+    """Add new quiz"""
+
     if request.method == 'POST':
         form = NewQuizForm(request.POST)
         if form.is_valid():
             quiz = Quiz.objects.create(**form.cleaned_data)
-            # return redirect(f'../{quiz.slug}/add_question', kwargs=[quiz.slug])
             return redirect(f'../quizzes/{quiz.slug}/details', kwargs=[quiz.slug])
         else:
             print(form.errors)
@@ -28,23 +34,13 @@ def add_quiz_view(request):
 
     context = {
         'form': form,
-
     }
     return render(request, 'quiz/add_quiz.html', context)
 
 
-# class AddQuizView(CreateView):
-#     model = Quiz
-#     form_class = NewQuizForm
-#     template_name = 'quiz/add_quiz.html'
-#     queryset = Quiz.objects.all()
-
-#     def form_valid(self, form):
-#         print(form.cleaned_data)
-#         return super().form_valid(form)
-
-
 class EditQuizView(UpdateView):
+    """Edit quiz"""
+
     template_name = 'quiz/edit_quiz.html'
     form_class = NewQuizForm
     queryset = Quiz.objects.all()
@@ -59,8 +55,10 @@ class EditQuizView(UpdateView):
 
 
 class DeleteQuizView(DeleteView):
+    """Delete"""
     # queryset = Quiz.objects.all()
     template = 'quiz/delete_quiz.html'
+    # success_url = 'quiz:manage_quizzes'
 
     def get_object(self):
         slug = self.kwargs.get('slug')
@@ -76,6 +74,7 @@ class QuizListView(generic.ListView):
     template_name = 'quiz/manage_quizzes.html'
 
     def get(self, request):
+        """Overwrite get method"""
         if request.user.groups.filter(name='Admin').exists():
             quiz_list = Quiz.objects.order_by('-created_on')
         else:
@@ -98,12 +97,35 @@ class QuizListView(generic.ListView):
 
 
 class QuizDetailsView(DetailView):
-    # queryset = Quiz.objects.all()
+    queryset = Quiz.objects.all()
     template = 'quiz/quiz_detail.html'
 
-    def get_object(self):
+    # def get_object(self):
+    #     slug = self.kwargs.get('slug')
+    #     return get_object_or_404(Quiz, slug=slug)
+
+    def get(self, request, *args, **kwargs):
+        """Overwrite the default get function to render available qustions
+        with the same category."""
+        template_name = 'quiz/quiz_detail.html'
         slug = self.kwargs.get('slug')
-        return get_object_or_404(Quiz, slug=slug)
+        quiz = get_object_or_404(Quiz, slug=slug)
+
+        quiz_category = quiz.category
+        questions = Question.objects.all()
+
+        available_questions = []
+        for question in questions:
+            question_categories = question.get_categories()
+            if str(quiz_category) in question_categories and question.quiz != quiz:
+                available_questions.append(question)
+        context = {
+            'quiz': quiz,
+            'available_questions': available_questions,
+            'slug': slug,
+        }
+
+        return render(request, template_name, context)
 
 
 class TakeQuizView(View):
@@ -126,7 +148,7 @@ class TakeQuizView(View):
         return render(request, 'quiz/take_quiz.html', context)
 
 
-def toggle_status(request, slug):
+def toggle_status(request, slug, *args, **kwargs):
     quiz = get_object_or_404(Quiz, slug=slug)
     if quiz.status != 0:
         quiz.status = 0
@@ -175,3 +197,27 @@ def welcome_page_view(request):
         'quiz_list': quiz_list,
     }
     return render(request, 'index.html', context)
+
+
+def remove_question_from_quiz(request, pk, *args, **kwargs):
+    """Remove question from the selected quiz. """
+
+    question = get_object_or_404(Question, pk=pk)
+    print(question.quiz)
+    question.quiz = None
+    question.save()
+    print(question.quiz)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def add_question_to_quiz(request, pk, slug, *args, **kwargs):
+    """Add question to the selected quiz."""
+
+    quiz = get_object_or_404(Quiz, slug=slug)
+    question = get_object_or_404(Question, pk=pk)
+    print(quiz.slug)
+    # print(question.quiz)
+    question.quiz = quiz
+    question.save()
+    # print(question.quiz)
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

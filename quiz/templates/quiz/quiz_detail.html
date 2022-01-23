@@ -24,50 +24,93 @@
 {% endif %}
 {% endif %}
 
+<!-- Modal to display delete view -->
+<div class="modal fade" tabindex="-1" role="dialog" id="modal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <!-- Form goes here -->
+        </div>
+    </div>
+</div>
+
 <div class="container">
     <div class="row m-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <div class="modal-header">
                 <h3 class="modal-title">{{ quiz.title}}</h3>
+                <!-- Cancel button -->
+                <a href="/quizzes/manage_quizzes"><button type="button" class="btn-close" aria-label="Close"></button></a>
             </div>
             <div class="modal-body">
                 <!-- <p>Quiz id: {{ quiz.id }}</p> -->
-
-                <div class="d-flex align-items-center justify-content-between">
-                    <h5>Quiz status:</h5>
-                    <!-- {% if quiz.status == 0 %}{% else %}Published{% endif %} -->
-                    <a href="{% url 'quiz:toggle' quiz.slug %}"
-                        class="btn offset-1">{% if quiz.status == 0 %}Draft{% else %}Approved{% endif %}</a>
-                </div>
                 
                 <div class="">
-                    <h5>Number of questions: {{ quiz.questions.count }}</h5>
+                    <!-- <h5>Number of questions: <small class="ms-3">{{ quiz.questions.count }}</small></h5> -->
+                    <h5>Category: <small class="ms-3">{{ quiz.category }}</small></h5>
                 </div>
-                <h5>Quiz Questions</h5>
-                <ol>
+                <h5 class="py-1">Quiz questions:</h5>
+                <ol class="modal-body bg-light shadow">
                     {% for question in quiz.questions.all %}
-                    <div class="d-flex justify-content-between">
+                    <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
                         <li>{{ question.body }}</li>
-                        <!-- <div class="col-md-5"> -->
-                            <!-- <div > -->
                                 <ul class="d-flex list-unstyled mt-auto justify-content-between">
-                                    <li><a href="{% url 'questions:question_details' question.id %}" class="text-dark"><i
-                                        class="fas fa-info-circle mx-2"></i></a></li>
-                                    <li> <a href="{% url 'questions:edit_question' question.id %}" class="text-dark"><i
-                                        class="far fa-edit mx-2"></i></a></li>
-                                    <li><a href="{% url 'questions:delete_question' question.id %}" class="text-dark"><i
-                                        class="fas fa-trash mx-2"></i></a></li>
+                                    <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
+                                        <i class="fas fa-info-circle mx-2 icon"></i></a></li>
+                                    <li><a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" alt="Edit" title="Edit">
+                                        <i class="far fa-edit mx-2 icon"></i></a></li>
+                                    <li><a href="{% url 'quiz:remove_question' quiz.slug question.pk %}" title="Remove from quiz">
+                                        <i class="fas fa-trash mx-2 icon"></i></a></li>
                                 </ul>
-                            <!-- </div> -->
-                        <!-- </div> -->
                     </div>
                     {% endfor %}
                 </ol>
                 <div class="modal-footer">
                     <!-- <button type="submit" class="btn m-auto">Save</button> -->
+                    <div class="d-flex col-12 flex-row justify-content-between align-items-center">
+                        <div class="d-flex flex-row justify-content-between align-items-center">
+                            <h6 class="my-0 me-2">Quiz status:</h6>
+                            <a href="{% url 'quiz:toggle' quiz.slug %}"
+                            class="btn p-1 py-0">{% if quiz.status == 0 %}Draft{% else %}Approved{% endif %}</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
+                            <a href="{% url 'questions:add_question_in_quiz' quiz.slug %}" class="btn">Add new question</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- <hr style="width:100%;"> -->
+                {% if available_questions %}
+                <!-- <div class="modal-header">
+                    
+                </div>
+                 -->
+                <div class="modal-body bg-light shadow">
+                    <h5>Other questions available in this category: </h5>
+                    <div>
+                        <ul class="list-unstyled">
+                            {% for question in available_questions %}
+                            <div class="d-flex justify-content-between m-2 p-2 rounded bg-white shadow">
+                                <li>{{ question.body }}</li>
+                                        <ul class="d-flex list-unstyled mt-auto justify-content-between">
+                                            <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
+                                                <i class="fas fa-info-circle mx-2 icon"></i></a></li>
+                                            <li><a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" alt="Edit" title="Edit">
+                                                <i class="far fa-edit mx-2 icon"></i></a></li>
+                                            <li><a href="{% url 'quiz:add_question' quiz.slug question.pk %}" title="Add to quiz">
+                                                <i class="fas fa-plus mx-2 icon"></i></a></li>
+                                        </ul>
+                            </div>
 
-                    <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
-                    <a href="{% url 'questions:add_question_in_quiz' quiz.slug %}" class="btn">Add question</a>
+                            <!-- <li>{{ question.body }} - {%if question.status == 0 %}Draft{% else %}Approved{% endif %}</li> -->
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="">
+                        <a href="{% url 'quiz:manage_quizzes' %}"><button type="submit" class="btn" aria-label="Save">OK</button></a>   
+                    </div>
                 </div>
             </div>
         </div>
