@@ -21,19 +21,13 @@
     <div class="mb-2">
         <!-- {% csrf_token %} -->
         <strong class="text-decoration-underline">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</strong>
-        <!-- <button id="status" type="submit" class="toggle-btn btn" data-id="{{question.pk}}" name="status" value="{{ question.status }}"> -->
+        <!-- jdafjpsaj -->
             <span> {{ question.get_categories }}</span>
-                <!-- <a href="" class="btn toggle"></a> -->
-        <!-- </button> -->
     </div>
     <div class="mb-2">
         <!-- {% csrf_token %} -->
         <strong class="text-decoration-underline">Question status:</strong>
-        <!-- <button id="status" type="submit" class="toggle-btn btn" data-id="{{question.pk}}" name="status" value="{{ question.status }}"> -->
-            <span>{% if question.status == 0 %}Draft{% else %}Published{% endif %}</span>
-                <!-- <a href="" class="btn toggle"></a> -->
-        <!-- </button> -->
-    </div>
+        <a href="{% url 'questions:toggle_question' question.pk %}" class="btn mx-5">{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</a>
 </div>
 <!-- Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
@@ -44,7 +38,7 @@
     </div>
 </div>
 
-<div class="modal-footer m-2 bg-secondary">
+<div class="modal-footer m-2">
     <a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" title="Edit">
         Edit
         <i class="far fa-edit me-3 ms-2"></i></a>

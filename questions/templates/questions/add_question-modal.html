@@ -18,10 +18,11 @@
         <div class="form-group">
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             {% if field.label == "Category" %}
+            <div class="d-flex flex-row">{% render_field field class="form-control" placeholder=field.label %}
+            <a data-form-url="{% url 'categories:add_category' %}" class="add-category"><i class="fas fa-plus btn py-2"></i></a></div>
+            {% else %}
             {% render_field field class="form-control" placeholder=field.label %}
-
-            {% render_field field class="form-control" placeholder=field.label %}
-
+            {% endif %}
             <div class="{% if field.errors %} invalid{% endif %}">
                 {% for error in field.errors %}
                 <p class="help-block">{{ error }}</p>

@@ -47,7 +47,7 @@
         <div>
             <h2 class="pb-2">Questions</h2>
         </div>
-        <h3 class="pb-2"><a data-form-url="{% url 'questions:add_question' %}" id="add-question" alt="Add question" class="add-question text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
+        <h3 class="pb-2"><a data-form-url="{% url 'questions:add_new_question' %}" id="add-question" alt="Add question" class="add-question text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
     </div>
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
         {% for question in question_list %}
@@ -57,7 +57,7 @@
                         <h5 class="pt-3 mt-2 mb-4 lh-1.7 border-bottom">{{ question.body }}</h5>
                         <h6 class="card-title">Category: <small>{{ question.get_categories }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
-                                <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
+                                <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details bs-modal" alt="Details" title="Details">
                                     Details
                                     <i class="fa fa-eye me-3 ms-2"></i></a></li>
 
