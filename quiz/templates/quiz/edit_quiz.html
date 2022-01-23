@@ -1,21 +1,48 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
+<div class="container">
+    <div class="row m-5">
+        <div class="col-lg-9 box-shadow m-auto transparent-gray">
 
-<form method="POST">
-    <div class="container">
-        <div class="row">
-            <h3 class="centered">Edit Quiz</h3>
-            <div class="col-md-6 py-5 offset-3">
-                <div class="form-group">
-                    {% csrf_token %}
-                    {{ form.as_p }}
-                    <input type="submit" class="btn" value="Save">
-                    <a href="{% url 'quiz:delete_quiz' quiz.slug %}" class="btn">Delete</a>
-                    <a href="{% url 'questions:add_question_in_quiz' quiz.slug %}" class="btn">Add question</a>
+            <form method="post" action="">
+                {% csrf_token %}
+
+                <div class="modal-header">
+                    <h3 class="modal-title">Edit Quiz</h3>
+                    <!-- Cancel button -->
+                    <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
                 </div>
-            </div>
+
+                <div class="modal-body">
+                    <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+                        {% for error in form.non_field_errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    {% for field in form %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
+                        <div class="{% if field.errors %} invalid{% endif %}">
+                            {% for error in field.errors %}
+                            <p class="help-block">{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <div class="modal-footer">
+                    <input type="submit" class="btn" value="Save">
+                    <!-- <a href="{% url 'quiz:delete_quiz' quiz.slug %}" class="btn">Delete</a> -->
+                    <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn">Cancel</a>
+
+                    <!-- <a href="{% url 'questions:add_question_in_quiz' quiz.slug %}" class="btn">Add question</a> -->
+                </div>
         </div>
     </div>
-</form>
+</div>
+
 {% endblock %}
