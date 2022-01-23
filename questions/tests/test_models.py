@@ -28,7 +28,7 @@ class QuestionTestCase(TestCase):
     def test_question_str_method(self):
         """Test string method"""
 
-        self.assertEqual(str(self.question), 'New question text - New Quiz')
+        self.assertEqual(str(self.question), 'New question text')
 
     # def test_get_options_method(self):
     #     """Test method for getting options"""

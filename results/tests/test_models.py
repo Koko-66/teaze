@@ -27,4 +27,4 @@ class ResultsTestCase(TestCase):
         self.assertEqual(str(self.assessment), 'Test Quiz-user')
 
     def test_answer_string_value(self):
-        self.assertEqual(str(self.answer), 'New question text - Test Quiz - 2')
+        self.assertEqual(str(self.answer), 'New question text - 2')
