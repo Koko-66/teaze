@@ -16,7 +16,8 @@ class Question(models.Model):
     body = models.CharField(max_length=900, unique=True)
     category = models.ManyToManyField(Category,
                                       related_name='question')
-    quiz = models.ForeignKey(Quiz, null=True, blank=True, on_delete=models.SET_NULL,
+    quiz = models.ForeignKey(Quiz, null=True, blank=True,
+                             on_delete=models.SET_NULL,
                              related_name='questions')
     featured_image = CloudinaryField('image', default='placeholder',
                                      blank=True)
