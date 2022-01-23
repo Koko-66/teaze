@@ -39,17 +39,17 @@
             <div class="modal-header">
                 <h3 class="modal-title">{{ quiz.title}}</h3>
                 <!-- Cancel button -->
-                <a href="/quizzes/manage_quizzes"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                <a href="/quizzes/"><button type="button" class="btn-close" aria-label="Close"></button></a>
             </div>
             <div class="modal-body">
-                <!-- <p>Quiz id: {{ quiz.id }}</p> -->
                 
                 <div class="">
-                    <!-- <h5>Number of questions: <small class="ms-3">{{ quiz.questions.count }}</small></h5> -->
+                    <h5>Description: <small class="ms-3">{{ quiz.de }}</small></h5>
                     <h5>Category: <small class="ms-3">{{ quiz.category }}</small></h5>
                 </div>
-                <h5 class="py-1">Quiz questions:</h5>
+                
                 <ol class="modal-body bg-light shadow">
+                    <h5 class="py-1"><small>Quiz questions:</small></h5>
                     {% for question in quiz.questions.all %}
                     <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
                         <li>{{ question.body }}</li>
@@ -65,7 +65,7 @@
                     {% endfor %}
                 </ol>
                 <div class="modal-footer">
-                    <!-- <button type="submit" class="btn m-auto">Save</button> -->
+
                     <div class="d-flex col-12 flex-row justify-content-between align-items-center">
                         <div class="d-flex flex-row justify-content-between align-items-center">
                             <h6 class="my-0 me-2">Quiz status:</h6>
@@ -78,15 +78,11 @@
                         </div>
                     </div>
                 </div>
-                <!-- <hr style="width:100%;"> -->
-                {% if available_questions %}
-                <!-- <div class="modal-header">
-                    
-                </div>
-                 -->
+
                 <div class="modal-body bg-light shadow">
                     <h5>Other questions available in this category: </h5>
                     <div>
+                        {% if available_questions %}
                         <ul class="list-unstyled">
                             {% for question in available_questions %}
                             <div class="d-flex justify-content-between m-2 p-2 rounded bg-white shadow">
@@ -100,9 +96,9 @@
                                                 <i class="fas fa-plus mx-2 icon"></i></a></li>
                                         </ul>
                             </div>
-
-                            <!-- <li>{{ question.body }} - {%if question.status == 0 %}Draft{% else %}Approved{% endif %}</li> -->
                             {% endfor %}
+                        {% else %}
+                        <p>There are currently no other questions available in this category.</p>
                         </ul>
                     {% endif %}
                     </div>
