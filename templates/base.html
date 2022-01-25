@@ -42,6 +42,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account_logout' %}">Log out</a>
                         </li>
+                        <!-- <li><span class="text-light">You are logged in as {{ user }}</span></li> -->
                         {% else %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'account_signup' %}">Sign up</a>
@@ -55,9 +56,31 @@
             </div>
         </div>
     </nav>
+    <!-- Secondary menu for admin -->
+    {% if user.is_authenticated %}
+    {% if request.user|has_group:"Admin" %}
+    <div class="row py-2 my-3" role="navigation">
+        <ul class="nav nav-tabs justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/quizzes/' %}active{% endif %}" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/questions/' %}active{% endif %}" href="{% url 'questions:manage_questions' %}">Manage questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link {% if request.path == '/categories/' %}active{% endif %}" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
+            </li>
+        </ul>
+    </div>
+    {% endif %}
+    {% endif %}
     <!-- Main content -->
     <main class="flex-shrink-0 main-bg">
         <div class="py-2 my-3">
+            <p>You are here {{ request.path }}</p>
             {% block content %}
             <!-- Content goes here -->
             {% endblock content %}

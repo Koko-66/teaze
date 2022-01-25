@@ -5,24 +5,8 @@
 
 {% if user.is_authenticated %}
     {% if request.user|has_group:"Admin" %}
-    <div class="row py-1" role="navigation">
-        <ul class="nav nav-tabs justify-content-center">
-            <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
-            </li>
-        </ul>
-    </div>
 
-    <!-- Modal to display add forms in the dashboard view -->
+    <!-- Displays modal forms (add new category form) in the dashboard view -->
     <div class="modal fade" tabindex="-1" role="dialog" id="modal">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

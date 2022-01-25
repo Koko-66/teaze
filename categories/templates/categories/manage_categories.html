@@ -3,37 +3,14 @@
 
 {% block content %}
 
-<!-- Second nav tab with tools for admin - shows only if the user belongs to admin group -->
-{% if user.is_authenticated %}
-{% if request.user|has_group:"Admin" %}
-<div class="row py-1" role="navigation">
-    <ul class="nav nav-tabs justify-content-center">
-        <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link active" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage
-                categories</a>
-        </li>
-    </ul>
-</div>
-{% endif %}
-{% endif %}
-
 <!-- Modal displaying form for adding new category"-->
-<div class="modal fade" id="add-category-modal" tabindex="-1" role="dialog" aria-hidden="true">
+<!-- <div class="modal fade" id="add-category-modal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content"> -->
             <!-- Form goes here -->
-        </div>
+        <!-- </div>
     </div>
-</div>
+</div> -->
 <!-- Modal diplaying edit and delete forms -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
     <div class="modal-dialog" role="document">
@@ -50,7 +27,7 @@
             <h2 class="pb-2">Categories</h2>
         </div>
         <div class="me-3">
-            <h3 class="pb-2"><a data-form-url="{% url 'categories:add_category' %}" id="add-category" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
+            <h3 class="pb-2"><a data-form-url="{% url 'categories:add_category' %}" alt="Add category" class="add-category text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
         </div>
 
     </div>
@@ -75,7 +52,7 @@
                         </li>
                         <li class="d-flex align-items-center">
                         </li>
-                        <a data-form-url="{% url 'categories:delete_category' category.pk %}"  class="delete-category bs-modal"><i class="fas fa-trash"></i>
+                        <a data-form-url="{% url 'categories:delete_category' category.pk %}"  class="delete-category bs-modal" aria-label="Delete category"><i class="fas fa-trash"></i>
                             <small class="p-2">Delete</small></a>
                         </li>
                     </ul>
