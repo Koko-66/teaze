@@ -6,28 +6,28 @@
 </div>
 
 <div class="modal-body m-2">
-    <div class="mb-2">
-        <strong class="mb-2 text-decoration-underline">Question:</strong>
-        <p> {{ question.body }}</p>
+    <div class="m-2 p-2 shadow bg-light border">
+        <strong class="mb-2">Question:</strong>
+        <div>{{ question.body }}</div>
     </div>
-    <div class="my-2">
-        <strong class="text-decoration-underline">Answer options:</strong>
-        <ul class="mx-5">
+    <div class="m-2 p-2 shadow bg-light border">
+        <strong class="">Answer options:</strong>
+        <ol class="">
             {% for option in question.options.all %}
-            <li>{{ option.option }}{% if option.is_correct %}<span class="small text-muted"> (Correct)</span> {% endif %}</li>
+            <li class="m-2 p-2 ms-0 bg-white rounded shadow">{{ option.option }}{% if option.is_correct %}<span class="small text-muted"> (Correct)</span>{% endif %}</li>
             {% endfor %}
-        </ul>
+        </ol>
     </div>
-    <div class="mb-2">
+    <div class="m-2 p-2 shadow bg-light border">
         <!-- {% csrf_token %} -->
-        <strong class="text-decoration-underline">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</strong>
+        <strong class="">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</strong>
         <!-- jdafjpsaj -->
             <span> {{ question.get_categories }}</span>
     </div>
-    <div class="mb-2">
+    <div class="m-2 p-2 shadow bg-light border">
         <!-- {% csrf_token %} -->
-        <strong class="text-decoration-underline">Question status:</strong>
-        <a href="{% url 'questions:toggle_question' question.pk %}" class="btn mx-5">{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</a>
+        <strong class="">Question status:</strong>
+        <a href="{% url 'questions:toggle_question' question.pk %}" class="btn p-1 py-0">{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</a>
 </div>
 <!-- Modal -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">

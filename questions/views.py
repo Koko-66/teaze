@@ -1,19 +1,11 @@
-from django.http import JsonResponse
 from django.shortcuts import (
     render,
     get_object_or_404,
     redirect,
     HttpResponseRedirect
-    # reverse
 )
 from django.urls import reverse_lazy
-from django.views.generic import (
-    # DetailView,
-    # UpdateView,
-    # DeleteView,
-    ListView,
-    # View
-)
+from django.views.generic import CreateView, ListView
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalReadView,
@@ -25,21 +17,33 @@ from .forms import NewOptionForm, NewQuestionForm, AddQuestionToQuizForm
 from .models import Question, Option
 from quiz.models import Quiz
 
+    
+def add_new_question_view(request, *args, **kwargs):
+    user = request.user
+    if request.method == 'POST':
+        form = NewQuestionForm(request.POST)
+        if form.is_valid():
+            # create object manually to post user as author
+            quiz = form.cleaned_data.get('quiz')
+            body = form.cleaned_data.get('body')
+            featured_image = form.cleaned_data.get('featured_image')
+            status = form.cleaned_data.get('status')
+            category = form.cleaned_data.get('category')
+            question = Question.objects.create(body=body, quiz=quiz,
+                                                featured_image=featured_image,
+                                                author=user, status=status)
+            print(form.cleaned_data)
+            return redirect(f'../{question.id}/add_new_option', args=[question.id])
+        else:
+            print(form.errors)
+    else:
+        form = NewQuestionForm()
 
-class AddQuestionView(BSModalCreateView):
-    """Add new question independently, from question management view."""
-
-    template_name = 'questions/add_question-modal.html'
-    form_class = NewQuestionForm
-    success_message = 'Success: Question was created.'
-    success_url = reverse_lazy('questions:add_new_question')
-
-
-class AddOptionView(BSModalCreateView):
-    template_name = 'questions/add_option.html'
-    form_class = NewOptionForm
-    success_message = 'Success: Option was created.'
-    success_url = reverse_lazy('questions:add_new_question')
+    context = {
+        'form': form,
+        # 'quiz': quiz,
+    }
+    return render(request, 'questions/add_new_question.html', context)
 
 
 def add_question_view(request, slug):
@@ -49,6 +53,7 @@ def add_question_view(request, slug):
     if request.method == 'POST':
         form = AddQuestionToQuizForm(request.POST)
         if form.is_valid():
+            # create object manually to post user as author
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
             status = form.cleaned_data.get('status')
@@ -70,10 +75,10 @@ def add_question_view(request, slug):
     return render(request, 'questions/add_question.html', context)
 
 
-def add_option_view(request, slug, question_id):
+# HANDLE INTEGRITY ERROR if keeping position!
+def add_new_option_view(request, pk):
     user = request.user
-    quiz = get_object_or_404(Quiz, slug=slug)
-    question = get_object_or_404(Question, id=question_id)
+    question = get_object_or_404(Question, pk=pk)
     if request.method == 'POST':
         form = NewOptionForm(request.POST)
         if form.is_valid():
@@ -84,8 +89,36 @@ def add_option_view(request, slug, question_id):
                                            position=position,
                                            is_correct=is_correct, author=user)
             print(form.cleaned_data)
-            return redirect('../add_option',
-                            args=[question.id, quiz.slug])
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            print(form.errors)
+    else:
+        form = NewOptionForm()
+
+    context = {
+        'form': form,
+        'question': question,
+    }
+    return render(request, 'questions/add_option.html', context)
+
+ 
+# HANDLE INTEGRITY ERROR if keeping position!
+def add_option_view(request, slug, pk):
+    user = request.user
+    quiz = get_object_or_404(Quiz, slug=slug)
+    question = get_object_or_404(Question, pk=pk)
+    if request.method == 'POST':
+        form = NewOptionForm(request.POST)
+        if form.is_valid():
+            option = form.cleaned_data.get('option')
+            position = form.cleaned_data.get('position')
+            is_correct = form.cleaned_data.get('is_correct')
+            option = Option.objects.create(question=question, option=option,
+                                           position=position,
+                                           is_correct=is_correct, author=user)
+            print(form.cleaned_data)
+            # return redirect('../add_option', args=[question.id, quiz.slug])
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         else:
             print(form.errors)
     else:
@@ -95,8 +128,6 @@ def add_option_view(request, slug, question_id):
         'form': form,
         'question': question,
         'quiz': quiz,
-        # 'question_id': question.id,
-        # 'quiz_slug': quiz.slug,
     }
     return render(request, 'questions/add_option.html', context)
 
@@ -162,27 +193,3 @@ def toggle_question_status(request, pk, *args, **kwargs):
         question.status = 1
     question.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-
-    # print(request.POST)
-    # if request.method == "POST":
-    #     status_value = request.POST['status']
-    #     question_id = request.POST['id']
-    #     question = get_object_or_404(Question, pk=question_id)
-    #     question.status = status_value
-    #     print(status_value, question_id)
-    #     print(f"Question status: {question.status}")
-    #     question.save()
-
-    # return render(request, 'questions/question_details.html', {
-    #     'question': question,
-    # })
-
-    # return JsonResponse({'text': 'works'})
-    # question = get_object_or_404(Question, pk=pk)
-    # if question.status != 0:
-    #     question.status = 0
-    # else:
-    #     question.status = 1
-    # question.save()
-    # return redirect(manage_questions)
-
