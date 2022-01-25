@@ -4,28 +4,6 @@
 
 {% block content %}
 
-<!-- Navigation bar at the top for admin user -->
-{% if user.is_authenticated %}
-    {% if request.user|has_group:"Admin" %}
-    <div class="row py-1" role="navigation">
-        <ul class="nav nav-tabs justify-content-center">
-            <li class="nav-item">
-            <a class="nav-link" aria-current="page" href="{% url 'quiz:home' %}">Dashboard</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'questions:manage_questions' %}">Manage questions</a>
-            </li>
-            <li class="nav-item">
-            <a class="nav-link" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
-            </li>
-        </ul>
-    </div>
-    {% endif %}
-{% endif %}
-
 <!-- Modal to display add category -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
     <div class="modal-dialog" role="document">
@@ -57,10 +35,10 @@
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         <!-- Check if field is category and add button to add new category -->
                         {% if field.label == "Category" %}
-                        <div class="d-flex flex-row">{% render_field field class="form-control" placeholder=field.label %}
+                        <div class="d-flex flex-row shadow">{% render_field field class="form-control" placeholder=field.label %}
                         <a data-form-url="{% url 'categories:add_category' %}" class="add-category"><i class="fas fa-plus btn py-2"></i></a></div>
                         {% else %}
-                        {% render_field field class="form-control" placeholder=field.label %}
+                        <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
                         {% endif %}
                         <div class="{% if field.errors %} invalid{% endif %}">
                             {% for error in field.errors %}
