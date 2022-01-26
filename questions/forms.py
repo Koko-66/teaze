@@ -73,7 +73,7 @@ class NewOptionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         fields = (
             'option',
             'is_correct',
-            'position',
+            # 'position',
         )
 
         widgets = {

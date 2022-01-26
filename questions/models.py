@@ -60,7 +60,7 @@ class Option(models.Model):
     question = models.ForeignKey(Question, related_name="options",
                                  on_delete=models.CASCADE)
     option = models.CharField("option", max_length=500)
-    position = models.IntegerField("position")
+    # position = models.IntegerField("position")
     is_correct = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
     created_on = models.DateTimeField(auto_now_add=True)
@@ -70,13 +70,13 @@ class Option(models.Model):
         """
         Set meta data for the object: uniqueness, ordering and plural name
         """
-        unique_together = [
-            # no duplicated option per question
-            ("question", "option"),
-            # no duplicated position per question
-            ("question", "position")
-        ]
-        ordering = ["position"]
+        # unique_together = [
+        #     # no duplicated option per question
+        #     ("question", "option"),
+        # #     # no duplicated position per question
+        #     ("question", "position")
+        # ]
+        # ordering = ["position"]
         verbose_name_plural = 'Answer options'
 
     def __str__(self):

@@ -83,10 +83,10 @@ def add_new_option_view(request, pk):
         form = NewOptionForm(request.POST)
         if form.is_valid():
             option = form.cleaned_data.get('option')
-            position = form.cleaned_data.get('position')
+            # position = form.cleaned_data.get('position')
             is_correct = form.cleaned_data.get('is_correct')
             option = Option.objects.create(question=question, option=option,
-                                           position=position,
+                                        #    position=position,
                                            is_correct=is_correct, author=user)
             print(form.cleaned_data)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -111,10 +111,10 @@ def add_option_view(request, slug, pk):
         form = NewOptionForm(request.POST)
         if form.is_valid():
             option = form.cleaned_data.get('option')
-            position = form.cleaned_data.get('position')
+            # position = form.cleaned_data.get('position')
             is_correct = form.cleaned_data.get('is_correct')
             option = Option.objects.create(question=question, option=option,
-                                           position=position,
+                                        #    position=position,
                                            is_correct=is_correct, author=user)
             print(form.cleaned_data)
             # return redirect('../add_option', args=[question.id, quiz.slug])
