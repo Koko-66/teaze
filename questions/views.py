@@ -2,10 +2,11 @@ from django.shortcuts import (
     render,
     get_object_or_404,
     redirect,
-    HttpResponseRedirect
+    HttpResponseRedirect,
+    # render_to_response
 )
-from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.urls import reverse_lazy, reverse
+from django.views.generic import CreateView, ListView, UpdateView
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalReadView,
@@ -151,6 +152,7 @@ class QuestionDetailsView(BSModalReadView):
             },
         )
 
+
 class QuestionListView(ListView):
     model = Question
     template_name = 'questions/manage_questions.html'
@@ -176,6 +178,20 @@ class EditQuestionView(BSModalUpdateView):
     success_url = reverse_lazy('questions:manage_questions')
 
 
+class EditOptionView(BSModalUpdateView):
+    """Edit options."""
+
+    model = Option
+    template_name = 'questions/edit_option.html'
+    form_class = NewOptionForm
+    success_message = 'Success: option was updated.'
+    # success_url = reverse_lazy('questions:edit_question')
+
+    def get_success_url(self):
+        pk = self.object.question.pk
+        return reverse_lazy('questions:edit_question', kwargs={'pk': pk})
+
+
 class DeleteQuestionView(BSModalDeleteView):
     """Delete question."""
 
@@ -185,11 +201,38 @@ class DeleteQuestionView(BSModalDeleteView):
     success_url = reverse_lazy('questions:manage_questions')
 
 
+class DeleteOptionView(BSModalDeleteView):
+    """Delete option."""
+    model = Option
+    template_name = 'questions/option_confirm_delete.html'
+    success_message = 'Success: Option was deleted.'
+    # success_url = reverse_lazy('questions:add_question')
+    
+    def get_success_url(self):
+        if self.object.question.quiz.slug:
+            pk = self.object.question.pk
+            slug = self.object.question.quiz.slug
+            print(f'{pk} == {slug}')
+            return reverse('questions:add_option_in_quiz', kwargs={'slug': slug, 'pk': pk})
+        else:
+            return reverse('questions:add_new_option', kwargs={'pk': pk})
+
 def toggle_question_status(request, pk, *args, **kwargs):
+    """Toggle question status between dDraft (0) and Approved (1)."""
     question = get_object_or_404(Question, pk=pk)
     if question.status != 0:
         question.status = 0
     else:
         question.status = 1
     question.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+def toggle_is_correct(request, pk, *args, **kwargs):
+    option = get_object_or_404(Option, pk=pk)
+    if option.is_correct != False:
+        option.is_correct = True
+    else:
+        option.is_correct = True
+    option.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

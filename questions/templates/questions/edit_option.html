@@ -1,0 +1,44 @@
+{% load widget_tweaks %}
+<!-- Form with category details that is being edited. -->
+<form method="post" action="">
+    {% csrf_token %}
+
+    <div class="modal-header">
+        <h3 class="modal-title">Edit option</h3>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
+        {% for error in form.non_field_errors %}
+        {{ error }}
+        {% endfor %}
+    </div>
+    {% for field in form %}
+    <div class="form-group">
+        {% if field.label == "Is correct" %}
+        <div class="d-flex flex-row justify-content-end my-1">
+            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+            <div class="mx-2">{% render_field field class="form-check-input" placeholder=field.label %}</div>
+            <div class="{% if field.errors %}invalid{% endif %}">
+                {% for error in field.errors %}
+                <p class="help-block">{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% else %}
+        <!-- <label for="{{ field.id_for_label }}">{{ field.label }}</label> -->
+        <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
+        {% endif %}
+        <div class="{% if field.errors %}invalid{% endif %}">
+            {% for error in field.errors %}
+            <p class="help-block">{{ error }}</p>
+            {% endfor %}
+        </div>
+    </div>
+    {% endfor %}
+    </div>
+
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>

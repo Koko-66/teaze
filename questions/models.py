@@ -29,7 +29,7 @@ class Question(models.Model):
 
     class Meta:
         """Ordering for questions"""
-        ordering = ['id']
+        ordering = ['-created_on']
 
     def __str__(self):
         """Question string method"""
@@ -70,12 +70,12 @@ class Option(models.Model):
         """
         Set meta data for the object: uniqueness, ordering and plural name
         """
-        # unique_together = [
-        #     # no duplicated option per question
-        #     ("question", "option"),
+        unique_together = [
+            # no duplicated option per question
+            ("question", "option"),
         # #     # no duplicated position per question
         #     ("question", "position")
-        # ]
+        ]
         # ordering = ["position"]
         verbose_name_plural = 'Answer options'
 
