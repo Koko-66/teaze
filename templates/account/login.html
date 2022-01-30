@@ -1,33 +1,60 @@
 {% extends "base.html" %}
-
 {% load i18n %}
 {% load account socialaccount %}
+{% load widget_tweaks %}
 
 {% block head_title %}{% trans "Sign In" %}{% endblock %}
 
 {% block content %}
 <div class="container col-md-7 mx-auto my-5">
-  <div class="row">
-    <!-- card styling -->
-    <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg p-5">
-      <h1 class="pb-2 border-bottom">{% trans "Log in" %}</h1>
+    <div class="row">
+        <!-- card styling -->
+        <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg p-5">
+            <h1 class="pb-2 border-bottom">{% trans "Log in" %}</h1>
 
-      <div class="row">
-        <h6 class="p-2">{% blocktrans %}Don't have an account yet?
-          <a href="{{ signup_url }}" class="text-warning ms-2"> Sign up here</a>.{% endblocktrans %}</h6>
-        <!-- sign in form -->
-        <form class="login" method="POST" action="{% url 'account_login' %}">
-          {% csrf_token %}
-          <div class="accounts mt-2">{{ form.as_p }}</div>
-          {% if redirect_field_value %}
-          <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
-          {% endif %}
-          <small><a href="{% url 'account_reset_password' %}"><u>{% trans "Forgot Password?" %}</u></a></small>
-          <button class="btn ms-3" type="submit">{% trans "Log in" %}</button>
-        </form>
+            <div class="row">
+                <h6 class="p-2">{% blocktrans %}Don't have an account yet?
+                    <a href="{{ signup_url }}" class="text-warning ms-2">Sign up here</a>.{% endblocktrans %}</h6>
+                <!-- Form starts here-->
+                <form class="login" method="POST" action="{% url 'account_login' %}">
+                    {% csrf_token %}
+                    <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2 text-warning">
+                        {% for error in form.non_field_errors %}
+                        {{ error }}
+                        {% endfor %}
+                    </div>
+                    <!-- Custom styling using widget_tweaks -->
+                    {% for field in form %}
+                    <div class="form-group">
+                        <!-- Different styling applied to Remember me tickbox -->
+                        {% if field.label == "Remember Me" %}
+                        <div class="d-flex flex-row my-2">
+                            <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                            <div class="mx-2">{% render_field field class="form-check-input" placeholder=field.label %}
+                            </div>
+                        </div>
+                        {% else %}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="my-2">{% render_field field class="form-control" placeholder=field.label %}</div>
+                        {% endif %}
+                        <!-- Block to display field errors -->
+                        <div class="{% if field.errors %}invalid{% endif %}">
+                            {% for error in field.errors %}
+                            <p class="help-block">{{ error }}</p>
+                            {% endfor %}
+                        </div>
 
-      </div>
+                    </div>
+                    {% endfor %}
+                    {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                    {% endif %}
+                    <small><a
+                            href="{% url 'account_reset_password' %}"><u>{% trans "Forgot Password?" %}</u></a></small>
+                    <button class="btn ms-3" type="submit">{% trans "Log in" %} &raquo;</button>
+                </form>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 {% endblock %}
