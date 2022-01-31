@@ -1,5 +1,5 @@
 # from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -12,13 +12,56 @@ from django.views.generic import (
     UpdateView,
     DeleteView,
 )
+# views provided by django-bootstrap-modal-forms
+from bootstrap_modal_forms.generic import (
+    BSModalCreateView,
+)
 from .models import Quiz
 from .forms import NewQuizForm
 from categories.models import Category
+from categories.forms import NewCategoryForm
+
 from questions.models import Question
 from results.models import Assessment
 
 
+def welcome_page_view(request):
+    """Landing page - view for the index.html"""
+
+    quiz_draft_count = Quiz.objects.filter(status=0).count()
+    quiz_published_count = Quiz.objects.filter(status=1).count()
+    question_draft_count = Question.objects.filter(status=0).count()
+    question_published_count = Question.objects.filter(status=1).count()
+    categories_count = Category.objects.all().count()
+
+    if request.user.groups.filter(name='Admin').exists():
+        quiz_list = Quiz.objects.order_by('-created_on')
+    else:
+        quiz_list = Quiz.objects.filter(status=1).order_by('-created_on')
+
+    if request.user.is_authenticated:
+        assessments = Assessment.objects.filter(user=request.user)
+        completed_quizzes = []
+        for assessment in assessments:
+            completed_quizzes.append(assessment.quiz)
+    else:
+        return redirect('account_login')
+
+    context = {
+        'quiz_draft_count': quiz_draft_count,
+        'quiz_published_count': quiz_published_count,
+        'question_draft_count': question_draft_count,
+        'question_published_count': question_published_count,
+        'categories_count': categories_count,
+
+        'completed_quizzes': completed_quizzes,
+        'assessments': assessments,
+        'quiz_list': quiz_list,
+    }
+    return render(request, 'index.html', context)
+
+
+# Add, Edit and display quizzes views
 def add_quiz_view(request):
     """Add new quiz"""
 
@@ -26,7 +69,8 @@ def add_quiz_view(request):
         form = NewQuizForm(request.POST)
         if form.is_valid():
             quiz = Quiz.objects.create(**form.cleaned_data)
-            return redirect(f'../quizzes/{quiz.slug}/details', kwargs=[quiz.slug])
+            return redirect(f'../quizzes/{quiz.slug}/details',
+                            kwargs=[quiz.slug])
         else:
             print(form.errors)
     else:
@@ -45,32 +89,23 @@ class EditQuizView(UpdateView):
     form_class = NewQuizForm
     queryset = Quiz.objects.all()
 
-    def get_object(self):
-        slug = self.kwargs.get('slug')
-        return get_object_or_404(Quiz, slug=slug)
-
-    def form_valid(self, form):
-        print(form.cleaned_data)
-        return super().form_valid(form)
-
 
 class DeleteQuizView(DeleteView):
-    """Delete"""
-    # queryset = Quiz.objects.all()
+    """Delete quiz"""
+    queryset = Quiz.objects.all()
     template = 'quiz/delete_quiz.html'
-    # success_url = 'quiz:manage_quizzes'
+    success_url = reverse_lazy('quiz:manage_quizzes')
 
-    def get_object(self):
-        slug = self.kwargs.get('slug')
-        return get_object_or_404(Quiz, slug=slug)
+    # def get_object(self):
+    #     slug = self.kwargs.get('slug')
+    #     return get_object_or_404(Quiz, slug=slug)
 
-    def get_success_url(self):
-        return reverse('quiz:manage_quizzes')
+    # def get_success_url(self):
+    #     return reverse('quiz:manage_quizzes')
 
 
 class QuizListView(generic.ListView):
     model = Quiz
-    # queryset = Quiz.objects.filter(status=1).order_by('-created_on')
     template_name = 'quiz/manage_quizzes.html'
 
     def get(self, request):
@@ -158,45 +193,7 @@ def toggle_status(request, slug, *args, **kwargs):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def welcome_page_view(request):
-    quiz_draft_count = Quiz.objects.filter(status=0).count()
-    quiz_published_count = Quiz.objects.filter(status=1).count()
-    question_draft_count = Question.objects.filter(status=0).count()
-    question_published_count = Question.objects.filter(status=1).count()
-    categories_count = Category.objects.all().count()
 
-    if request.user.groups.filter(name='Admin').exists():
-        quiz_list = Quiz.objects.order_by('-created_on')
-    else:
-        quiz_list = Quiz.objects.filter(status=1).order_by('-created_on')
-
-    if request.user.is_authenticated:
-        assessments = Assessment.objects.filter(user=request.user)
-        completed_quizzes = []
-        for assessment in assessments:
-            completed_quizzes.append(assessment.quiz)
-
-        # return render(request, self.template_name, {
-        #     'completed_quizzes': completed_quizzes,
-        #     'assessments': assessments,
-        #     'quiz_list': quiz_list,
-        #     }
-        # )
-    else:
-        return redirect('account_login')
-
-    context = {
-        'quiz_draft_count': quiz_draft_count,
-        'quiz_published_count': quiz_published_count,
-        'question_draft_count': question_draft_count,
-        'question_published_count': question_published_count,
-        'categories_count': categories_count,
-
-        'completed_quizzes': completed_quizzes,
-        'assessments': assessments,
-        'quiz_list': quiz_list,
-    }
-    return render(request, 'index.html', context)
 
 
 def remove_question_from_quiz(request, pk, *args, **kwargs):
@@ -221,3 +218,12 @@ def add_question_to_quiz(request, pk, slug, *args, **kwargs):
     question.save()
     # print(question.quiz)
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+class AddCategoryInQuizView(BSModalCreateView):
+    """Add new category within add new quiz view."""
+
+    template_name = 'categories/add_category.html'
+    form_class = NewCategoryForm
+    success_message = 'Success: Category was created.'
+    success_url = reverse_lazy('quiz:add_quiz')

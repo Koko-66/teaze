@@ -8,6 +8,7 @@ from quiz.views import (
     QuizDetailsView,
     EditQuizView,
     DeleteQuizView,
+    AddCategoryInQuizView,
     toggle_status,
     welcome_page_view,
     remove_question_from_quiz,
@@ -27,4 +28,5 @@ urlpatterns = [
     path('quizzes/<slug:slug>/toggle/', toggle_status, name='toggle'),
     path('quizzes/<slug:slug>/<int:pk>/remove_question/', remove_question_from_quiz, name='remove_question'),
     path('quizzes/<slug:slug>/<int:pk>/add_question/', add_question_to_quiz, name='add_question'),
+    path('quizzes/add_category', AddCategoryInQuizView.as_view(), name='add_category_in_quiz'),
     ]
