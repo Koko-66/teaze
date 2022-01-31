@@ -22,17 +22,17 @@
             <div class="modal-body">
                 
                 <div class="">
-                    <h5>Description: <small class="ms-3">{{ quiz.de }}</small></h5>
+                    <h5>Description: <small class="ms-3">{{ quiz.description }}</small></h5>
                     <h5>Category: <small class="ms-3">{{ quiz.category }}</small></h5>
                 </div>
                 
                 <ol class="modal-body bg-light shadow">
-                    <h5 class="py-1"><small>Quiz questions:</small></h5>
+                    <h5 class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
                     {% for question in quiz.questions.all %}
                     <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
                         <li>{{ question.body }}</li>
                                 <ul class="d-flex list-unstyled mt-auto justify-content-between">
-                                    <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
+                                    <li><a data-form-url="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
                                         <i class="fas fa-info-circle mx-2 icon"></i></a></li>
                                     <li><a href="{% url 'questions:edit_question' question.id %}" alt="Edit" title="Edit">
                                         <i class="fas fa-edit mx-2 icon"></i></a></li>
@@ -52,7 +52,7 @@
                         </div>
                         <div>
                             <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
-                            <a href="{% url 'questions:add_question_in_quiz' quiz.slug %}" class="btn">Add new question</a>
+                            <a href="{% url 'quiz:add_question_in_quiz' quiz.slug %}" class="btn">Add new question</a>
                         </div>
                     </div>
                 </div>

@@ -1,7 +1,9 @@
 """Urls for quiz app"""
 from django.urls import path
 from quiz.views import (
-    # AddQuizView,
+    # main
+    welcome_page_view,
+    # quiz views
     add_quiz_view,
     TakeQuizView,
     QuizListView,
@@ -10,9 +12,12 @@ from quiz.views import (
     DeleteQuizView,
     AddCategoryInQuizView,
     toggle_status,
-    welcome_page_view,
+    # views to manipulate other objects in quiz views
     remove_question_from_quiz,
     add_question_to_quiz,
+    add_question_view,
+    add_option_view,
+    QuestionDetailsView,
 )
 
 app_name = 'quiz'
@@ -29,4 +34,7 @@ urlpatterns = [
     path('quizzes/<slug:slug>/<int:pk>/remove_question/', remove_question_from_quiz, name='remove_question'),
     path('quizzes/<slug:slug>/<int:pk>/add_question/', add_question_to_quiz, name='add_question'),
     path('quizzes/add_category', AddCategoryInQuizView.as_view(), name='add_category_in_quiz'),
+    path('quizzes/<slug:slug>/add_question/', add_question_view, name='add_question_in_quiz'),
+    path('quizzes/<slug:slug>/<int:pk>/add_option/', add_option_view, name='add_option_in_quiz'),
+    path('quizzes/<slug:slug>/<int:pk>/details/', QuestionDetailsView.as_view(), name='quiz_question_details'),
     ]

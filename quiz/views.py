@@ -15,13 +15,14 @@ from django.views.generic import (
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalCreateView,
+    BSModalReadView,
 )
 from .models import Quiz
-from .forms import NewQuizForm
+from .forms import NewQuizForm, AddQuestionToQuizForm
 from categories.models import Category
 from categories.forms import NewCategoryForm
-
-from questions.models import Question
+from questions.forms import NewOptionForm
+from questions.models import Question, Option
 from results.models import Assessment
 
 
@@ -90,18 +91,12 @@ class EditQuizView(UpdateView):
     queryset = Quiz.objects.all()
 
 
+
 class DeleteQuizView(DeleteView):
     """Delete quiz"""
     queryset = Quiz.objects.all()
     template = 'quiz/delete_quiz.html'
     success_url = reverse_lazy('quiz:manage_quizzes')
-
-    # def get_object(self):
-    #     slug = self.kwargs.get('slug')
-    #     return get_object_or_404(Quiz, slug=slug)
-
-    # def get_success_url(self):
-    #     return reverse('quiz:manage_quizzes')
 
 
 class QuizListView(generic.ListView):
@@ -193,9 +188,6 @@ def toggle_status(request, slug, *args, **kwargs):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-
-
-
 def remove_question_from_quiz(request, pk, *args, **kwargs):
     """Remove question from the selected quiz. """
 
@@ -227,3 +219,85 @@ class AddCategoryInQuizView(BSModalCreateView):
     form_class = NewCategoryForm
     success_message = 'Success: Category was created.'
     success_url = reverse_lazy('quiz:add_quiz')
+
+
+def add_question_view(request, slug):
+    """Add new question from quiz details view."""
+
+    user = request.user
+    quiz = get_object_or_404(Quiz, slug=slug)
+    quiz_title = quiz.title
+    if request.method == 'POST':
+        form = AddQuestionToQuizForm(request.POST)
+        if form.is_valid():
+            # create object manually to post user as author
+            body = form.cleaned_data.get('body')
+            featured_image = form.cleaned_data.get('featured_image')
+            status = form.cleaned_data.get('status')
+            question = Question.objects.create(body=body, quiz=quiz,
+                                               featured_image=featured_image,
+                                               author=user, status=status)
+            print(form.cleaned_data)
+            question.category.set([quiz.category])
+            return redirect(f'../{question.id}/add_option', args=[question.id])
+        else:
+            print(form.errors)
+    else:
+        form = AddQuestionToQuizForm()
+
+    context = {
+        'form': form,
+        'quiz': quiz,
+    }
+    return render(request, 'questions/add_question.html', context)
+
+
+def add_option_view(request, slug, pk):
+    """"Add option to the question while in quiz."""   
+    user = request.user
+    quiz = get_object_or_404(Quiz, slug=slug)
+    question = get_object_or_404(Question, pk=pk)
+    if request.method == 'POST':
+        form = NewOptionForm(request.POST)
+        if form.is_valid():
+            option = form.cleaned_data.get('option')
+            # position = form.cleaned_data.get('position')
+            is_correct = form.cleaned_data.get('is_correct')
+            option = Option.objects.create(question=question, option=option,
+                                        #    position=position,
+                                           is_correct=is_correct, author=user)
+            print(form.cleaned_data)
+            # return redirect('../add_option', args=[question.id, quiz.slug])
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+        else:
+            print(form.errors)
+    else:
+        form = NewOptionForm()
+
+    context = {
+        'form': form,
+        'question': question,
+        'quiz': quiz,
+    }
+    return render(request, 'questions/add_option.html', context)
+
+
+class QuestionDetailsView(BSModalReadView):
+    """View question details in quiz details view."""
+    model = Question
+
+    def get(self, request, slug, pk, *args, **kwargs):
+        quiz = get_object_or_404(Quiz, slug=slug)
+        queryset = Question.objects.all()
+        question = get_object_or_404(queryset, pk=pk)
+        options = question.options.all()
+
+        return render(
+            request,
+            "questions/question_details.html",
+            {
+                "question": question,
+                "options": options,
+                'quiz': quiz
+            },
+        )

@@ -32,8 +32,8 @@
                     <h6 class="card-title">Category: <small>{{ quiz.category }}</small></h6>
                     <h6 class="card-title">Number of questions: <small>{{ quiz.questions.count }}</small></h6>
                     <ul class="d-flex list-unstyled mt-auto justify-content-end">
-                            <li><a href="{% url 'quiz:quiz_details' quiz.slug %}" class="" alt="Details" title="Details">Details<i class="fas fa-info-circle me-3 ms-2"></i></a></li>
-                            <li><a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="" alt="Edit" title="Edit">Edit<i class="far fa-edit me-3 ms-2"></i></a></li>
+                            <li><a href="{% url 'quiz:quiz_details' quiz.slug %}" class="" alt="Details" title="Details">View and edit<i class="fas fa-info-circle me-3 ms-2"></i></a></li>
+                            <!-- <li><a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="" alt="Edit" title="Edit">Edit<i class="far fa-edit me-3 ms-2"></i></a></li> -->
                             <li><a <a data-form-url="{% url 'quiz:delete_quiz' quiz.slug %}" class="delete-quiz" aria-label="Delete" title="Delete">Delete<i class="fas fa-trash me-3 ms-2"></i></a></li>
                         <!-- {% if quiz in completed_quizzes %}
                         <li class="d-flex align-items-center me-3">Completed<i class="fas fa-check-square ms-3"></i></li>
