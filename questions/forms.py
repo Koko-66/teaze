@@ -10,21 +10,6 @@ from bootstrap_modal_forms.mixins import (
 from .models import Question, Option
 
 
-class AddQuestionToQuizForm(forms.ModelForm):
-    """Question form class to use when adding from the quiz."""
-
-    STATUS = ((0, 'Draft'), (1, 'Published'))
-
-    class Meta:
-        """Specify fields to use AddQuestionToQuizForm"""
-        model = Question
-        fields = (
-            'body',
-            'status',
-            'feedback',
-        )
-
-
 class NewQuestionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
     """Question form class to use when creating a question independently."""
 
@@ -36,10 +21,10 @@ class NewQuestionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         fields = (
             'body',
             'quiz',
-            'featured_image',
-            'status',
             'feedback',
+            'status',
             'category',
+            'featured_image',
         )
 
         # category = forms.ModelMultipleChoiceField(
