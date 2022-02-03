@@ -37,7 +37,6 @@ class DeleteCategoryView(BSModalDeleteView):
     """Delete category."""
 
     model = Category
-    template_name = 'categories/category_confirm_delete.html'
     success_message = 'Success: Category was deleted.'
     success_url = reverse_lazy('categories:manage_categories')
 
@@ -47,7 +46,7 @@ class DeleteCategoryView(BSModalDeleteView):
         return get_object_or_404(Category, id=category_id)
 
     def get(self, request, *args, **kwargs):
-        """Override get function."""
+        """Override the default get function."""
         category_id = self.kwargs.get('id')
         category = get_object_or_404(Category, id=category_id)
         questions = Question.objects.all()
