@@ -18,9 +18,9 @@
             <form method="post" action="{% url 'questions:edit_question' question.pk %}">
                 {% csrf_token %}
                 <div class="modal-header">
-                    <h3 class="modal-title">Edit question</h3>
+                    <h3 class="modal-title"><strong class="small">Edit:</strong> {{ question.body }}</h3>
                     <!-- Close x button -->
-                    <a href="{% url 'questions:manage_questions'%}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    <a href=""><button type="button" class="btn-close" aria-label="Close"></button></a>
                 </div>
                 <div class="modal-body">
                     <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
@@ -41,38 +41,13 @@
                     {% endfor %}
                 </div>
 
-
-                <div class="modal-header">
-                    <h3 class="modal-title">Edit options</h3>
-                    <!-- Cancel button --> 
-                    <!-- <a href="{% url 'questions:question_details' question.pk %}"><button type="button" class="btn-close"
-                aria-label="Close"></button></a> -->
-                </div>
-                    <ol class="modal-body form-bg-light shadow form-check">
-                        {% for option in question.options.all %}
-                        <!-- <form action="{% url 'questions:edit_option' option.pk %}"> -->
-                        <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
-                            
-                            <li>{{ option.option }} {% if option.is_correct %}<small>(Correct)</small>{% endif %}</li>
-                                    <ul class="list-unstyled d-flex flex-row">
-                                        <li><a data-form-url="{% url 'questions:delete_option' option.pk %}" class= "delete-option" title="Remove from quiz">
-                                            <i class="fas fa-trash mx-2 icon"></i></a></li>
-                                        <!-- <li>
-                                        <label for="correct-option" class="form-check-label">Correct - pk: {{option.pk }}</label>
-                                        <input type="radio" class="form-check-input" name="correct-option" value="option.is_correct" href="{% url 'questions:toggle_is_correct' option.pk %}" {% if option.is_correct %}checked{% endif %}>
-                                        </li> -->
-                                        <li><a data-form-url="{% url 'questions:edit_option' option.pk %}" class="edit-option bs-modal ms-2" alt="Edit" title="Edit">
-                                            <i class="fas fa-edit mx-2 icon"></i></a></li>
-                                    </ul>
-                        </div>
-                    <!-- </form> -->
-                        {% endfor %}
-                    </ol>
-               
-
                 <div class="modal-footer">
                     <input type="submit" class="btn" value="Save">
-                    <a href="{% url 'questions:manage_questions' %}" class="btn">Cancel</a>
+                    <!-- {% if quiz.slug %}
+                    <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn">Cancel</a>
+                    {% else %} -->
+                    <a href="" class="btn">Cancel</a>
+                    <!-- {% endif %} -->
                 </div>
             </form>
         </div>

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load quiz_extras %}
 
 {% block content %}
 
@@ -16,76 +15,85 @@
     <div class="row m-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <div class="modal-header">
-                <h3 class="modal-title">{{ quiz.title}}</h3>
+                <!-- <h3>Question details</h3> -->
+                <div class="d-flex mt-auto justify-content-between align-items-center">
+                <h3 class="">{{ question.body }}</h3><h6 class="mb-1"><a data-form-url="{% url 'questions:edit_question_text' question.pk %}" class="edit-question icon ms-2">
+                    (Edit)</h6>
+                    <!-- <i class="fas fa-edit mx-2 icon"></i> -->
+                </div>
+
                 <!-- Cancel button -->
-                <a href="/quizzes/"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                {% if quiz.slug %}
+                <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                {% else %}
+                <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                {% endif %}
+
             </div>
             <div class="modal-body">
-                
-                <div class="">
-                    <h5>Description: <small class="ms-3">{{ quiz.de }}</small></h5>
-                    <h5>Category: <small class="ms-3">{{ quiz.category }}</small></h5>
+                <div class="d-flex mt-auto justify-content-between">
+                    <h5><span class="small-caps icon">Question feedback: </span><small>{% if question.feedback %}{{ question.feedback }}{% else %}None{% endif %}</small></h5><a data-form-url="{% url 'questions:edit_question_feedback' question.pk %}" class ="edit-question icon">
+                        <small class="text-uppercase"><strong>Edit</strong></small></a>
+                        <!-- <i class="fas fa-edit mx-2"></i></a> -->
                 </div>
-                
-                <ol class="modal-body bg-light shadow">
-                    <h5 class="py-1"><small>Quiz questions:</small></h5>
-                    {% for question in quiz.questions.all %}
-                    <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
-                        <li>{{ question.body }}</li>
-                                <ul class="d-flex list-unstyled mt-auto justify-content-between">
-                                    <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
-                                        <i class="fas fa-info-circle mx-2 icon"></i></a></li>
-                                    <li><a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" alt="Edit" title="Edit">
-                                        <i class="far fa-edit mx-2 icon"></i></a></li>
-                                    <li><a href="{% url 'quiz:remove_question' quiz.slug question.pk %}" title="Remove from quiz">
-                                        <i class="fas fa-trash mx-2 icon"></i></a></li>
-                                </ul>
-                    </div>
-                    {% endfor %}
-                </ol>
-                <div class="modal-footer">
+                <div class="d-flex mt-auto justify-content-between">
+                    <h5><span class="small-caps icon">Quiz:</span> <small>{{ question.quiz }}</small></h5><a data-form-url="{% url 'questions:edit_question_quiz' question.pk %}" class ="edit-question">
+                        <small class="text-uppercase icon"><strong>Edit</strong></small></a>
 
-                    <div class="d-flex col-12 flex-row justify-content-between align-items-center">
-                        <div class="d-flex flex-row justify-content-between align-items-center">
-                            <h6 class="my-0 me-2">Quiz status:</h6>
-                            <a href="{% url 'quiz:toggle' quiz.slug %}"
-                            class="btn p-1 py-0">{% if quiz.status == 0 %}Draft{% else %}Approved{% endif %}</a>
-                        </div>
-                        <div>
-                            <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
-                            <a href="{% url 'questions:add_question_in_quiz' quiz.slug %}" class="btn">Add new question</a>
-                        </div>
-                    </div>
+                        <!-- <i class="fas fa-edit mx-2 icon"></i></a> -->
                 </div>
+                <div class="d-flex mt-auto justify-content-between">
+                    <h5><span class="small-caps icon">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</span>
+                        <small>{{ question.get_categories }}</small></h5><a data-form-url="{% url 'questions:edit_question_category' question.pk %}" class="edit-question icon">
+                            <small class="text-uppercase"><strong>Edit</strong></small></a>
 
-                <div class="modal-body bg-light shadow">
-                    <h5>Other questions available in this category: </h5>
+                            <!-- <i class="fas fa-edit mx-2 icon"></i></a> -->
+                </div>
+                <div class="d-flex mt-auto justify-content-between">
+                    <h5><span class="small-caps icon">Image:</span> <small class="{% if placeholder %}text-muted{% else %}icon{% endif %}">{{ question.featured_image }}</small></h5><a data-form-url="{% url 'questions:edit_question_image' question.pk %}" class="edit-question icon">
+                        <small class="text-uppercase"><strong>Edit</strong></small></a>
+
+                            <!-- <i class="fas fa-edit mx-2 icon"></i></a> -->
+                </div>
+            </div>
+            <!-- </div> -->
+
+            <ol class="modal-body bg-light shadow">
+                <h5 class="py-1"><small>Answer options:</small></h5>
+                {% for option in question.options.all %}
+                <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
+                    <li>{{ option.option }}{% if option.is_correct %}<span class="small text-muted">
+                            (Correct)</span>{% endif %}</li>
+                    <ul class="d-flex list-unstyled mt-auto justify-content-between">
+                        <li><a data-form-url="{% url 'questions:edit_option' option.pk %}" class="edit-option bs-modal"
+                                alt="Edit" title="Edit">
+                                <i class="fas fa-edit mx-2 icon"></i></a></li>
+                        <li><a data-form-url="{% url 'questions:delete_option' option.pk %}" class="delete-option bs-modal" title="Delete option">
+                                <i class="fas fa-trash mx-2 icon"></i></a></li>
+                    </ul>
+                </div>
+                {% endfor %}
+            </ol>
+
+            <div class="modal-footer">
+                <div class="d-flex col-12 flex-row justify-content-between align-items-center">
+                    <div class="d-flex flex-row align-items-start">
+                        <h5 class="my-0 me-2">Status:</h5>
+                        <a href="{% url 'questions:toggle_question' question.pk %}"
+                            class="btn p-1 py-0">{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</a>
+                    </div>
                     <div>
-                        {% if available_questions %}
-                        <ul class="list-unstyled">
-                            {% for question in available_questions %}
-                            <div class="d-flex justify-content-between m-2 p-2 rounded bg-white shadow">
-                                <li>{{ question.body }}</li>
-                                        <ul class="d-flex list-unstyled mt-auto justify-content-between">
-                                            <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
-                                                <i class="fas fa-info-circle mx-2 icon"></i></a></li>
-                                            <li><a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" alt="Edit" title="Edit">
-                                                <i class="far fa-edit mx-2 icon"></i></a></li>
-                                            <li><a href="{% url 'quiz:add_question' quiz.slug question.pk %}" title="Add to quiz">
-                                                <i class="fas fa-plus mx-2 icon"></i></a></li>
-                                        </ul>
-                            </div>
-                            {% endfor %}
-                        {% else %}
-                        <p>There are currently no other questions available in this category.</p>
-                        </ul>
-                    {% endif %}
+                        <a href="{% url 'questions:add_new_option' question.pk %}" class="btn">Add new option</a>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <div class="">
-                        <a href="{% url 'quiz:manage_quizzes' %}"><button type="submit" class="btn" aria-label="Save">OK</button></a>   
-                    </div>
+                
+            </div>
+
+            <div class="modal-footer">
+                <div class="">
+                    <a data-form-url="{% url 'questions:delete_question' question.pk %}" class="delete-question btn">Delete</a>
+                    <a href="{% url 'questions:manage_questions' %}"><button type="submit" class="btn"
+                            aria-label="Save">OK</button></a>
                 </div>
             </div>
         </div>

@@ -55,11 +55,11 @@
                         <div class="d-flex flex-row my-1">
                             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                             <div class="mx-2">{% render_field field class="form-check-input" placeholder=field.label %}</div>
-                            <div class="{% if field.errors %}invalid{% endif %}">
+                            <!-- <div class="{% if field.errors %}invalid{% endif %}">
                                 {% for error in field.errors %}
                                 <p class="help-block">{{ error }}</p>
                                 {% endfor %}
-                            </div>
+                            </div> -->
                         </div>
                         {% else %}
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
@@ -76,7 +76,11 @@
 
                 <div class="modal-footer">
                     <button type="submit" class="btn">Save</button>
+                    {% if  quiz.slug %}
+                    <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn">Finish</a>
+                    {% else %}
                     <a href="{% url 'questions:question_details' question.pk %}" class="btn">Finish</a>
+                    {% endif %}
                 </div>
             </form>
         </div>

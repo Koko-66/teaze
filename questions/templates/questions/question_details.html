@@ -21,7 +21,6 @@
     <div class="m-2 p-2 shadow bg-light border">
         <!-- {% csrf_token %} -->
         <strong class="">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</strong>
-        <!-- jdafjpsaj -->
             <span> {{ question.get_categories }}</span>
     </div>
     <div class="m-2 p-2 shadow bg-light border">
@@ -30,17 +29,10 @@
         <a href="{% url 'questions:toggle_question' question.pk %}" class="btn p-1 py-0">{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</a>
 </div>
 <!-- Modal -->
-<div class="modal fade" tabindex="-1" role="dialog" id="modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <!-- Form goes here -->
-        </div>
-    </div>
-</div>
 
 <div class="modal-footer m-2">
-    <a data-form-url="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" title="Edit">
+    <a href="{% url 'questions:question_details' question.pk %}" class="icon" title="Edit question" aria-label="Edit question">
         Edit
-        <i class="far fa-edit me-3 ms-2"></i></a>
+        <i class="fas fa-edit me-3 ms-2"></i></a>
     <button type="" class="btn btn-default" data-bs-dismiss="modal">Close</button>
 </div>

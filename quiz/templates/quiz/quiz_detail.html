@@ -29,17 +29,18 @@
                 <ol class="modal-body bg-light shadow">
                     <h5 class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
                     {% for question in quiz.questions.all %}
-                    <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
-                        <li>{{ question.body }}</li>
-                                <ul class="d-flex list-unstyled mt-auto justify-content-between">
-                                    <li><a data-form-url="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
-                                        <i class="fas fa-info-circle mx-2 icon"></i></a></li>
-                                    <li><a href="{% url 'questions:edit_question' question.id %}" alt="Edit" title="Edit">
-                                        <i class="fas fa-edit mx-2 icon"></i></a></li>
-                                    <li><a href="{% url 'quiz:remove_question' quiz.slug question.pk %}" title="Remove from quiz">
-                                        <i class="fas fa-times-circle mx-2 icon"></i></a></li>
-                                </ul>
-                    </div>
+
+                        <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
+                            <li>{{ question.body }}</li>
+                                    <ul class="d-flex list-unstyled mt-auto justify-content-between">
+                                        <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="text-dark bs-modal" alt="Details" title="Details">
+                                            <i class="fas fa-info-circle mx-2 icon"></i></a></li>
+                                        <!-- <li><a href="{% url 'questions:edit_question' question.pk %}" alt="Edit" title="Edit">
+                                            <i class="fas fa-edit mx-2 icon"></i></a></li> -->
+                                        <li><a href="{% url 'quiz:remove_question' quiz.slug question.pk %}" title="Remove from quiz">
+                                            <i class="fas fa-times-circle mx-2 icon"></i></a></li>
+                                    </ul>
+                        </div>
                     {% endfor %}
                 </ol>
                 <div class="modal-footer">
@@ -66,10 +67,11 @@
                             <div class="d-flex justify-content-between m-2 p-2 rounded bg-white shadow">
                                 <li>{{ question.body }}</li>
                                         <ul class="d-flex list-unstyled mt-auto justify-content-between">
-                                            <li><a data-form-url="{% url 'questions:question_details' question.id %}" class="question-details text-dark bs-modal" alt="Details" title="Details">
+        
+                                            <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.pk %}" class="text-dark bs-modal" alt="Details" title="Details">
                                                 <i class="fas fa-info-circle mx-2 icon"></i></a></li>
-                                            <li><a href="{% url 'questions:edit_question' question.id %}" class="edit-question bs-modal" alt="Edit" title="Edit">
-                                                <i class="fas fa-edit mx-2 icon"></i></a></li>
+                                            <!-- <li><a href="{% url 'questions:edit_question' question.pk %}" class="edit-question bs-modal" alt="Edit" title="Edit">
+                                                <i class="fas fa-edit mx-2 icon"></i></a></li> -->
                                             <li><a href="{% url 'quiz:add_question' quiz.slug question.pk %}" title="Add to quiz">
                                                 <i class="fas fa-plus mx-2 icon"></i></a></li>
                                         </ul>

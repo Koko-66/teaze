@@ -91,7 +91,6 @@ class EditQuizView(UpdateView):
     queryset = Quiz.objects.all()
 
 
-
 class DeleteQuizView(DeleteView):
     """Delete quiz"""
     queryset = Quiz.objects.all()
@@ -285,6 +284,7 @@ def add_option_view(request, slug, pk):
 class QuestionDetailsView(BSModalReadView):
     """View question details in quiz details view."""
     model = Question
+    template_name =  "questions/question_details_page.html"
 
     def get(self, request, slug, pk, *args, **kwargs):
         quiz = get_object_or_404(Quiz, slug=slug)
@@ -294,10 +294,10 @@ class QuestionDetailsView(BSModalReadView):
 
         return render(
             request,
-            "questions/question_details.html",
+            "questions/question_details_page.html",
             {
                 "question": question,
                 "options": options,
                 'quiz': quiz
-            },
+            }
         )

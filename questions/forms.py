@@ -27,6 +27,10 @@ class NewQuestionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
             'featured_image',
         )
 
+        widgets = {
+            'feedback': forms.Textarea(attrs={'rows': 3}),
+        }
+        
         # category = forms.ModelMultipleChoiceField(
         #         queryset=Category.objects.all(),
         #         widget=forms.CheckboxSelectMultiple
@@ -79,3 +83,65 @@ class NewOptionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         else:
             instance = super(CreateUpdateAjaxMixin, self).save(commit=False)
         return instance
+
+
+class EditQuestionTextForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    
+    class Meta:
+        """Specify fields to use in the form."""
+        model = Question
+        fields = (
+            'body',
+        )
+
+class EditQuestionQuizForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    
+    class Meta:
+        """Specify fields to use in the form."""
+        model = Question
+        fields = (
+            'quiz',
+        )
+    widgets = {
+        'quiz': forms.Select(attrs={"class": "form-select"})
+    }
+   
+class EditQuestionCategoryForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    
+    class Meta:
+        """Specify fields to use in the form."""
+        model = Question
+        fields = (
+            'category',
+        )
+
+class EditQuestionFeedbackForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    
+    class Meta:
+        """Specify fields to use in the form."""
+        model = Question
+        fields = (
+            'feedback',
+        )
+        widgets = {
+                'feedback': forms.Textarea(attrs={'rows': 3}),
+            }
+
+# class EditQuestionStatusForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    
+#     class Meta:
+#         """Specify fields to use in the form."""
+#         model = Question
+#         fields = (
+#             'status',
+#         )
+
+
+class EditQuestionImageForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+    
+    class Meta:
+        """Specify fields to use in the form."""
+        model = Question
+        fields = (
+            'featured_image',
+        )

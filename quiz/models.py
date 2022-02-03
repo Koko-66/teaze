@@ -13,11 +13,11 @@ STATUS = ((0, 'Draft'), (1, 'Published'))
 class Quiz(models.Model):
     """Create Quiz object"""
 
-    title = models.CharField(max_length=100, unique=True)
+    title = models.CharField(max_length=200, unique=True)
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  related_name='quiz')
     slug = models.SlugField(max_length=200, unique=True)
-    description = models.CharField(max_length=100)
+    description = models.CharField(max_length=300, blank=True)
     # number_of_questions = models.IntegerField()
     featured_image = CloudinaryField('image', default='placeholder',
                                      blank=True)

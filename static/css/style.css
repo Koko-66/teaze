@@ -161,6 +161,14 @@ input {
     color: rgb(10, 76, 104);
 }
 
+.small-caps {
+    font-variant: small-caps;
+}
+/* Error messages in the forms */
+.help-block {
+    /* color: rgb(172, 110, 3); */
+    color: darkred; 
+}
 /* Features styling */
 
 .b-example-divider {
