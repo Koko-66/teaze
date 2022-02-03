@@ -14,7 +14,7 @@
         <p>{{ protected_message|safe }}</p>
   </div>
   <div class="modal-footer">
-    <button type="button" data-bs-dismiss="modal" class="btn btn-danger" aria-label="Ok">OK</button>
+    <button type="button" data-bs-dismiss="modal" class="btn" aria-label="Ok">OK</button>
   </div>
   <!-- If category not protected, ask to confirm deletion. -->
   {% else %}
@@ -24,7 +24,7 @@
   </div>
 
   <div class="modal-footer">
-    <button type="submit" class="btn btn-danger">Delete</button>
+    <button type="submit" class="btn">Delete</button>
   </div>
   {% endif %}
 </form>
