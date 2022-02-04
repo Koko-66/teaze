@@ -1,6 +1,5 @@
 """Form to create questions and answers"""
 from django import forms
-# from django.forms import widgets
 from django.contrib.auth.models import User
 
 from bootstrap_modal_forms.mixins import (
@@ -29,8 +28,11 @@ class NewQuestionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
 
         widgets = {
             'feedback': forms.Textarea(attrs={'rows': 3}),
+            'category': forms.SelectMultiple(attrs={
+                'help_text': """To selectmore than one option, hold Ctrl (Windows)
+                 or Cmd (Mac) and click on to make a selection"""}),
         }
-        
+
         # category = forms.ModelMultipleChoiceField(
         #         queryset=Category.objects.all(),
         #         widget=forms.CheckboxSelectMultiple
@@ -62,7 +64,6 @@ class NewOptionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         fields = (
             'option',
             'is_correct',
-            # 'position',
         )
 
         widgets = {
@@ -85,8 +86,9 @@ class NewOptionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
         return instance
 
 
-class EditQuestionTextForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
-    
+class EditQuestionTextForm(PopRequestMixin, CreateUpdateAjaxMixin,
+                           forms.ModelForm):
+    """Form to edit question text."""
     class Meta:
         """Specify fields to use in the form."""
         model = Question
@@ -94,20 +96,26 @@ class EditQuestionTextForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelFo
             'body',
         )
 
-class EditQuestionQuizForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
-    
+
+class EditQuestionQuizForm(PopRequestMixin, CreateUpdateAjaxMixin,
+                           forms.ModelForm):
+    """Form to edit quiz assigned to the question."""
     class Meta:
         """Specify fields to use in the form."""
         model = Question
         fields = (
             'quiz',
         )
-    widgets = {
-        'quiz': forms.Select(attrs={"class": "form-select"})
-    }
-   
-class EditQuestionCategoryForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
-    
+
+        widgets = {
+            'quiz': forms.Select(attrs={'class': 'form-select'})
+        }
+
+
+class EditQuestionCategoryForm(PopRequestMixin, CreateUpdateAjaxMixin,
+                               forms.ModelForm):
+    """Form to edit categories assigned to questions."""
+
     class Meta:
         """Specify fields to use in the form."""
         model = Question
@@ -115,8 +123,17 @@ class EditQuestionCategoryForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.Mod
             'category',
         )
 
-class EditQuestionFeedbackForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
-    
+        widgets = {
+            'category': forms.CheckboxSelectMultiple(attrs={
+                'class': 'list-unstyled p-2 ms-3'
+                })
+        }
+
+
+class EditQuestionFeedbackForm(PopRequestMixin, CreateUpdateAjaxMixin,
+                               forms.ModelForm):
+    """Form to edit question feedback."""
+
     class Meta:
         """Specify fields to use in the form."""
         model = Question
@@ -124,21 +141,16 @@ class EditQuestionFeedbackForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.Mod
             'feedback',
         )
         widgets = {
-                'feedback': forms.Textarea(attrs={'rows': 3}),
+                'feedback': forms.Textarea(attrs={
+                    'class': 'form-control', 'rows': 3
+                    }),
             }
 
-# class EditQuestionStatusForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
-    
-#     class Meta:
-#         """Specify fields to use in the form."""
-#         model = Question
-#         fields = (
-#             'status',
-#         )
 
+class EditQuestionImageForm(PopRequestMixin, CreateUpdateAjaxMixin,
+                            forms.ModelForm):
+    """Form to edit question image."""
 
-class EditQuestionImageForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
-    
     class Meta:
         """Specify fields to use in the form."""
         model = Question
