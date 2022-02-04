@@ -30,47 +30,47 @@
                 {% endif %}
 
             </div>
-            <div class="modal-body">
-                <div class="d-flex m-1 justify-content-between">
-                <!-- <div class="d-flex m-1"> -->
-                    <h5><mark class="highlight small-caps me-2">Question feedback:</mark>
-                        <small>{% if question.feedback %}{{ question.feedback }}{% else %}None{% endif %}</small></h5>
+            <div class="modal-body m-md-3 bg-light shadow">
+                <div class="d-flex m-2 p-1 align-items-baseline rounded bg-white shadow">
+                    <h5 class="m-0 ms-1">Question feedback:</h5>
+                    <h6 class="ms-2 my-0 flex-grow-1">{% if question.feedback %}{{ question.feedback }}{% else %}None{% endif %}</h6>
                     <a data-form-url="{% url 'questions:edit_question_feedback' question.pk %}" class ="edit-question">
                         <!-- <small class="text-uppercase"><strong>Edit</strong></small></a> -->
                         <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
                 </div>
-                <div class="d-flex m-1 justify-content-between">
-                    <h5><mark class="highlight small-caps me-2">Quiz:</mark> <small>{{ question.quiz }}</small></h5><a data-form-url="{% url 'questions:edit_question_quiz' question.pk %}" class ="edit-question">
-                        <!-- <small class="text-uppercase icon"><strong>Edit</strong></small></a> -->
 
-                        <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
+                <div class="d-flex m-2 p-1 align-items-baseline rounded bg-white shadow">
+                    <h5 class="m-0 ms-1">Quiz:</h5><h6 class="ms-2 my-0 flex-grow-1">{{ question.quiz }}</h6><a data-form-url="{% url 'questions:edit_question_quiz' question.pk %}" class ="edit-question">
+                        <!-- <small class="text-uppercase icon"><strong>Edit</strong></small></a> -->
+                    <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
                 </div>
-                <div class="d-flex m-1 justify-content-between">
-                    <h5><mark class="highlight small-caps me-2">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</mark>
-                        <small>{{ question.get_categories }}</small></h5><a data-form-url="{% url 'questions:edit_question_category' question.pk %}" class="edit-question">
+
+                <div class="d-flex m-2 p-1 align-items-baseline rounded bg-white shadow">
+                    <h5 class="m-0 ms-1">{% if "," in question.get_categories %}Categories:{% else %} Category:{% endif %}</h5>
+                    <h6 class="ms-2 my-0 flex-grow-1">{{ question.get_categories }}</h6><a data-form-url="{% url 'questions:edit_question_category' question.pk %}" class="edit-question">
                             <!-- <small class="text-uppercase"><strong>Edit</strong></small></a> -->
                             <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
                 </div>
-                <div class="d-flex m-1 justify-content-between">
-                    <h5><mark class="highlight small-caps me-2">Image:</mark> <small class="{% if placeholder %}text-muted{% else %}icon{% endif %}">{{ question.featured_image }}</small></h5><a data-form-url="{% url 'questions:edit_question_image' question.pk %}" class="edit-question">
+                <div class="d-flex m-2 p-1 align-items-baseline rounded bg-white shadow">
+                    <h5 class="m-0 ms-1">Image:</h5> <h6 class="ms-2 my-0 flex-grow-1">{{ question.featured_image }}</h6><a data-form-url="{% url 'questions:edit_question_image' question.pk %}" class="edit-question">
                         <!-- <small class="text-uppercase"><strong>Edit</strong></small></a> -->
                         <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
                 </div>
             </div>
-            <!-- </div> -->
 
-            <ol class="modal-body bg-light shadow">
+            <ol class="modal-body m-md-3 bg-light shadow">
                 <h5 class="py-1"><small>Answer options:</small></h5>
                 {% for option in question.options.all %}
-                <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
-                    <li>{{ option.option }}{% if option.is_correct %}<span class="small text-muted">
+                <!-- <div class="d-flex m-2 p-2 ms-0 ps-4 rounded bg-white shadow"> -->
+                <div class="d-flex m-2 p-2 ms-0 ps-4 rounded highlight">
+                    <li class="flex-grow-1">{{ option.option }}{% if option.is_correct %}<span class="small text-muted">
                             (Correct)</span>{% endif %}</li>
                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                         <li><a data-form-url="{% url 'questions:edit_option' option.pk %}" class="edit-option bs-modal"
                                 alt="Edit" title="Edit">
-                                <i class="fas fa-edit mx-2 icon"></i></a></li>
+                                <i class="fas fa-edit icon"></i></a></li>
                         <li><a data-form-url="{% url 'questions:delete_option' option.pk %}" class="delete-option bs-modal" title="Delete option">
-                                <i class="fas fa-trash mx-2 icon"></i></a></li>
+                                <i class="fas fa-trash ms-2 me-3 icon"></i></a></li>
                     </ul>
                 </div>
                 {% endfor %}
