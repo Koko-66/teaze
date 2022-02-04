@@ -19,18 +19,15 @@
                 <!-- Cancel button -->
                 <a href="/quizzes/"><button type="button" class="btn-close" aria-label="Close"></button></a>
             </div>
-            <div class="modal-body">
-                
-                <div class="">
-                    <h5>Description: <small class="ms-3">{{ quiz.description }}</small></h5>
-                    <h5>Category: <small class="ms-3">{{ quiz.category }}</small></h5>
-                </div>
-                
-                <ol class="modal-body bg-light shadow">
+            <div class="modal-body m-2 mt-3 bg-light shadow">
+                    <h5 class="m-2 p-1  rounded bg-white shadow">Description: <small class="ms-3">{{ quiz.description }}</small></h5>
+                    <h5 class="m-2 p-1 rounded bg-white shadow">Category: <small class="ms-3">{{ quiz.category }}</small></h5>
+            </div>
+                <ol class="modal-body m-2  bg-light shadow">
                     <h5 class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
                     {% for question in quiz.questions.all %}
 
-                        <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded bg-white shadow">
+                        <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded highlight">
                             <li>{{ question.body }}</li>
                                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                                         <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="text-dark bs-modal" alt="Details" title="Details">
@@ -43,8 +40,7 @@
                         </div>
                     {% endfor %}
                 </ol>
-                <div class="modal-footer">
-
+                <div class="modal-footer mt-3">
                     <div class="d-flex col-12 flex-row justify-content-between align-items-center">
                         <div class="d-flex flex-row justify-content-between align-items-center">
                             <h6 class="my-0 me-2">Quiz status:</h6>
@@ -58,13 +54,13 @@
                     </div>
                 </div>
 
-                <div class="modal-body bg-light shadow">
+                <div class="modal-body m-2 bg-light shadow">
                     <h5>Other questions available in this category: </h5>
                     <div>
                         {% if available_questions %}
                         <ul class="list-unstyled">
                             {% for question in available_questions %}
-                            <div class="d-flex justify-content-between m-2 p-2 rounded bg-white shadow">
+                            <div class="d-flex justify-content-between m-2 p-2 rounded highlight">
                                 <li>{{ question.body }}</li>
                                         <ul class="d-flex list-unstyled mt-auto justify-content-between">
         
@@ -83,7 +79,7 @@
                     {% endif %}
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer mt-3">
                     <div class="">
                         <a href="{% url 'quiz:manage_quizzes' %}"><button type="submit" class="btn" aria-label="Save">OK</button></a>   
                     </div>
