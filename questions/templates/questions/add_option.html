@@ -19,8 +19,7 @@
                 {% csrf_token %}
                 <div class="modal-header">
                     <h3 class="modal-title">Add options</h3>
-                    <a href="../../" class="btn-close"></a>
-                    <!-- <button type="button" class="btn-close" aria-label="Close"></button> -->
+                    <a href="{% url 'questions:question_details' question.pk %}" class="btn-close"></a>
                 </div>
 
                 <div class="modal-body">

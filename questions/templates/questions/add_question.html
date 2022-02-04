@@ -25,7 +25,7 @@
                     {% for field in form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
+                        <div class="shadow">{% render_field field class="form-control" placeholder="placeholder" help_text="help-text" %}</div>
                         <div class="{% if field.errors %} invalid{% endif %}">
                             {% for error in field.errors %}
                             <p class="help-block">{{ error }}</p>
