@@ -1,3 +1,4 @@
+"""Question app views."""
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -5,27 +6,39 @@ from django.shortcuts import (
     HttpResponseRedirect,
     # render_to_response
 )
-from django.urls import reverse_lazy, reverse, resolve
-from django.views.generic import CreateView, ListView, UpdateView
+from django.urls import reverse_lazy
+from django.views.generic import (
+    # CreateView,
+    ListView,
+    # UpdateView
+)
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalReadView,
-    BSModalCreateView,
+    # BSModalCreateView,
     BSModalUpdateView,
     BSModalDeleteView
 )
 # from .forms import NewOptionForm, NewQuestionForm, EditQuestionTextForm
-from .forms import *
+from .forms import (
+    NewQuestionForm,
+    NewOptionForm,
+    EditQuestionTextForm,
+    EditQuestionFeedbackForm,
+    EditQuestionQuizForm,
+    EditQuestionCategoryForm,
+    EditQuestionImageForm
+)
 from .models import Question, Option
-from quiz.models import Quiz
+# from quiz.models import Quiz
 
-    
+
 def add_new_question_view(request, *args, **kwargs):
     """Add new question independently"""
 
     user = request.user
     if request.method == 'POST':
-        form = NewQuestionForm(request.POST)
+        form = NewQuestionForm(request.POST, request.FILES)
         if form.is_valid():
             # create object manually to post user as author
             quiz = form.cleaned_data.get('quiz')
@@ -34,10 +47,12 @@ def add_new_question_view(request, *args, **kwargs):
             status = form.cleaned_data.get('status')
             category = form.cleaned_data.get('category')
             question = Question.objects.create(body=body, quiz=quiz,
-                                                featured_image=featured_image,
-                                                author=user, status=status)
+                                               featured_image=featured_image,
+                                               category=category,
+                                               author=user, status=status)
             print(form.cleaned_data)
-            return redirect(f'../{question.id}/add_new_option', args=[question.pk])
+            return redirect(f'../{question.id}/add_new_option',
+                            args=[question.pk])
         else:
             print(form.errors)
     else:
@@ -61,7 +76,6 @@ def add_new_option_view(request, pk):
             # position = form.cleaned_data.get('position')
             is_correct = form.cleaned_data.get('is_correct')
             option = Option.objects.create(question=question, option=option,
-                                        #    position=position,
                                            is_correct=is_correct, author=user)
             print(form.cleaned_data)
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
@@ -78,7 +92,7 @@ def add_new_option_view(request, pk):
 
 
 class QuestionDetailsView(BSModalReadView):
-
+    """Question details view."""
     model = Question
     # template_name = 'questions/question_details_page.html'
 
@@ -98,6 +112,7 @@ class QuestionDetailsView(BSModalReadView):
 
 
 class QuestionListView(ListView):
+    """View listing all questions in the databae."""
     model = Question
     template_name = 'questions/manage_questions.html'
 
@@ -112,7 +127,6 @@ class QuestionListView(ListView):
             return redirect('login.html')
 
 
-
 # class EditQuestionView(BSModalUpdateView):
 #     """Edit question."""
 
@@ -121,6 +135,7 @@ class QuestionListView(ListView):
 #     form_class = NewQuestionForm
 #     success_message = 'Success: Question was updated.'
 #     success_url = reverse_lazy('questions:question_details')
+
 
 class EditQuestionView(BSModalUpdateView):
     """Edit question elements base class."""
@@ -135,10 +150,10 @@ class EditQuestionView(BSModalUpdateView):
         return reverse_lazy('questions:question_details', args=[pk])
 
 
-#---- Views to edit question elments ---
+# ---- Views to edit question elments ---
 class EditQuestionText(EditQuestionView, BSModalUpdateView):
     """Edit the question's content."""
-        
+
     form_class = EditQuestionTextForm
 
 
@@ -160,12 +175,6 @@ class EditQuestionCategory(EditQuestionView, BSModalUpdateView):
     form_class = EditQuestionCategoryForm
 
 
-# class EditQuestionStatus(EditQuestionView, BSModalUpdateView):
-#     """Edit question Status."""
-
-#     form_class = EditQuestionStatusForm
-
-
 class EditQuestionImage(EditQuestionView, BSModalUpdateView):
     """Edit image assigned to the question."""
 
@@ -178,12 +187,11 @@ class EditOptionView(BSModalUpdateView):
     model = Option
     template_name = 'questions/edit_option.html'
     form_class = NewOptionForm
-    # success_message = 'Success: option was updated.'
 
     def get_success_url(self):
         slug = self.object.question.quiz.slug
         pk = self.object.question.pk
-        
+
         return reverse_lazy('quiz:add_option_in_quiz', args=[slug, pk])
 
 
@@ -202,7 +210,7 @@ class DeleteOptionView(BSModalDeleteView):
     template_name = 'questions/option_confirm_delete.html'
     success_message = 'Success: Option was deleted.'
     # success_url = reverse_lazy('questions:question_details')
-    
+
     def get_success_url(self):
         pk = self.object.question.pk
         return reverse_lazy('questions:question_details', args=[pk])
@@ -219,11 +227,11 @@ def toggle_question_status(request, pk, *args, **kwargs):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-def toggle_is_correct(request, pk, *args, **kwargs):
-    option = get_object_or_404(Option, pk=pk)
-    if option.is_correct != False:
-        option.is_correct = True
-    else:
-        option.is_correct = True
-    option.save()
-    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+# def toggle_is_correct(request, pk, *args, **kwargs):
+#     option = get_object_or_404(Option, pk=pk)
+#     if option.is_correct is not False:
+#         option.is_correct = True
+#     else:
+#         option.is_correct = True
+#     option.save()
+#     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
