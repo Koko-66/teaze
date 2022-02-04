@@ -113,6 +113,12 @@ a:hover{
     border: solid 0.5px rgba(10, 76, 104, 0.4);
 }
 
+/* override bootstraps highlight for <mark> tags */
+.highlight {
+    background-color: rgba(10, 76, 104, 0.1);
+    border-bottom: solid 0.5px rgba(10, 76, 104, 0.2);
+}
+
 /* Gray overlay */
 .transparent-gray {
         background-color: rgba(240,240,243, 0.5)
@@ -145,6 +151,11 @@ footer span {
     background-color: rgb(231,151,15);
     border-color: #0d6efd;
 }
+
+/* input[type=checkbox]:checked {
+    background-color: rgb(231,151,15) !important;
+    border-color: #0d6efd;
+} */
 
 /* hr in the quiz */
 form hr {
