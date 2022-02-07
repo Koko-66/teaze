@@ -109,7 +109,7 @@ a:hover{
 /* Grey shadow with rounded corners */
 .box-shadow {
     box-shadow: 10px 10px 10px 10px rgba(10, 76, 104, 0.4);
-    border-radius: 2%;
+    border-radius: 1.5rem;
     border: solid 0.5px rgba(10, 76, 104, 0.4);
 }
 
