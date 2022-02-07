@@ -1,20 +1,18 @@
 from django.contrib import admin
 from results.models import Assessment, Answer
 
-
-class AnswerInline(admin.TabularInline):
+@admin.register(Answer)
+class AnswerInline(admin.ModelAdmin):
     """Show answers inline with Assessment in django admin."""
-    model = Answer
-    # prepopulated_fields = {"answer": ("answer",)}
-    list_filter = ('created_on', 'category')
-    search_fields = ('category')
+    list_display = ['assessment']
+    list_filter = ['assessment']
+    # search_fields = ('name', 'email', 'body')
+    
 
-
+@admin.register(Assessment)
 class AssessmentAdmin(admin.ModelAdmin):
     """Pull answers for the assessment inline in django admin."""
-    inlines = [AnswerInline]
-    list_display = (str, 'created_on')
+    list_display = [str, 'id', 'created_on', 'user']
 
-
-admin.site.register(Assessment, AssessmentAdmin)
+# admin.site.register(Assessment, AssessmentAdmin)
 
