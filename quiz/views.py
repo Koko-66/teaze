@@ -1,29 +1,24 @@
 # from django.http import HttpResponseRedirect
-from django.urls import reverse, reverse_lazy
+from django.urls import reverse_lazy
 from django.shortcuts import (
     render,
     get_object_or_404,
     redirect,
     HttpResponseRedirect
     )
-from django.views import generic, View
-from django.views.generic import (
-    DetailView,
-    UpdateView,
-    DeleteView,
-)
+from django.views import generic
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalCreateView,
     BSModalReadView,
 )
-from .models import Quiz
-from .forms import NewQuizForm, AddQuestionToQuizForm
 from categories.models import Category
 from categories.forms import NewCategoryForm
 from questions.forms import NewOptionForm
 from questions.models import Question, Option
 from results.models import Assessment
+from .models import Quiz
+from .forms import NewQuizForm, AddQuestionToQuizForm
 
 
 def welcome_page_view(request):
@@ -83,7 +78,7 @@ def add_quiz_view(request):
     return render(request, 'quiz/add_quiz.html', context)
 
 
-class EditQuizView(UpdateView):
+class EditQuizView(generic.UpdateView):
     """Edit quiz"""
 
     template_name = 'quiz/edit_quiz.html'
@@ -91,7 +86,7 @@ class EditQuizView(UpdateView):
     queryset = Quiz.objects.all()
 
 
-class DeleteQuizView(DeleteView):
+class DeleteQuizView(generic.DeleteView):
     """Delete quiz"""
     queryset = Quiz.objects.all()
     template = 'quiz/delete_quiz.html'
@@ -99,6 +94,7 @@ class DeleteQuizView(DeleteView):
 
 
 class QuizListView(generic.ListView):
+    """Display list of quizzes depending on type of user."""
     model = Quiz
     template_name = 'quiz/manage_quizzes.html'
 
@@ -125,9 +121,10 @@ class QuizListView(generic.ListView):
             return redirect('account_login')
 
 
-class QuizDetailsView(DetailView):
-    queryset = Quiz.objects.all()
-    template = 'quiz/quiz_detail.html'
+class QuizDetailsView(generic.DetailView):
+    """Quiz details view."""
+    # queryset = Quiz.objects.all()
+    # template = 'quiz/quiz_detail.html'
 
     # def get_object(self):
     #     slug = self.kwargs.get('slug')
@@ -157,27 +154,35 @@ class QuizDetailsView(DetailView):
         return render(request, template_name, context)
 
 
-class TakeQuizView(View):
+# class TakeQuizView(generic.ListView):
+    
+#     def get(self, request, slug):
+#         """Overwrite the built in get method"""
+#         queryset = Quiz.objects.filter(status=1)
+#         quiz = get_object_or_404(queryset, slug=slug)
+#         questions = []
+#         for question in quiz.get_questions():
+#             options = []
+#             for option in question.get_options():
+#                 options.append(option)
+#             questions.append({question: options})
 
-    def get(self, request, slug):
-        queryset = Quiz.objects.filter(status=1)
-        quiz = get_object_or_404(queryset, slug=slug)
-        questions = []
-        for question in quiz.get_questions():
-            options = []
-            for option in question.get_options():
-                options.append(option)
-            questions.append({question: options})
+#         paginator = Paginator(questions, 1) # Show 1 qestion per page.
 
-        context = {
-            'questions': questions,
-            'quiz': quiz,
-        }
+#         page_number = request.GET.get('page')
+#         page_obj = paginator.get_page(page_number)
 
-        return render(request, 'quiz/take_quiz.html', context)
+#         context = {
+#             'questions': questions,
+#             'quiz': quiz,
+#             'page_obj': page_obj
+#         }
+
+#         return render(request, 'quiz/take_quiz.html', context)
 
 
 def toggle_status(request, slug, *args, **kwargs):
+    """"Togge quiz status."""
     quiz = get_object_or_404(Quiz, slug=slug)
     if quiz.status != 0:
         quiz.status = 0
