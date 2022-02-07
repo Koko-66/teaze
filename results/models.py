@@ -17,7 +17,7 @@ class Assessment(models.Model):
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{self.quiz}-{self.user}'
+        return f'{self.pk}: {self.user} - {self.quiz}'
 
     def get_answers(self):
         return self.answer.all()
@@ -28,11 +28,12 @@ class Answer(models.Model):
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE,
                                  related_name='answered_question')
-    answer = models.IntegerField()
+    answer = models.ForeignKey(Option, on_delete=models.PROTECT, null=True, related_name='answer_option')
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE,
                                    related_name='answer')
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f'{str(self.question)} - {self.answer}' 
+        return f'{str(self.question)} - {self.answer}'
+
