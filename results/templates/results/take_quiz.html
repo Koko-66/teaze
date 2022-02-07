@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Quiz title -->
+<div class="container">
+    <div class="row m-5">
+        <div class="col-lg-8 box-shadow m-auto transparent-gray">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ quiz.title }}</h3>
+            </div>
+
+        <!-- Quiz content -->
+        <div class="modal-body m-3 mt-3 shadow">    
+            <form action="" method="POST">
+                {% csrf_token %}
+                    <ol class="mx-3">
+                        <!-- Loop through questions and list each -->
+                        {% for question in questions %}
+                        <li><strong>{{ question.body }}</strong>
+                            <!-- Hidden preselected input field to get data from questions that were not answered -->
+                            <input class="form-check-input d-none" type="radio" name="{{ question.pk }}"
+                            value="0" checked>
+                            <!-- Loop through options for each qustion and list each -->
+                            {% for option in question.get_options.all %}
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="{{ question.pk }}"
+                                        value="{{option.pk}}">
+                                    <label class="form-check-label" for="{{ question.pk }}">{{ option.option }}</label>
+                                </div>
+                            {% endfor %}
+                        </li>
+                        <hr>
+                        {% endfor %}
+                    </ol>
+                </div>
+                <div class="modal-footer d-flex">
+                    <button type="submit" class="btn ms-5 my-3">Submit answers</button>
+                </div>
+            </form>
+        </div>
+        <!-- <div class="col">
+            <img src="{{ quiz.featured_image.url }}" class="question-feat-img" alt="">
+        </div> -->
+    </div>
+</div>
+
+{% endblock %}

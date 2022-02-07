@@ -3,60 +3,56 @@
 {% block content %}
 <!-- Quiz title -->
 <div class="container">
-    <div class="row mx-md-5 my-md-4 my-sm-2">
-        <div class="col-12 teal">
-            <h4>{{ quiz.title }}</h4>
-        </div>
-    </div>
-    <!-- Score summary -->
-    <div class="row mx-md-5 my-md-4 my-sm-2">
-        <div class="col-12 teal">
-            <h6>Your score = {{ assessment.score }} out of {{ number_of_questions }}</h6>
-        </div>
-    </div>
-</div>
+    <div class="row m-md-5">
+        <div class="col-lg-8 box-shadow m-auto transparent-gray">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ assessment.quiz.title }}</h3>
+                 <!-- Score summary -->
+                <!-- <h4 class="modal-title me-2">Your score: {{ assessment.score }} out of {{ assessment.get_answers.all.count }}</h4> -->
+                <a href="{% url 'quiz:home' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
 
-<!-- Quiz questions -->
-<div class="container">
-    <div class="row">
-        <div class="col m-md-5 m-sm-3">
-            <ol>
-                <!-- Loop through questions in the quiz to list them -->
-                {% for item in questions %}
-                    {% for question, options in item.items %}
-                    <li><strong>{{ question.body }}</strong>
-                        <!-- Loop through options for each qustio and list these -->
+            </div>
+                <h5 class="modal-title m-3 btn shadow">Your score: {{ assessment.score }} out of {{ assessment.get_answers.all.count }}</h5>
+            <!-- Display quiz questions and results -->
+            <div class="modal-body m-md-3 mt-md-3 shadow">
+                <ol class="mx-md-3">
+                    <!-- Loop through questions in assessment -->
+                    {% for answer in assessment.get_answers.all %}
+                    <li><strong>{{ answer.question.body }}</strong>
+                        <!-- Loop through options for each qustion and list these -->
                         <ol>
-                            {% for option in options %}
-                            <!-- Add 'required' property to the first item -->
-                            <li type="a" class="{% if option.is_correct %}text-success{% endif %}"> {{ option.option }}</li>
+                            {% for option in answer.question.get_options.all %}
+                            <li type="a"
+                                class="{% if option.is_correct %}text-success{% elif option == answer.answer and not answer.answer.is_correct%}text-danger{% endif %}">
+                                {{ option.option }}</li>
                             {% endfor %}
                         </ol>
-                    </li>
-                    <!-- Loop through the question to check which has been answered and which answers are correct -->
-                        {% for answered_question, answer in data %}
-                            {% if answered_question.pk == question.pk %}
-                            <br>
-                            <p>Your answer: {{ answer.option }}</p>
-                            <p class="{% if answer.is_correct %}text-success{% else %}text-danger{% endif %}">
-                                {% if answer.is_correct %}
-                                <strong>Correct</strong>. {{ answered_question.feedback }}
-                                {% else %}
-                                <strong>Incorrect</strong>. {{ answered_question.feedback }}
-                                {% endif %}
-                            </p>
+                        <!-- Loop through the question to check which has been answered and which answers are correct -->
+                        <br>
+                        <div
+                            class="p-2 rounded {% if answer.answer.is_correct %}alert-success{% else %}alert-danger{% endif %}">
+                            {% if answer.answer.is_correct %}
+                            <!-- <p>Your answer: <strong>{{ answer.answer }}</strong></p> -->
+                            <strong>Correct</strong>.
+                            {% elif answer.answer == None %}
+                            <strong>Question not answered</strong>.
+                            {% else %}
+                            <p class="m-0"><strong>Your answer:</strong> {{ answer.answer }}</p>
                             {% endif %}
-                        {% endfor %}
-                    {% endfor %}
+                            <div><span class="small text-dark"> {{ answer.question.feedback }}</span></div>
+                        </div>
+                    </li>
                     <hr>
-                {% endfor %}
-            </ol>
-            <!-- Link to go back to the main page -->
-            <a href="{% url 'quiz:home' %}" class="btn">Go back</a>
-            <!-- </div> -->
-        </div>
-        <div class="col">
+                    {% endfor %}
+                </ol>
+            </div>
+                <!-- Link to go back to the main page -->
+                <div class="modal-footer ms-5 my-3"><a href="{% url 'quiz:home' %}" class="btn">OK</a>
+                </div>
+
+            <!-- <div class="col">
             <img src="{{ quiz.featured_image.url }}" class="question-feat-img" alt="">
+            </div> -->
         </div>
     </div>
 </div>
