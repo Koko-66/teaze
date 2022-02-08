@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<!-- Quiz title -->
+<div class="container">
+    <div class="row m-5">
+        <div class="col-lg-9 box-shadow m-auto transparent-gray">
+            <div class="modal-header">
+                <h3 class="modal-title">{{ quiz.title }}</h3>
+                <h6>Question {{ page_obj.number }}</h6>
+                <!-- Cancel button -->
+                <a href="/"><button type="button" class="btn-close" aria-label="Close"></button></a>
+            </div>
+            {% if page_obj.has_next %}
+            <form action="?page={{ page_obj.next_page_number }}" method="POST">
+            {% else %}
+            <form action="" method="POST">
+            {% endif %}
+                {% csrf_token %}
+                <div class="modal-body m-2 mt-3 shadow">
+                    {% for question in page_obj %}
+                    <div class="m-auto">
+                        <ul class="list-unstyled m-auto">
+                            <h5 class="">{{ question.body }}</h5>
+                            {% for option in question.get_options.all %}
+                            <li class="form-check">
+                                <input class="form-check-input" type="radio" name="{{ question.pk }} {% if answer.answer == option.pk %}checked{% endif %}"
+                                    value="{{ option.pk }}">
+                                <label class="form-check-label m-1" for="{{ question.pk }}">{{ option.option }}</label>
+                            </li>
+                            {% endfor %}
+                        <ul>
+                    </div>
+                    {% endfor %}
+                </div>
+            <div class="modal-footer mt-3 pagination d-flex flex-row justify-content-between align-items-center">
+                {% if page_obj.has_previous %}
+                <div>
+                    <a href="?page=1" class="btn">&laquo; first</a>
+                    <a href="?page={{ page_obj.previous_page_number }}" class="btn">previous</a>
+                </div>
+                {% endif %}
+                <div class="current my-3">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                </div>
+                {% if page_obj.has_next %}
+                <div>
+                    <button type="submit" class="btn">Ok and next</button>
+                    <!-- <a href="?page={{ page_obj.next_page_number }}" class="btn" >Ok and next</a> -->
+                    <a href="?page={{ page_obj.paginator.num_pages }}" class="btn">last &raquo;</a>
+                {% else %}
+                    <a href="{% url 'results:results' quiz.slug" class="btn ms-5 my-3">Submit answers</a>
+                </div>
+                {% endif %}
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
