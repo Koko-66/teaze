@@ -92,9 +92,9 @@
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             {% if quiz in completed_quizzes %}
                             <li class="d-flex align-items-center me-3">Completed<i class="fas fa-check-square ms-3"></i></li>
-                            <li class="d-flex align-items-center me-3 btn">See results</li>
+                            <li class="d-flex align-items-center me-3 btn"><a href="{% url 'results:assessment_details' assessment.quiz.slug assessment.pk %}">See results</a></li>
                             {% else %}
-                            <li><a href="{% url 'quiz:take_quiz' quiz.slug %}" class="btn">Start Quiz</a></li>
+                            <li><a href="{% url 'results:take_quiz' quiz.slug %}" class="btn">Start Quiz</a></li>
                             {% endif %}
                         </ul>
                     </div>
