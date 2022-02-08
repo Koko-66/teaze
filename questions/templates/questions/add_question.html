@@ -12,6 +12,7 @@
                 <div class="modal-header">
                     <h3 class="modal-title">Add question to quiz</h3>
                     <!-- Cancel button -->
+                    {% if slug}
                     <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
                 </div>
 
@@ -24,8 +25,18 @@
                     </div>
                     {% for field in form %}
                     <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        <div class="shadow">{% render_field field class="form-control" placeholder="placeholder" help_text="help-text" %}</div>
+                        <label for="{{ field.id_for_label }}">
+                            {% if field.label == "Body" %}Question text
+                            {% else %}
+                            {{ field.label }}
+                            {% endif %}
+                        </label>
+                        <div class="shadow">
+                                {% if field.label == "Body" %}
+                                {% render_field field class="form-control" placeholder="Question text" %}
+                                {% else %}
+                                {% render_field field class="form-control" placeholder=field.label %}</div>
+                                {% endif %}
                         <div class="{% if field.errors %} invalid{% endif %}">
                             {% for error in field.errors %}
                             <p class="help-block">{{ error }}</p>
