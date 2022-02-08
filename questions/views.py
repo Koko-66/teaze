@@ -41,14 +41,14 @@ def add_new_question_view(request, *args, **kwargs):
         form = NewQuestionForm(request.POST, request.FILES)
         if form.is_valid():
             # create object manually to post user as author
+            # category not included to avoid "Direct assignment 
+            # of many-to-many prohibited error."
             quiz = form.cleaned_data.get('quiz')
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
             status = form.cleaned_data.get('status')
-            category = form.cleaned_data.get('category')
             question = Question.objects.create(body=body, quiz=quiz,
                                                featured_image=featured_image,
-                                               category=category,
                                                author=user, status=status)
             print(form.cleaned_data)
             return redirect(f'../{question.id}/add_new_option',
