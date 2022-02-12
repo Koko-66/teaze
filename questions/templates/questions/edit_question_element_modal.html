@@ -23,19 +23,12 @@
 
     {% for field in form %}
       <div class="form-group">
-        <!-- <label for="{{ field.id_for_label }}">{% if field.label == "Body" %}Question text{% else %}{{ field.label }}</label> -->
-        <!-- {% endif %} -->
-        <!-- {% if field.label == "Quiz"%}
-          {% render_field field class="form-select" placeholder=field.label %}
-          {% elif field.label == "Body" %}
-          {% render_field field class="form-control" placeholder="Question text" %}
-          {% else %}
-          {% render_field field class="form-control" placeholder=field.label %}
-        {% endif %} -->
         {% if field.label == "Body" %}
           {% render_field field class="form-control" placeholder="Question text" %}
           {% elif field.label == "Image" %}
           {% render_field field class="form-control" %}
+          {% elif field.label == "Categories" %}
+          {% render_field field class="form-check-input" %}
           {% else %}
           {% render_field field placeholder=field.label %}
         {% endif %}
@@ -46,6 +39,7 @@
         </div>
       </div>
     {% endfor %}
+
   </div>
 
   <div class="modal-footer">
