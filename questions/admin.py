@@ -7,7 +7,7 @@ from questions.models import Option, Question
 class OptionInline(admin.TabularInline):
     """Register option to show inline with question"""
     model = Option
-
+    
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):
@@ -16,7 +16,7 @@ class QuestionAdmin(admin.ModelAdmin):
 
     list_display = ('body', 'author', 'created_on')
     list_filter = ('created_on', 'category')
-    search_fields = ('name', 'email', 'body')
+    search_fields = ['body']
 
 
 admin.site.register(Option)
