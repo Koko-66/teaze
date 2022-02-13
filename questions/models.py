@@ -13,7 +13,7 @@ STATUS = ((0, "Draft"), (1, "Approved"))
 class Question(models.Model):
     """Create a question"""
 
-    body = models.CharField(max_length=900, unique=True)
+    body = models.CharField(max_length=900)
     category = models.ManyToManyField(Category,
                                       related_name='question')
     quiz = models.ForeignKey(Quiz, null=True, blank=True,
@@ -48,6 +48,16 @@ class Question(models.Model):
             categories = categories + category.name + ', '
         return categories[:-2]
 
+    def correct_options_count(self):
+        """Check if correct option already exists in question-option set."""
+
+        options = self.get_options()
+        correct_option_counter = 0
+        for option in options:
+            if option.is_correct:
+                correct_option_counter += 1
+        return correct_option_counter
+
     def get_absolute_url(self):
         """Asbolute url for Qustion model."""
         return reverse('questions:question_detail', kwargs={'id': self.id})
@@ -76,7 +86,7 @@ class Option(models.Model):
         # #     # no duplicated position per question
         #     ("question", "position")
         ]
-        # ordering = ["position"]
+        ordering = ["pk"]
         verbose_name_plural = 'Answer options'
 
     def __str__(self):
