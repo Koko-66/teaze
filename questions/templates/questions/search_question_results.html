@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Search{% endblock title %}
+{% block content %}
+<h1>Search Results</h1>
+{% for question in questions %}
+<div>
+<h3><a href="{{ book.get_absolute_url }}">{{ question.body }}</a></h3>
+<p>Categories: </p>
+<p>Quiz: $ </p>
+</div>
+{% endfor %}
+{% endblock content %}

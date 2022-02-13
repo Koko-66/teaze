@@ -3,7 +3,7 @@
 /* orange: rgb(231,151,15) */
 /* teal: rgb(10, 76, 104) */
 /* purple: rgb(100, 65, 93) */
-
+/* beige: #e1dfc9 */
 
 @import url('https://fonts.googleapis.com/css2?family=Festive&family=Oswald:wght@300;400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Spline+Sans:wght@300&display=swap');
@@ -121,7 +121,12 @@ a:hover{
 
 /* Gray overlay */
 .transparent-gray {
-        background-color: rgba(240,240,243, 0.5)
+    background-color: rgba(240,240,243, 0.5)
+}
+
+/* Darker overlay */
+.dark-overlay {
+    background-color: rgba(21,53,63, 0.75)
 }
 
 .icon {

@@ -48,6 +48,9 @@
                         {{ error }}
                         {% endfor %}
                     </div>
+                    {% if correct_option_counter > 1 %}
+                        <p class="fs-6 text-danger justify-content-center">There are currently {{ correct_option_counter }} correct options. Only one option can be correct.</p>
+                    {% endif %}
                     {% for field in form %}
                     <div class="form-group">
                         {% if field.label == "Is correct" %}
@@ -72,13 +75,15 @@
                     </div>
                     {% endfor %}
                 </div>
-
                 <div class="modal-footer">
-                    <button type="submit" class="btn">Save</button>
-                    {% if  quiz.slug %}
-                    <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn">Finish</a>
-                    {% else %}
-                    <a href="{% url 'questions:question_details' question.pk %}" class="btn">Finish</a>
+                    <br>
+                    {% if correct_option_counter < 2 %}
+                        <button type="submit" class="btn">Save</button>
+                        {% if  quiz.slug %}
+                        <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn">Finish</a>
+                        {% else %}
+                        <a href="{% url 'questions:question_details' question.pk %}" class="btn">Finish</a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </form>

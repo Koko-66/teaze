@@ -14,7 +14,7 @@ class NewQuizForm(forms.ModelForm):
             'title',
             'category',
             'description',
-            # 'featured_image',
+            'featured_image',
             'status',
         )
 

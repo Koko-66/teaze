@@ -15,15 +15,18 @@
     <div class="row m-md-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <div class="modal-header">
-                <h3>Question details</h3>
-                <!-- Cancel button -->
+                <h3>Question details</h3> {{ quiz.slug }}
+                <!-- Cancel button-->
                 <div>
-                    {% if quiz.slug %}
-                    <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close"
-                            aria-label="Close"></button></a>
-                    {% else %}
-                    <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close"
-                            aria-label="Close"></button></a>
+                <!-- Change redirection depending on starting point -->
+                    {% if correct_option_counter <= 1 %}
+                        {% if quiz.slug %}
+                        <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close"
+                                aria-label="Close"></button></a>
+                        {% else %}
+                        <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close"
+                                aria-label="Close"></button></a>
+                        {% endif %}
                     {% endif %}
                 </div>
             </div>
@@ -38,15 +41,16 @@
                     <h6 class="ms-2 my-0 flex-grow-1">{{ question.body }}</h6>
                 </div>
                 <div>
+                    {% if quiz.slug %}
+                    <a data-form-url="{% url 'quiz:edit_question_text_in_quiz' quiz.slug question.pk %}" class="edit-question">
+                        <i class="fas fa-edit mx-2 ps-2 py-3 icon"></i></a></h4>
+                    {% else %}
                     <a data-form-url="{% url 'questions:edit_question_text' question.pk %}" class="edit-question">
                         <i class="fas fa-edit mx-2 ps-2 py-3 icon"></i></a></h4>
+                    {% endif %}
                 </div>
             </div>
-            <!-- <i class="fas fa-edit mx-2 icon"></i> -->
 
-
-            <!-- <div class="modal-body m-md-3 bg-light shadow"> -->
-            <!-- <div class="modal-body"> -->
             <div class="d-flex m-2 p-1 align-items-baseline rounded bg-light shadow">
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="highlight rounded p-1">Question feedback:</h6>
@@ -54,27 +58,41 @@
                         {% if question.feedback %}{{ question.feedback }}{% else %}Not provided{% endif %}</h6>
                 </div>
                 <div>
+                    {% if quiz.slug %}
+                    <a data-form-url="{% url 'quiz:edit_question_feedback_in_quiz' quiz.slug question.pk %}" class="edit-question">
+                        <i class="fas fa-edit mx-2 icon"></i></a>
+                    {% else %}
                     <a data-form-url="{% url 'questions:edit_question_feedback' question.pk %}" class="edit-question">
                         <i class="fas fa-edit mx-2 icon"></i></a>
+                    {% endif %}
                 </div>
                 <div class="m-1 p-1 w-100 rounded border-start">
                     <h6 class="ms-2 p-1 highlight rounded">Image:</h6>
                     <h6 class="ms-2 my-0 flex-grow-1">{{ question.featured_image }}</h6>
                 </div>
                 <div>
+                    {% if quiz.slug %}
+                    <a data-form-url="{% url 'quiz:edit_question_image_in_quiz' quiz.slug question.pk %}" class="edit-question">
+                        <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
+                    {% else %}
                     <a data-form-url="{% url 'questions:edit_question_image' question.pk %}" class="edit-question">
                         <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
+                    {% endif %}
                 </div>
             </div>
             <div class="d-flex flex-col m-2 p-1 align-items-baseline rounded bg-light shadow">
-                <!-- <div class="d-flex m-2 p-1 align-items-baseline rounded bg-light shadow"> -->
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="p-1 highlight rounded">Quiz:</h6>
                     <h6 class="my-0 flex-grow-1">{{ question.quiz }}</h6>
                 </div>
                 <div>
+                    {% if quiz.slug %}
+                    <a data-form-url="{% url 'quiz:edit_question_quiz_in_quiz' quiz.slug question.pk %}" class="edit-question">
+                        <i class="fas fa-edit mx-2 icon"></i></a>
+                    {% else %}
                     <a data-form-url="{% url 'questions:edit_question_quiz' question.pk %}" class="edit-question">
                         <i class="fas fa-edit mx-2 icon"></i></a>
+                    {% endif %}
                 </div>
                 <!-- </div> -->
 
@@ -85,8 +103,13 @@
                     <h6 class="ms-2 flex-grow-1">{{ question.get_categories }}</h6>
                 </div>
                 <div>
+                    {% if quiz.slug %}
+                    <a data-form-url="{% url 'quiz:edit_question_category_in_quiz' quiz.slug question.pk %}" class="edit-question">
+                        <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
+                    {% else %}
                     <a data-form-url="{% url 'questions:edit_question_category' question.pk %}" class="edit-question">
                         <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
+                    {% endif %}
                 </div>
             </div>
             <!-- <div class="d-flex m-2 p-1 align-items-baseline rounded bg-light shadow">
@@ -108,18 +131,20 @@
                         <a data-form-url="{% url 'quiz:add_option_in_quiz' quiz.slug question.pk %}" class="add-option bs-modal btn py-0"
                         alt="Add option" title="Add option">Add new option to quiz</a>
                         {% else %}
-                        <a data-form-url="{% url 'questions:add_new_option' question.pk %}" class="add-option bs-modal btn py-0"
+                        <a data-form-url="{% url 'questions:add_option' question.pk %}" class="add-option bs-modal btn py-0"
                         alt="Add option" title="Add option">Add new option</a>
+                        <!-- <a data-form-url="{% url 'questions:add_option' question.pk %}" class="add-option bs-modal btn py-0"
+                        alt="Add option" title="Add option">Add new option</a> -->
                         {% endif %}
                     </div>
                 </div>
                 {% for option in question.options.all %}
                 <!-- <div class="d-flex m-2 p-2 ms-0 ps-4 rounded bg-light shadow"> -->
                 <div class="d-flex m-2 p-2 ms-0 ps-4 rounded highlight">
-                    <li class="flex-grow-1">{{ option.option }} -- {{ option.pk}}{% if option.is_correct %}<span class="small text-muted">
+                    <li class="flex-grow-1">{{ option.option }} {% if option.is_correct %}<span class="small text-muted">
                             (Correct)</span>{% endif %}</li>
                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
-                        <li><a data-form-url="{% url 'questions:edit_option' option.pk %}" class="edit-option bs-modal"
+                        <li><a data-form-url="{% if quiz.slug %}{% url 'quiz:edit_option_in_quiz' quiz.slug option.pk %}{% else %}{% url 'questions:edit_option' option.pk %}{% endif %}" class="edit-option bs-modal"
                                 alt="Edit" title="Edit">
                                 <i class="fas fa-edit icon"></i></a></li>
                         <li>{% if quiz.slug %}
@@ -136,19 +161,29 @@
                 </div>
                 {% endfor %}
             </ol>
-
+            <!-- Correct options: {{ correct_option_counter }} -->
+            {% if correct_option_counter > 1 %}
+            <p class="fs-6 alert-danger">There are currently {{ correct_option_counter }} correct options. Only one option can be correct. Please correct the number of correct answers.</p>
+            {% endif %}
             <div class="modal-footer">
 
                 <div class="d-flex justify-content-md-end justify-content-sm-center">
+                    {% if quiz.slug %}
+                    <a data-form-url="{% url 'quiz:delete_question_in_quiz' quiz.slug question.pk %}"
+                        class="delete-question btn">Delete</a>
+                    {% else %}
                     <a data-form-url="{% url 'questions:delete_question' question.pk %}"
                         class="delete-question btn">Delete</a>
-
-                    {% if quiz.slug %}
-                    <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="submit" class="btn"
-                            aria-label="Save">OK</button></a>
-                    {% else %}
-                    <a href="{% url 'questions:manage_questions' %}"><button type="submit" class="btn"
-                            aria-label="Save">OK</button></a>
+                    {% endif %}
+                    {% if correct_option_counter == 1 %}
+                        {% if quiz.slug %}
+                        <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="submit" class="btn"
+                                aria-label="Save">OK</button></a>
+                        {% else %}
+                        <a href="{% url 'questions:manage_questions' %}"><button type="submit" class="btn"
+                                aria-label="Save">OK</button></a>
+                        {% endif %}
+                    
                     {% endif %}
                 </div>
             </div>

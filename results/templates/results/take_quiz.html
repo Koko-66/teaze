@@ -4,10 +4,11 @@
 
 <!-- Quiz title -->
 <div class="container">
-    <div class="row m-5">
-        <div class="col-lg-8 box-shadow m-auto transparent-gray">
+    <div class="row m-5" >
+        <div class="col-lg-8 box-shadow m-auto transparent-gray" style="background: {% if 'placeholder' not in quiz.featured_image.url %} url('{{quiz.featured_image.url}}'){% endif %} centr center no-repeat;">
             <div class="modal-header">
                 <h3 class="modal-title">{{ quiz.title }}</h3>
+                <a href="{% url 'quiz:home' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
             </div>
 
         <!-- Quiz content -->

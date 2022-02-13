@@ -1,5 +1,5 @@
 # from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -10,15 +10,39 @@ from django.views import generic
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalCreateView,
-    BSModalReadView,
+    # BSModalReadView,
+    BSModalUpdateView,
 )
 from categories.models import Category
 from categories.forms import NewCategoryForm
-from questions.forms import NewOptionForm
-from questions.models import Question, Option
+from questions.forms import (
+    # NewOptionForm,
+    EditQuestionTextForm,
+    EditQuestionFeedbackForm,
+    EditQuestionQuizForm,
+    EditQuestionCategoryForm,
+    EditQuestionImageForm,)
+from questions.models import Question
+from questions.views import (
+    DeleteOptionView,
+    CreateOptionView,
+    QuestionDetailsView,
+    EditQuestionView,
+    DeleteQuestionView,
+    EditOptionView,
+    )
 from results.models import Assessment
 from .models import Quiz
 from .forms import NewQuizForm, AddQuestionToQuizForm
+
+
+# class Error(Exception):
+#     """Base class for other exceptions"""
+#     pass
+
+# class CorrectAlreadyExists(Error):
+#     """Raised when the input value is too small"""
+#     pass
 
 
 def welcome_page_view(request):
@@ -29,17 +53,19 @@ def welcome_page_view(request):
     question_draft_count = Question.objects.filter(status=0).count()
     question_published_count = Question.objects.filter(status=1).count()
     categories_count = Category.objects.all().count()
-
+    assessment = None
+    completed_quizzes = []
+    
     if request.user.groups.filter(name='Admin').exists():
         quiz_list = Quiz.objects.order_by('-created_on')
     else:
         quiz_list = Quiz.objects.filter(status=1).order_by('-created_on')
 
     if request.user.is_authenticated:
-        assessments = Assessment.objects.filter(user=request.user)
-        completed_quizzes = []
+        assessments = Assessment.objects.filter(user=request.user)    
         for assessment in assessments:
             completed_quizzes.append(assessment.quiz)
+            assessment = assessment
     else:
         return redirect('account_login')
 
@@ -51,36 +77,58 @@ def welcome_page_view(request):
         'categories_count': categories_count,
 
         'completed_quizzes': completed_quizzes,
-        'assessments': assessments,
+        # 'assessments': assessments,
         'quiz_list': quiz_list,
+        'assessment': assessment
     }
     return render(request, 'index.html', context)
 
 
 # Add, Edit and display quizzes views
-def add_quiz_view(request):
-    """Add new quiz"""
+class CreateQuizView(generic.CreateView):
+    """Create new quiz."""
+
+    template_name = 'quiz/add_quiz.html'
+    form_class = NewQuizForm
+    success_message = 'Quiz created successfully.'
+
+    def get_success_url(self):
+        slug = self.object.slug
+        return reverse_lazy('quiz:quiz_details', args=[slug])
+
+
+def upload_image(request):
+    """Upload image when creating new quiz."""
+    context = dict(backend_form=NewQuizForm())
 
     if request.method == 'POST':
-        form = NewQuizForm(request.POST)
+        form = NewQuizForm(request.POST, request.FILES)
+        context['posted'] = form.instance
         if form.is_valid():
-            quiz = Quiz.objects.create(**form.cleaned_data)
-            return redirect(f'../quizzes/{quiz.slug}/details',
-                            kwargs=[quiz.slug])
-        else:
-            print(form.errors)
-    else:
-        form = NewQuizForm()
+            form.save()
 
+    return render(request, 'add_quiz.html', context)
+
+
+def update_image(request, slug):
+    """Update image in quiz."""
+    
+    quiz = get_object_or_404(Quiz, slug=slug)
     context = {
-        'form': form,
+        'backend_form': NewQuizForm(),
+        'quiz': quiz
     }
-    return render(request, 'quiz/add_quiz.html', context)
+    if request.method == 'POST':
+        form = NewQuizForm(request.POST, request.FILES)
+        context['posted'] = form.instance
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'quiz/edit_quiz.html', context)
 
 
 class EditQuizView(generic.UpdateView):
     """Edit quiz"""
-
     template_name = 'quiz/edit_quiz.html'
     form_class = NewQuizForm
     queryset = Quiz.objects.all()
@@ -98,7 +146,7 @@ class QuizListView(generic.ListView):
     model = Quiz
     template_name = 'quiz/manage_quizzes.html'
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         """Overwrite get method"""
         if request.user.groups.filter(name='Admin').exists():
             quiz_list = Quiz.objects.order_by('-created_on')
@@ -123,12 +171,6 @@ class QuizListView(generic.ListView):
 
 class QuizDetailsView(generic.DetailView):
     """Quiz details view."""
-    # queryset = Quiz.objects.all()
-    # template = 'quiz/quiz_detail.html'
-
-    # def get_object(self):
-    #     slug = self.kwargs.get('slug')
-    #     return get_object_or_404(Quiz, slug=slug)
 
     def get(self, request, *args, **kwargs):
         """Overwrite the default get function to render available qustions
@@ -152,33 +194,6 @@ class QuizDetailsView(generic.DetailView):
         }
 
         return render(request, template_name, context)
-
-
-# class TakeQuizView(generic.ListView):
-    
-#     def get(self, request, slug):
-#         """Overwrite the built in get method"""
-#         queryset = Quiz.objects.filter(status=1)
-#         quiz = get_object_or_404(queryset, slug=slug)
-#         questions = []
-#         for question in quiz.get_questions():
-#             options = []
-#             for option in question.get_options():
-#                 options.append(option)
-#             questions.append({question: options})
-
-#         paginator = Paginator(questions, 1) # Show 1 qestion per page.
-
-#         page_number = request.GET.get('page')
-#         page_obj = paginator.get_page(page_number)
-
-#         context = {
-#             'questions': questions,
-#             'quiz': quiz,
-#             'page_obj': page_obj
-#         }
-
-#         return render(request, 'quiz/take_quiz.html', context)
 
 
 def toggle_status(request, slug, *args, **kwargs):
@@ -243,7 +258,7 @@ def add_question_view(request, slug):
                                                author=user, status=status)
             print(form.cleaned_data)
             question.category.set([quiz.category])
-            return redirect(f'../{question.id}/add_option', args=[question.id])
+            return redirect(f'../{question.pk}/details/')
         else:
             print(form.errors)
     else:
@@ -255,54 +270,79 @@ def add_question_view(request, slug):
     }
     return render(request, 'questions/add_question.html', context)
 
-
-def add_option_view(request, slug, pk):
-    """"Add option to the question while in quiz."""   
-    user = request.user
-    quiz = get_object_or_404(Quiz, slug=slug)
-    question = get_object_or_404(Question, pk=pk)
-    if request.method == 'POST':
-        form = NewOptionForm(request.POST)
-        if form.is_valid():
-            option = form.cleaned_data.get('option')
-            # position = form.cleaned_data.get('position')
-            is_correct = form.cleaned_data.get('is_correct')
-            option = Option.objects.create(question=question, option=option,
-                                        #    position=position,
-                                           is_correct=is_correct, author=user)
-            print(form.cleaned_data)
-            # return redirect('../add_option', args=[question.id, quiz.slug])
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        else:
-            print(form.errors)
-    else:
-        form = NewOptionForm()
-
-    context = {
-        'form': form,
-        'question': question,
-        'quiz': quiz,
-    }
-    return render(request, 'questions/add_option.html', context)
+# Managing options while accessed from quiz view
+class CreateOptionInQuizView(CreateOptionView):
+    """Create a new option for question."""
 
 
-class QuestionDetailsView(BSModalReadView):
-    """View question details in quiz details view."""
-    model = Question
-    template_name =  "questions/question_details_page.html"
+class EditOptionInQuizView(EditOptionView):
+    """Edit option while in quiz."""
 
-    def get(self, request, slug, pk, *args, **kwargs):
-        quiz = get_object_or_404(Quiz, slug=slug)
-        queryset = Question.objects.all()
-        question = get_object_or_404(queryset, pk=pk)
-        options = question.options.all()
+    def get_success_url(self, *args, **kwargs):
+        """Overwrite success url from base class."""
+        pk = self.object.question.pk
+        slug = self.kwargs.get('slug')
+        return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
 
-        return render(
-            request,
-            "questions/question_details_page.html",
-            {
-                "question": question,
-                "options": options,
-                'quiz': quiz
-            }
-        )
+class DeleteOptionQuizView(DeleteOptionView):
+    """Delete option."""
+
+    def get_success_url(self, *args, **kwargs):
+        pk = self.object.question.pk
+        slug = self.kwargs.get('slug')
+        return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
+
+
+class EditQuestionInQuizView(EditQuestionView):
+    """Edit question when in detail view accessed from quiz."""
+
+    def get_success_url(self, *args, **kwargs):
+        """Override success url from base class."""
+        slug = self.kwargs.get('slug')
+        pk = self.kwargs.get('pk')
+        return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
+
+    # ---- Views to edit question elments ---
+class EditQuestionText(EditQuestionInQuizView, BSModalUpdateView):
+    """Edit the question's content."""
+
+    form_class = EditQuestionTextForm
+
+
+class EditQuestionQuiz(EditQuestionInQuizView, BSModalUpdateView):
+    """Edit quiz assigned to the question."""
+
+    form_class = EditQuestionQuizForm
+
+
+class EditQuestionFeedback(EditQuestionInQuizView, BSModalUpdateView):
+    """Edit question feedback."""
+
+    form_class = EditQuestionFeedbackForm
+
+
+class EditQuestionCategory(EditQuestionInQuizView, BSModalUpdateView):
+    """Edit categories assigned to the question."""
+
+    form_class = EditQuestionCategoryForm
+
+
+class EditQuestionImage(EditQuestionInQuizView, BSModalUpdateView):
+    """Edit image assigned to the question."""
+
+    form_class = EditQuestionImageForm
+
+
+class DeleteQuestionInQuizView(DeleteQuestionView):
+    """Delete question."""
+
+    def get_success_url(self, *args, **kwargs):
+        """Override success url from base class."""
+        slug = self.kwargs.get('slug')
+        return reverse_lazy('quiz:quiz_details', args=[slug])
+
+
+class QuestionDetailsInQuizView(QuestionDetailsView):
+    """View question details in quiz details view.
+    Inherits from QuestionDetailView in question app with different path."""
+

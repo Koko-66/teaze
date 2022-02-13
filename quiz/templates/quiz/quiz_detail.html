@@ -15,14 +15,31 @@
     <div class="row m-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <div class="modal-header">
-                <h3 class="modal-title">{{ quiz.title}}</h3>
+                <h3 class="modal-title">{{ quiz.title }} <span class="text-muted small ms-2">(Details)</span></h3>
                 <!-- Cancel button -->
-                <a href="/quizzes/"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                <a href="../../"><button type="button" class="btn-close" aria-label="Close"></button></a>
             </div>
-            <div class="modal-body m-2 mt-3 bg-light shadow">
-                    <h5 class="m-2 p-1  rounded bg-white shadow">Description: <small class="ms-3">{{ quiz.description }}</small></h5>
-                    <h5 class="m-2 p-1 rounded bg-white shadow">Category: <small class="ms-3">{{ quiz.category }}</small></h5>
+            <div class="me-3 d-flex align-items-center justify-content-end">
+                <h5 class="m-1 ms-2 p-1">Status:</h5>
+                <a href="{% url 'quiz:toggle' quiz.slug %}"
+                    class="btn py-0">{% if quiz.status == 0 %}Draft{% else %}Approved{% endif %}</a>
             </div>
+            <div class="d-flex flex-col m-2 p-1 align-items-baseline rounded bg-white shadow">
+                <div class="m-1 p-1 w-100 rounded">
+                    <h6 class="p-1 highlight rounded">Description:</h6>
+                    <h6 class="ms-2 my-0 flex-grow-1">{{ quiz.description }}</h6>
+                </div>
+            
+                <div class="m-1 p-1 w-100 rounded">
+                    <h6 class="p-1 highlight rounded">Category:</h6>
+                    <h6 class="ms-2 my-0 flex-grow-1">{{ quiz.category }}</h6>
+                </div>
+                <div class="m-1 p-1 w-100 rounded">
+                    <h6 class="p-1 highlight rounded">Image:</h6>
+                    <h6 class="ms-2 my-0 flex-grow-1">{{ quiz.featured_image }}</h6>
+                </div>
+            </div>
+            <div>
                 <ol class="modal-body m-2  bg-light shadow">
                     <h5 class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
                     {% for question in quiz.questions.all %}
@@ -41,12 +58,12 @@
                     {% endfor %}
                 </ol>
                 <div class="modal-footer mt-3">
-                    <div class="d-flex col-12 flex-row justify-content-between align-items-center">
-                        <div class="d-flex flex-row justify-content-between align-items-center">
+                    <div class="d-flex col-12 flex-row justify-content-end align-items-center">
+                        <!-- <div class="d-flex flex-row justify-content-between align-items-center">
                             <h6 class="my-0 me-2">Quiz status:</h6>
                             <a href="{% url 'quiz:toggle' quiz.slug %}"
                             class="btn p-1 py-0">{% if quiz.status == 0 %}Draft{% else %}Approved{% endif %}</a>
-                        </div>
+                        </div> -->
                         <div>
                             <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
                             <a href="{% url 'quiz:add_question_in_quiz' quiz.slug %}" class="btn">Add new question</a>
@@ -81,6 +98,7 @@
                 </div>
                 <div class="modal-footer mt-3">
                     <div class="">
+                        <a data-form-url="{% url 'quiz:delete_quiz' quiz.slug %}" class="delete-quiz btn" aria-label="Delete" title="Delete">Delete</a>
                         <a href="{% url 'quiz:manage_quizzes' %}"><button type="submit" class="btn" aria-label="Save">OK</button></a>   
                     </div>
                 </div>

@@ -4,22 +4,20 @@ from django.shortcuts import (
     get_object_or_404,
     redirect,
     HttpResponseRedirect,
-    # render_to_response
 )
 from django.urls import reverse_lazy
 from django.views.generic import (
     # CreateView,
     ListView,
-    # UpdateView
 )
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalReadView,
-    # BSModalCreateView,
+    BSModalCreateView,
     BSModalUpdateView,
     BSModalDeleteView
 )
-# from .forms import NewOptionForm, NewQuestionForm, EditQuestionTextForm
+from quiz.models import Quiz
 from .forms import (
     NewQuestionForm,
     NewOptionForm,
@@ -30,7 +28,6 @@ from .forms import (
     EditQuestionImageForm
 )
 from .models import Question, Option
-# from quiz.models import Quiz
 
 
 def add_new_question_view(request, *args, **kwargs):
@@ -51,8 +48,7 @@ def add_new_question_view(request, *args, **kwargs):
                                                featured_image=featured_image,
                                                author=user, status=status)
             print(form.cleaned_data)
-            return redirect(f'../{question.id}/add_new_option',
-                            args=[question.pk])
+            return redirect(f'../{question.pk}/details/')
         else:
             print(form.errors)
     else:
@@ -60,55 +56,84 @@ def add_new_question_view(request, *args, **kwargs):
 
     context = {
         'form': form,
-        # 'quiz': quiz,
     }
     return render(request, 'questions/add_new_question.html', context)
 
 
-def add_new_option_view(request, pk):
-    """Add new option independently"""
-    user = request.user
-    question = get_object_or_404(Question, pk=pk)
-    if request.method == 'POST':
-        form = NewOptionForm(request.POST)
-        if form.is_valid():
-            option = form.cleaned_data.get('option')
-            # position = form.cleaned_data.get('position')
-            is_correct = form.cleaned_data.get('is_correct')
-            option = Option.objects.create(question=question, option=option,
-                                           is_correct=is_correct, author=user)
-            print(form.cleaned_data)
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
-        else:
-            print(form.errors)
-    else:
-        form = NewOptionForm()
+class CreateOptionView(BSModalCreateView):
+    """Create a new option for question."""
 
-    context = {
-        'form': form,
-        'question': question,
-    }
-    return render(request, 'questions/add_option.html', context)
+    form_class = NewOptionForm
+    template_name = 'questions/add_option_modal.html'
+    success_message = 'Option created.'
+
+    def get(self, *args, **kwargs):
+        """
+        Override get method to grab question and check existing
+        options for 'is_correct'.
+        """
+
+        form = NewOptionForm()
+        pk = self.kwargs.get('pk')
+        question = get_object_or_404(Question, pk=pk)
+        correct_options_count = question.correct_options_count
+
+        context = {
+            'form': form,
+            'question': question,
+            'correct_options_count': correct_options_count
+        }
+
+        return render(self.request, 'questions/add_option_modal.html', context)
+
+    def post(self, *args, **kwargs):
+        """Override default post method to include question info."""
+        pk = self.kwargs.get('pk')
+        question = get_object_or_404(Question, pk=pk)
+        user = self.request.user
+        form = NewOptionForm(self.request.POST)
+        if form.is_valid():
+            option_text = form.cleaned_data.get('option')
+            is_correct = form.cleaned_data.get('is_correct')
+            Option.objects.update_or_create(question=question,
+                                            option=option_text,
+                                            is_correct=is_correct, author=user)
+            print(form.cleaned_data)
+        
+        return redirect('../details')
 
 
 class QuestionDetailsView(BSModalReadView):
     """Question details view."""
-    model = Question
+    # model = Question
     # template_name = 'questions/question_details_page.html'
 
-    def get(self, request, pk, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         queryset = Question.objects.all()
+        pk = self.kwargs.get('pk')
         question = get_object_or_404(queryset, pk=pk)
         options = question.options.all()
+        quiz = None
+        if self.kwargs.get('slug'):
+            slug = self.kwargs.get('slug')
+            quiz = get_object_or_404(Quiz, slug=slug)
+            print(slug)
 
-        return render(
-            request,
-            "questions/question_details_page.html",
-            {
-                "question": question,
-                "options": options,
-            },
-        )
+        correct_option_counter = 0
+        for option in options:
+            if option.is_correct:
+                correct_option_counter += 1
+                print(correct_option_counter)
+
+        template_name = 'questions/question_details_page.html'
+        context = {
+            'question': question,
+            'options': options,
+            # 'slug': slug,
+            'quiz': quiz,
+            'correct_option_counter': correct_option_counter,
+        }
+        return render(request, template_name, context)
 
 
 class QuestionListView(ListView):
@@ -116,7 +141,7 @@ class QuestionListView(ListView):
     model = Question
     template_name = 'questions/manage_questions.html'
 
-    def get(self, request):
+    def get(self, request, *args, **kwargs):
         if request.user.groups.filter(name='Admin').exists():
             question_list = Question.objects.order_by('category')
             return render(request, self.template_name, {
@@ -127,16 +152,6 @@ class QuestionListView(ListView):
             return redirect('login.html')
 
 
-# class EditQuestionView(BSModalUpdateView):
-#     """Edit question."""
-
-#     model = Question
-#     template_name = 'questions/edit_question.html'
-#     form_class = NewQuestionForm
-#     success_message = 'Success: Question was updated.'
-#     success_url = reverse_lazy('questions:question_details')
-
-
 class EditQuestionView(BSModalUpdateView):
     """Edit question elements base class."""
 
@@ -145,9 +160,15 @@ class EditQuestionView(BSModalUpdateView):
     template_name = 'questions/edit_question_element_modal.html'
     success_message = 'Success: Question was updated.'
 
-    def get_success_url(self):
+    def get_success_url(self, *args, **kwargs):
         pk = self.object.pk
-        return reverse_lazy('questions:question_details', args=[pk])
+        print(self.kwargs.get('slug'))
+    
+        if self.kwargs.get('slug'):
+            slug = self.object.quiz.slug
+            return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
+        else:
+            return reverse_lazy('questions:question_details', args=[pk])
 
 
 # ---- Views to edit question elments ---
@@ -188,11 +209,9 @@ class EditOptionView(BSModalUpdateView):
     template_name = 'questions/edit_option.html'
     form_class = NewOptionForm
 
-    def get_success_url(self):
-        slug = self.object.question.quiz.slug
+    def get_success_url(self, *args, **kwargs):
         pk = self.object.question.pk
-
-        return reverse_lazy('quiz:add_option_in_quiz', args=[slug, pk])
+        return reverse_lazy('questions:question_details', args=[pk])
 
 
 class DeleteQuestionView(BSModalDeleteView):
@@ -200,8 +219,15 @@ class DeleteQuestionView(BSModalDeleteView):
 
     model = Question
     template_name = 'questions/question_confirm_delete.html'
-    success_message = 'Success: Category was deleted.'
+    success_message = 'Question was successfully deleted.'
     success_url = reverse_lazy('questions:manage_questions')
+
+    def get_success_url(self, *args, **kwargs):
+        """Change success url depending on whether accessed from quiz or question."""
+        slug = self.kwargs.get('slug')
+        print(slug)
+
+        return reverse_lazy('questions:manage_questions')
 
 
 class DeleteOptionView(BSModalDeleteView):
@@ -211,7 +237,7 @@ class DeleteOptionView(BSModalDeleteView):
     success_message = 'Success: Option was deleted.'
     # success_url = reverse_lazy('questions:question_details')
 
-    def get_success_url(self):
+    def get_success_url(self, *args, **kwargs):
         pk = self.object.question.pk
         return reverse_lazy('questions:question_details', args=[pk])
 
@@ -227,11 +253,10 @@ def toggle_question_status(request, pk, *args, **kwargs):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-# def toggle_is_correct(request, pk, *args, **kwargs):
-#     option = get_object_or_404(Option, pk=pk)
-#     if option.is_correct is not False:
-#         option.is_correct = True
-#     else:
-#         option.is_correct = True
-#     option.save()
-#     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+class SearchQuestionResultsView(ListView):
+    """Search facility for questions"""
+
+    model = Question
+    context_object_name = 'questions'
+    template_name = 'questions/search_question_results.html'
+    queryset = Question.objects.filter(body__icontains='languages')
