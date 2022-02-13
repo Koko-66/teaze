@@ -28,15 +28,20 @@ $( document ).ready(function () {
             formURL: $(this).data("form-url")});
     });
 
+    $(".add-option").each(function () {
+        $(this).modalForm({
+            formURL: $(this).data("form-url")});
+    });
+
     $(".edit-question").each(function () {
         $(this).modalForm({
             formURL: $(this).data("form-url")});
     });
 
       // Question details buttons
-    $(".question-details").each(function () {
-        $(this).modalForm({formURL: $(this).data("form-url")});
-    });
+    // $(".question-details").each(function () {
+    //     $(this).modalForm({formURL: $(this).data("form-url")});
+    // });
 
     // CATEGORIES - MODALS //
 
