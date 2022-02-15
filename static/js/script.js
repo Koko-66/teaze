@@ -1,15 +1,15 @@
 $( document ).ready(function () {
+    // Dismiss alerts automatically
+    setTimeout(function() {
+        $('.alert').fadeOut('slow');}, 3000
+      );
+
     // QUIZZES - MODALS //
 
     // Delete quiz button - formURL is retrieved from the data of the element
     $(".delete-quiz").each(function () {
         $(this).modalForm({formURL: $(this).data("form-url"), isDeleteForm: true});
     });
-
-    // // Edit quiz button - formURL is retrieved from the data of the element
-    // $(".edit-quiz").each(function () {
-    //     $(this).modalForm({formURL: $(this).data("form-url")});
-    // });
 
     // QUESTIONS - MODALS //
   
@@ -24,24 +24,16 @@ $( document ).ready(function () {
 
     // Edit question button - formURL is retrieved from the data of the element
     $(".edit-option").each(function () {
-        $(this).modalForm({
-            formURL: $(this).data("form-url")});
+        $(this).modalForm({formURL: $(this).data("form-url")});
     });
 
     $(".add-option").each(function () {
-        $(this).modalForm({
-            formURL: $(this).data("form-url")});
+        $(this).modalForm({formURL: $(this).data("form-url")});
     });
 
     $(".edit-question").each(function () {
-        $(this).modalForm({
-            formURL: $(this).data("form-url")});
+        $(this).modalForm({formURL: $(this).data("form-url")});
     });
-
-      // Question details buttons
-    // $(".question-details").each(function () {
-    //     $(this).modalForm({formURL: $(this).data("form-url")});
-    // });
 
     // CATEGORIES - MODALS //
 
