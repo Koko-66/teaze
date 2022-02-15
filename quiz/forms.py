@@ -1,29 +1,28 @@
+"""Forms for quiz app"""
 from django import forms
-from cloudinary.models import CloudinaryField
-from .models import Quiz
-from categories.models import Category
 from questions.models import Question
+from .models import Quiz
 
 
 class NewQuizForm(forms.ModelForm):
+    """Form to create new quiz."""
+
     STATUS = ((0, 'Draft'), (1, 'Published'))
 
     class Meta:
+        """Meta class specifying fields."""
         model = Quiz
         fields = (
             'title',
             'category',
             'description',
             'featured_image',
-            'status',
         )
 
         widgets = {
             'title': forms.TextInput,
             'category': forms.Select,
             'description': forms.Textarea(attrs={'rows': 3}),
-            # 'featured_image': forms.Image(attrs={'class': 'custom-file-input'}),
-        #     'status': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
