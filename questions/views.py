@@ -44,10 +44,13 @@ def add_new_question_view(request, *args, **kwargs):
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
             status = form.cleaned_data.get('status')
+            category = form.cleaned_data.get('category')
             question = Question.objects.create(body=body, quiz=quiz,
                                                featured_image=featured_image,
                                                author=user, status=status)
             print(form.cleaned_data)
+            question.category.set(category)
+
             return redirect(f'../{question.pk}/details/')
         else:
             print(form.errors)
@@ -117,13 +120,13 @@ class QuestionDetailsView(BSModalReadView):
         if self.kwargs.get('slug'):
             slug = self.kwargs.get('slug')
             quiz = get_object_or_404(Quiz, slug=slug)
-            print(slug)
+            # print(slug)
 
         correct_option_counter = 0
         for option in options:
             if option.is_correct:
                 correct_option_counter += 1
-                print(correct_option_counter)
+                # print(correct_option_counter)
 
         template_name = 'questions/question_details_page.html'
         context = {
