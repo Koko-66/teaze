@@ -40,15 +40,10 @@ class DeleteCategoryView(BSModalDeleteView):
     success_message = 'Success: Category was deleted.'
     success_url = reverse_lazy('categories:manage_categories')
 
-    def get_object(self):
-        """Grab category object to perform checks."""
-        category_id = self.kwargs.get('id')
-        return get_object_or_404(Category, id=category_id)
-
-    def get(self, request, *args, **kwargs):
+    def get(self, *args, **kwargs):
         """Override the default get function."""
-        category_id = self.kwargs.get('id')
-        category = get_object_or_404(Category, id=category_id)
+        category_id = self.kwargs.get('pk')
+        category = get_object_or_404(Category, pk=category_id)
         questions = Question.objects.all()
         quizzes = Quiz.objects.all()
         protected = False
@@ -75,15 +70,16 @@ class DeleteCategoryView(BSModalDeleteView):
             'protected': protected,
             'category': category,
         }
-        return render(request, 'categories/category_confirm_delete.html',
+        return render(self.request, 'categories/category_confirm_delete.html',
                       context)
 
 
 class CategoriesListView(ListView):
     """List all available categories."""
-
-    def get(self, request):
-        queryset = Category.objects.all()
-        return render(request, 'categories/manage_categories.html', {
-            'categories': queryset
-        })
+    model = Category
+    template_name = 'categories/manage_categories.html'
+    # def get(self, *args, **kwargs):
+    #     queryset = Category.objects.all()
+    #     return render(self.request, 'categories/manage_categories.html', {
+    #         'categories': queryset
+    #     })
