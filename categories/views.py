@@ -78,8 +78,3 @@ class CategoriesListView(ListView):
     """List all available categories."""
     model = Category
     template_name = 'categories/manage_categories.html'
-    # def get(self, *args, **kwargs):
-    #     queryset = Category.objects.all()
-    #     return render(self.request, 'categories/manage_categories.html', {
-    #         'categories': queryset
-    #     })
