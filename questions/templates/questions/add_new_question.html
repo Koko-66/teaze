@@ -6,7 +6,7 @@
     <div class="row m-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <!-- Form to add question directly to quiz -->
-            <form method="post" action="">
+            <form method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <div class="modal-header">
@@ -23,8 +23,22 @@
                     </div>
                     {% for field in form %}
                     <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <label for="{{ field.id_for_label }}" class="m-1 ps-1">
+                            {% if field.label == "Body" %}Question text
+                            {% else %}
+                            {{ field.label }}
+                            {% endif %}
+                        </label>
+                        {% if field.label == "Body" %}
+                        <div class="shadow">{% render_field field class="form-control" placeholder="Question text" %}</div>
+                        {% elif field.label == "Status" or field.label == "Quiz"%}
+                        <div class="shadow">{% render_field field class="form-select" placeholder=field.label %}</div>
+                        {% elif field.label == "Category" %}
+                        <div class="lh-1 mb-1 ps-2 text-muted category-help-text">To select more than one category, hold Ctrl (Cmd on a Mac) while selecting.</div>  
+                        <div class="shadow">{% render_field field class="form-select" placeholder=field.label %}</div>
+                        {% else %}
                         <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
+                        {% endif %}
                         <div class="{% if field.errors %} invalid{% endif %} text-danger">
                             {% for error in field.errors %}
                             <p class="help-block">{{ error }}</p>

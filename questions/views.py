@@ -7,7 +7,7 @@ from django.shortcuts import (
 )
 from django.urls import reverse_lazy
 from django.views.generic import (
-    # CreateView,
+    # CreateView, 
     ListView,
 )
 # views provided by django-bootstrap-modal-forms
@@ -29,6 +29,16 @@ from .forms import (
 )
 from .models import Question, Option
 
+# class CreateQuestionView(CreateView):
+#     """Add new question independently view"""
+#     template_name = 'questions/add_new_question.html'
+#     form_class = NewQuestionForm
+#     success_message = 'Question created successfully.'
+    
+
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
 
 def add_new_question_view(request, *args, **kwargs):
     """Add new question independently"""
@@ -223,7 +233,7 @@ class DeleteQuestionView(BSModalDeleteView):
     model = Question
     template_name = 'questions/question_confirm_delete.html'
     success_message = 'Question was successfully deleted.'
-    success_url = reverse_lazy('questions:manage_questions')
+    # success_url = reverse_lazy('questions:manage_questions')
 
     def get_success_url(self, *args, **kwargs):
         """Change success url depending on whether accessed from quiz or question."""
@@ -263,3 +273,33 @@ class SearchQuestionResultsView(ListView):
     context_object_name = 'questions'
     template_name = 'questions/search_question_results.html'
     queryset = Question.objects.filter(body__icontains='languages')
+
+
+def upload_image(request):
+    """Upload image when creating new quiz."""
+    context = dict(backend_form=NewQuestionForm())
+
+    if request.method == 'POST':
+        form = NewQuestionForm(request.POST, request.FILES)
+        context['posted'] = form.instance
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'questions/add_question.html', context)
+
+
+def update_image(request, pk):
+    """Update image in question."""
+    
+    question = get_object_or_404(Question, pk=pk)
+    context = {
+        'backend_form': NewQuestionForm(),
+        'question': question
+    }
+    if request.method == 'POST':
+        form = NewQuestionForm(request.POST, request.FILES)
+        context['posted'] = form.instance
+        if form.is_valid():
+            form.save()
+
+    return render(request, 'questions/edit_question_element_modal.html', context)

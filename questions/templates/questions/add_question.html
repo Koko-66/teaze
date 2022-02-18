@@ -6,7 +6,7 @@
     <div class="row m-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <!-- Form to add question directly to quiz -->
-            <form method="post" action="">
+            <form method="post" action="" enctype="multipart/form-data">
                 {% csrf_token %}
 
                 <div class="modal-header">
@@ -33,9 +33,12 @@
                         <div class="shadow">
                                 {% if field.label == "Body" %}
                                 {% render_field field class="form-control" placeholder="Question text" %}
+                                {% elif field.label == "Status" %}
+                                {% render_field field class="form-select" placeholder=field.label %}
                                 {% else %}
-                                {% render_field field class="form-control" placeholder=field.label %}</div>
+                                {% render_field field class="form-control" placeholder=field.label %}
                                 {% endif %}
+                        </div>
                         <div class="{% if field.errors %} invalid{% endif %}">
                             {% for error in field.errors %}
                             <p class="help-block">{{ error }}</p>

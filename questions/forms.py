@@ -33,11 +33,6 @@ class NewQuestionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
                  or Cmd (Mac) and click on to make a selection"""}),
         }
 
-        # category = forms.ModelMultipleChoiceField(
-        #         queryset=Category.objects.all(),
-        #         widget=forms.CheckboxSelectMultiple
-        #     )
-
     def save(self, commit=False):
         """
         Overwrites the default save method to add current user as author and
