@@ -29,7 +29,7 @@ class Question(models.Model):
 
     class Meta:
         """Ordering for questions"""
-        ordering = ['-created_on']
+        ordering = ['-updated_on']
 
     def __str__(self):
         """Question string method"""
@@ -60,7 +60,7 @@ class Question(models.Model):
 
     def get_absolute_url(self):
         """Asbolute url for Qustion model."""
-        return reverse('questions:question_detail', kwargs={'id': self.id})
+        return reverse('questions:question_details', kwargs={'pk': self.pk})
 
 
 # Code adapted from:
@@ -80,12 +80,12 @@ class Option(models.Model):
         """
         Set meta data for the object: uniqueness, ordering and plural name
         """
-        unique_together = [
-            # no duplicated option per question
-            ("question", "option"),
-        # #     # no duplicated position per question
-        #     ("question", "position")
-        ]
+        # unique_together = [
+        # #     # no duplicated option per question
+        #     ("question", "option"),
+        # # # #     # no duplicated position per question
+        # # #     ("question", "position")
+        # ]
         ordering = ["pk"]
         verbose_name_plural = 'Answer options'
 
