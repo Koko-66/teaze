@@ -10,9 +10,14 @@
                 {% csrf_token %}
 
                 <div class="modal-header">
-                    <h3 class="modal-title">Add new question</h3>
+                    <h3 class="modal-title">Add new question</h3> {{slug}}
                     <!-- Cancel button -->
+                    {% if slug %}
+                    
+                    <a href="{% url 'quiz:quiz_details' slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    {% else %}
                     <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    {% endif %}
                 </div>
 
                 <div class="modal-body">

@@ -7,7 +7,7 @@ from django.shortcuts import (
 )
 from django.urls import reverse_lazy
 from django.views.generic import (
-    # CreateView, 
+    CreateView, 
     ListView,
 )
 # views provided by django-bootstrap-modal-forms
@@ -29,48 +29,98 @@ from .forms import (
 )
 from .models import Question, Option
 
-# class CreateQuestionView(CreateView):
-#     """Add new question independently view"""
-#     template_name = 'questions/add_new_question.html'
-#     form_class = NewQuestionForm
-#     success_message = 'Question created successfully.'
+class CreateQuestionView(CreateView):
+    """Add new question independently view"""
+    template_name = 'questions/add_new_question.html'
+    form_class = NewQuestionForm
+    success_message = 'Question created successfully.'
+
+    def get(self, *args, **kwargs):
+        """
+        Override get method to grab quiz.
+        """
+
+        form = self.form_class
+        slug = self.kwargs.get('slug')
+        # question = get_object_or_404(Question, pk=pk)
+        # correct_options_count = question.correct_options_count
+
+        context = {
+            'form': form,
+            'slug': slug,
+        }
+
+        return render(self.request, self.template_name, context)
+
     
-
-#     def form_valid(self, form):
-#         form.instance.author = self.request.user
-#         return super().form_valid(form)
-
-def add_new_question_view(request, *args, **kwargs):
-    """Add new question independently"""
-
-    user = request.user
-    if request.method == 'POST':
-        form = NewQuestionForm(request.POST, request.FILES)
+    def post(self, *args, **kwargs):
+        """Override the default post method"""
+        user = self.request.user
+        form = self.form_class(self.request.POST, self.request.FILES)
+        slug = self.kwargs.get('slug')
+        # quiz = get_object_or_404(Quiz, slug=slug)
         if form.is_valid():
             # create object manually to post user as author
             # category not included to avoid "Direct assignment 
             # of many-to-many prohibited error."
-            quiz = form.cleaned_data.get('quiz')
+            if self.kwargs.get('slug'):
+                slug = self.kwargs.get('slug')
+                quiz = get_object_or_404(Quiz, slug=slug)
+                category = [quiz.category]
+            else:
+                quiz = form.cleaned_data.get('quiz')
+                # question.category.set(category)
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
             status = form.cleaned_data.get('status')
-            category = form.cleaned_data.get('category')
             question = Question.objects.create(body=body, quiz=quiz,
                                                featured_image=featured_image,
                                                author=user, status=status)
             print(form.cleaned_data)
             question.category.set(category)
-
             return redirect(f'../{question.pk}/details/')
         else:
             print(form.errors)
-    else:
-        form = NewQuestionForm()
 
-    context = {
-        'form': form,
-    }
-    return render(request, 'questions/add_new_question.html', context)
+        context = {
+            'form': form,
+            'slug': slug,
+        }
+        print(slug)
+        return render(self.request, 'questions/add_new_question.html', context)
+
+   
+# def add_new_question_view(request, *args, **kwargs):
+#     """Add new question independently"""
+
+#     user = request.user
+#     if request.method == 'POST':
+#         form = NewQuestionForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             # create object manually to post user as author
+#             # category not included to avoid "Direct assignment 
+#             # of many-to-many prohibited error."
+#             quiz = form.cleaned_data.get('quiz')
+#             body = form.cleaned_data.get('body')
+#             featured_image = form.cleaned_data.get('featured_image')
+#             status = form.cleaned_data.get('status')
+#             category = form.cleaned_data.get('category')
+#             question = Question.objects.create(body=body, quiz=quiz,
+#                                                featured_image=featured_image,
+#                                                author=user, status=status)
+#             print(form.cleaned_data)
+#             question.category.set(category)
+
+#             return redirect(f'../{question.pk}/details/')
+#         else:
+#             print(form.errors)
+#     else:
+#         form = NewQuestionForm()
+
+#     context = {
+#         'form': form,
+#     }
+#     return render(request, 'questions/add_new_question.html', context)
 
 
 class CreateOptionView(BSModalCreateView):
@@ -118,10 +168,11 @@ class CreateOptionView(BSModalCreateView):
 
 class QuestionDetailsView(BSModalReadView):
     """Question details view."""
-    # model = Question
-    # template_name = 'questions/question_details_page.html'
+    model = Question
+    template_name = 'questions/question_details_page.html'
 
     def get(self, request, *args, **kwargs):
+        """Override the get method to pass in slug for redirection checks."""
         queryset = Question.objects.all()
         pk = self.kwargs.get('pk')
         question = get_object_or_404(queryset, pk=pk)
@@ -132,21 +183,12 @@ class QuestionDetailsView(BSModalReadView):
             quiz = get_object_or_404(Quiz, slug=slug)
             # print(slug)
 
-        correct_option_counter = 0
-        for option in options:
-            if option.is_correct:
-                correct_option_counter += 1
-                # print(correct_option_counter)
-
-        template_name = 'questions/question_details_page.html'
         context = {
             'question': question,
             'options': options,
-            # 'slug': slug,
             'quiz': quiz,
-            'correct_option_counter': correct_option_counter,
         }
-        return render(request, template_name, context)
+        return render(request, self.template_name, context)
 
 
 class QuestionListView(ListView):
@@ -175,13 +217,12 @@ class EditQuestionView(BSModalUpdateView):
 
     def get_success_url(self, *args, **kwargs):
         pk = self.object.pk
-        print(self.kwargs.get('slug'))
     
-        if self.kwargs.get('slug'):
-            slug = self.object.quiz.slug
-            return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
-        else:
-            return reverse_lazy('questions:question_details', args=[pk])
+        # if self.kwargs.get('slug'):
+        #     slug = self.object.quiz.slug
+        #     return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
+        # else:
+        return reverse_lazy('questions:question_details', args=[pk])
 
 
 # ---- Views to edit question elments ---

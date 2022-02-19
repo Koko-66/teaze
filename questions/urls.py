@@ -1,7 +1,8 @@
 """Urls for questions app"""
 from django.urls import path
 from .views import (
-    add_new_question_view,
+    # add_new_question_view,
+    CreateQuestionView,
     QuestionDetailsView,
     EditQuestionView,
     EditQuestionText,
@@ -24,8 +25,8 @@ urlpatterns = [
     # urls for questions from question management views
     path('questions/', QuestionListView.as_view(), name='manage_questions'),
     path('questions/<int:pk>/details/', QuestionDetailsView.as_view(), name='question_details'),
-    # path('questions/add_new_question/', AddQuestionView.as_view(), name='add_new_question'),
-    path('questions/add_new_question/', add_new_question_view, name='add_new_question'),
+    path('questions/add_new_question/', CreateQuestionView.as_view(), name='add_new_question'),
+    # path('questions/add_new_question/', add_new_question_view, name='add_new_question'),
     path('questions/search/', SearchQuestionResultsView.as_view(), name='search_question'),
     path('questions/<int:pk>/edit_question/', EditQuestionView.as_view(), name='edit_question'),
     path('questions/delete_question/<int:pk>/', DeleteQuestionView.as_view(), name='delete_question'),

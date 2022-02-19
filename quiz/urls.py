@@ -2,6 +2,7 @@
 from django.urls import path
 from quiz.views import (
     welcome_page_view,
+    CreateQuestionInQuizView,
     CreateQuizView,
     QuizListView,
     QuizDetailsView,
@@ -11,7 +12,7 @@ from quiz.views import (
     toggle_status,
     remove_question_from_quiz,
     add_question_to_quiz,
-    add_question_view,
+    # add_question_view,
     QuestionDetailsInQuizView,
     EditQuestionInQuizView,
     DeleteQuestionInQuizView,
@@ -25,6 +26,7 @@ from quiz.views import (
     EditQuestionQuiz,
     EditQuestionCategory,
     EditQuestionImage,
+
 )
 
 app_name = 'quiz'
@@ -42,10 +44,11 @@ urlpatterns = [
     path('quizzes/<slug:slug>/<int:pk>/add_question/', add_question_to_quiz, name='add_question'),
     path('quizzes/add_category', AddCategoryInQuizView.as_view(), name='add_category_in_quiz'),
     # paths for views managing questions
-    path('quizzes/<slug:slug>/add_question/', add_question_view, name='add_question_in_quiz'),
-    path('quizzes/<slug:slug>/<int:pk>delete_question/', DeleteQuestionInQuizView.as_view(), name='delete_question_in_quiz'),
+    # path('quizzes/<slug:slug>/add_question/', add_question_view, name='add_question_in_quiz'),
+    path('quizzes/<slug:slug>/add_question/', CreateQuestionInQuizView.as_view(), name='add_question_in_quiz'),
+    path('quizzes/<slug:slug>/<int:pk>/delete_question/', DeleteQuestionInQuizView.as_view(), name='delete_question_in_quiz'),
     # paths for views for editing question elements when accessed from quiz
-    path('quizzes/<slug:slug>/<int:pk>edit_question/', EditQuestionInQuizView.as_view(), name='edit_question_in_quiz'),
+    path('quizzes/<slug:slug>/<int:pk>/edit_question/', EditQuestionInQuizView.as_view(), name='edit_question_in_quiz'),
     path('quizzes/<slug:slug>/<int:pk>/edit_question_text', EditQuestionText.as_view(), name='edit_question_text_in_quiz'),
     path('quizzes/<slug:slug>/<int:pk>/edit_question_quiz', EditQuestionQuiz.as_view(), name='edit_question_quiz_in_quiz'),
     path('quizzes/<slug:slug>/<int:pk>/edit_question_feedback', EditQuestionFeedback.as_view(), name='edit_question_feedback_in_quiz'),

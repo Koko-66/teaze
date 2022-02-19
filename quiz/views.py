@@ -24,14 +24,16 @@ from questions.forms import (
     EditQuestionImageForm,)
 from questions.models import Question
 from questions.views import (
-    DeleteOptionView,
     CreateOptionView,
-    QuestionDetailsView,
-    EditQuestionView,
+    CreateQuestionView,
+    DeleteOptionView,
     DeleteQuestionView,
     EditOptionView,
+    EditQuestionView,
+    QuestionDetailsView,
     )
-from results.models import Assessment
+from questions.models import Option
+from results.models import Assessment, Answer
 from .models import Quiz
 from .forms import NewQuizForm, AddQuestionToQuizForm
 
@@ -172,10 +174,12 @@ class QuizListView(generic.ListView):
 class QuizDetailsView(generic.DetailView):
     """Quiz details view."""
 
-    def get(self, request, *args, **kwargs):
+    template_name = 'quiz/quiz_detail.html'
+
+    def get(self, *args, **kwargs):
         """Overwrite the default get function to render available qustions
         with the same category."""
-        template_name = 'quiz/quiz_detail.html'
+        
         slug = self.kwargs.get('slug')
         quiz = get_object_or_404(Quiz, slug=slug)
 
@@ -193,7 +197,7 @@ class QuizDetailsView(generic.DetailView):
             'slug': slug,
         }
 
-        return render(request, template_name, context)
+        return render(self.request, self.template_name, context)
 
 
 def toggle_status(request, slug, *args, **kwargs):
@@ -240,35 +244,43 @@ class AddCategoryInQuizView(BSModalCreateView):
     success_url = reverse_lazy('quiz:add_quiz')
 
 
-def add_question_view(request, slug):
-    """Add new question from quiz details view."""
+class CreateQuestionInQuizView(CreateQuestionView):
+    """
+    Add new question from quiz details view. Inherits from 
+    CreateQuestionView in questions app and changes the form.
+    """
+    form_class = AddQuestionToQuizForm
+    
 
-    user = request.user
-    quiz = get_object_or_404(Quiz, slug=slug)
-    quiz_title = quiz.title
-    if request.method == 'POST':
-        form = AddQuestionToQuizForm(request.POST)
-        if form.is_valid():
-            # create object manually to post user as author
-            body = form.cleaned_data.get('body')
-            featured_image = form.cleaned_data.get('featured_image')
-            status = form.cleaned_data.get('status')
-            question = Question.objects.create(body=body, quiz=quiz,
-                                               featured_image=featured_image,
-                                               author=user, status=status)
-            print(form.cleaned_data)
-            question.category.set([quiz.category])
-            return redirect(f'../{question.pk}/details/')
-        else:
-            print(form.errors)
-    else:
-        form = AddQuestionToQuizForm()
+# def add_question_view(request, slug):
+#     """Add new question from quiz details view."""
 
-    context = {
-        'form': form,
-        'quiz': quiz,
-    }
-    return render(request, 'questions/add_question.html', context)
+#     user = request.user
+#     quiz = get_object_or_404(Quiz, slug=slug)
+#     quiz_title = quiz.title
+#     if request.method == 'POST':
+#         form = AddQuestionToQuizForm(request.POST)
+#         if form.is_valid():
+#             # create object manually to post user as author
+#             body = form.cleaned_data.get('body')
+#             featured_image = form.cleaned_data.get('featured_image')
+#             status = form.cleaned_data.get('status')
+#             question = Question.objects.create(body=body, quiz=quiz,
+#                                                featured_image=featured_image,
+#                                                author=user, status=status)
+#             print(form.cleaned_data)
+#             question.category.set([quiz.category])
+#             return redirect(f'../{question.pk}/details/')
+#         else:
+#             print(form.errors)
+#     else:
+#         form = AddQuestionToQuizForm()
+
+#     context = {
+#         'form': form,
+#         'quiz': quiz,
+#     }
+#     return render(request, 'questions/add_question.html', context)
 
 # Managing options while accessed from quiz view
 class CreateOptionInQuizView(CreateOptionView):
