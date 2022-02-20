@@ -1,9 +1,10 @@
 from django.contrib import admin
 from results.models import Assessment, Answer
 
-@admin.register(Answer)
-class AnswerInline(admin.ModelAdmin):
+# @admin.register(Answer)
+class AnswerInline(admin.TabularInline):
     """Show answers inline with Assessment in django admin."""
+    model = Answer
     list_display = ['assessment']
     list_filter = ['assessment']
     # search_fields = ('name', 'email', 'body')
@@ -12,7 +13,7 @@ class AnswerInline(admin.ModelAdmin):
 @admin.register(Assessment)
 class AssessmentAdmin(admin.ModelAdmin):
     """Pull answers for the assessment inline in django admin."""
-    list_display = [str, 'id', 'created_on', 'user']
+    inlines = [AnswerInline]
+    list_display = [str, 'created_on', 'user', 'score']
 
-# admin.site.register(Assessment, AssessmentAdmin)
-
+admin.site.register(Answer)
