@@ -19,8 +19,6 @@ from quiz.views import (
     EditOptionInQuizView,
     DeleteOptionQuizView,
     CreateOptionInQuizView,
-    upload_image,
-    update_image,
     EditQuestionText,
     EditQuestionFeedback,
     EditQuestionQuiz,
@@ -34,8 +32,6 @@ urlpatterns = [
     path('', welcome_page_view, name='home'),
     path('quizzes/', QuizListView.as_view(), name='manage_quizzes'),
     path('quizzes/add_quiz/', CreateQuizView.as_view(), name='add_quiz'),
-    path('quizzes/add_quiz/', upload_image, name='upload_image'),
-    path('quizzes/<slug:slug>/details/update', update_image, name='update_image'),
     path('quizzes/<slug:slug>/details/', QuizDetailsView.as_view(), name='quiz_details'),
     path('quizzes/<slug:slug>/edit_quiz/', EditQuizView.as_view(), name='edit_quiz'),
     path('quizzes/<slug:slug>/delete_quiz/', DeleteQuizView.as_view(), name='delete_quiz'),
@@ -44,7 +40,6 @@ urlpatterns = [
     path('quizzes/<slug:slug>/<int:pk>/add_question/', add_question_to_quiz, name='add_question'),
     path('quizzes/add_category', AddCategoryInQuizView.as_view(), name='add_category_in_quiz'),
     # paths for views managing questions
-    # path('quizzes/<slug:slug>/add_question/', add_question_view, name='add_question_in_quiz'),
     path('quizzes/<slug:slug>/add_question/', CreateQuestionInQuizView.as_view(), name='add_question_in_quiz'),
     path('quizzes/<slug:slug>/<int:pk>/delete_question/', DeleteQuestionInQuizView.as_view(), name='delete_question_in_quiz'),
     # paths for views for editing question elements when accessed from quiz
