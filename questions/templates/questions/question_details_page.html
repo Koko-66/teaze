@@ -19,15 +19,13 @@
                 <!-- Cancel button-->
                 <div>
                 <!-- Change redirection depending on starting point -->
-                    {% if correct_option_counter <= 1 %}
-                        {% if quiz.slug %}
-                        <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close"
-                                aria-label="Close"></button></a>
-                        {% else %}
-                        <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close"
-                                aria-label="Close"></button></a>
-                        {% endif %}
+
+                    {% if quiz.slug %}
+                    <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    {% else %}
+                    <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
                     {% endif %}
+ 
                 </div>
             </div>
             <div class="me-3 d-flex align-items-center justify-content-end">
@@ -68,7 +66,7 @@
                 </div>
                 <div class="m-1 p-1 w-100 rounded border-start">
                     <h6 class="ms-2 p-1 highlight rounded">Image:</h6>
-                    <h6 class="ms-2 my-0 flex-grow-1">{{ question.featured_image }}</h6>
+                    <h6 class="ms-2 my-0 flex-grow-1">{{ question.featured_image}}</h6>
                 </div>
                 <div>
                     {% if quiz.slug %}
@@ -127,15 +125,10 @@
                 <div class="d-flex flex-row justify-content-between">
                     <h5 class="py-1"><small>Answer options:</small></h5>
                     <div class="">
-                        {% if quiz.slug %}
-                        <a data-form-url="{% url 'quiz:add_option_in_quiz' quiz.slug question.pk %}" class="add-option bs-modal btn py-0"
-                        alt="Add option" title="Add option">Add new option to quiz</a>
-                        {% else %}
+                
                         <a data-form-url="{% url 'questions:add_option' question.pk %}" class="add-option bs-modal btn py-0"
                         alt="Add option" title="Add option">Add new option</a>
-                        <!-- <a data-form-url="{% url 'questions:add_option' question.pk %}" class="add-option bs-modal btn py-0"
-                        alt="Add option" title="Add option">Add new option</a> -->
-                        {% endif %}
+
                     </div>
                 </div>
                 {% for option in question.options.all %}
