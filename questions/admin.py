@@ -14,8 +14,8 @@ class QuestionAdmin(admin.ModelAdmin):
     """Register question"""
     inlines = [OptionInline]
 
-    list_display = ('body', 'author', 'created_on')
-    list_filter = ('created_on', 'category')
+    list_display = ('body', 'author', 'quiz', 'created_on')
+    list_filter = ('category', 'quiz', 'created_on')
     search_fields = ['body']
 
 
