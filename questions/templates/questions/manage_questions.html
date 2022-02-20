@@ -17,13 +17,13 @@
         </div>
         <h3 class="pb-2"><a href="{% url 'questions:add_new_question' %}" id="add-question" alt="Add question" class="add-question text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
     </div>
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
         {% for question in question_list %}
             <div class="col">
                 <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg" style="background: {% if 'placeholder' not in question.featured_image.url %} url('{{question.featured_image.url}}'){% endif %};">
                     <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                         <h5 class="pt-3 mt-2 mb-4 lh-1.7 border-bottom">{{ question.pk }} - {{ question.body }}</h5>
-                        <h6 class="card-title">Category: <small>{{ question.get_categories }}</small></h6>
+                        <h6 class="card-title">{% if "," in question.get_categories %}Categories:{% else %}Category:{% endif %}<small> {{ question.get_categories }}</small></h6>
                         <h6 class="card-title">Quizzes: <small>{{ question.quiz}}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
 
