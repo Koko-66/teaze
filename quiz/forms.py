@@ -36,6 +36,5 @@ class AddQuestionToQuizForm(forms.ModelForm):
         model = Question
         fields = (
             'body',
-            'status',
             'feedback',
         )

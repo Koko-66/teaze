@@ -21,7 +21,6 @@ class NewQuestionForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
             'body',
             'quiz',
             'feedback',
-            'status',
             'category',
             'featured_image',
         )
