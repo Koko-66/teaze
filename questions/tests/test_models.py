@@ -85,4 +85,3 @@ class QuestionTestCase(TestCase):
     def test_option_str_method(self):
             """Test string method"""
             self.assertEqual(str(self.option), 'Test option 1')
-
