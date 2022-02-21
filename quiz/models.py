@@ -45,7 +45,16 @@ class Quiz(models.Model):
     def __str__(self):
         """Quiz string method"""
         return self.title
-
+    
+    def toggle_status(self, *args, **kwargs):
+        """"Togge quiz status."""
+        if self.status != 0:
+            self.status = 0
+        else:
+            self.status = 1
+        self.save()
+        super(Quiz, self).save(*args, **kwargs)
+    
     def get_absolute_url(self):
         """Get absolute url"""
         return reverse('quiz:quiz_details', kwargs={"slug": self.slug})
