@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'cloudinary',
     'bootstrap_modal_forms',
+    'django_filters',
     'widget_tweaks',
 
     'categories',
