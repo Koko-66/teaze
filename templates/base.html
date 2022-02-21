@@ -19,15 +19,13 @@
 <body>
     <!-- Top Navigation bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <!-- <nav class="navbar navbar-expand-lg m-1 mt-0 border navbar-light nav-shadow rounded-4"> -->
+        <!-- Main navbar container -->
         <div class="container-fluid">
-            <!-- <div> -->
                 <!-- Teaze logo -->
                 <a href="{% url 'quiz:home' %}">
                 <img src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639319548/teaze/teaze-logo_no-bkg_sm_z6cza3.png"
                     class="img-fluid" alt="Teaze logo" srcset="">
                 </a>
-            <!-- </div> -->
             <div class="d-flex flex-wrap mr-auto me-2 p2 justify-content-end">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -86,8 +84,8 @@
     </div>
     <!-- Main content -->
     <main class="flex-shrink-0 main-bg">
+        <p class="fs-6 my-0 mx-3 text-secondary d-flex justify-content-end">Current user:&nbsp;<span class="small-caps">{{ request.user }}</span></p>
         <div class="py-2 pb-5 my-2">
-            You are here {{ request.path }}
             {% block content %}
             <!-- Content goes here -->
             {% endblock content %}
