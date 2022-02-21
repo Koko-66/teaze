@@ -36,14 +36,9 @@ class CreateQuestionView(CreateView):
     success_message = 'Question created successfully.'
 
     def get(self, *args, **kwargs):
-        """
-        Override get method to grab quiz.
-        """
-
+        """Override get method to grab quiz."""
         form = self.form_class
         slug = self.kwargs.get('slug')
-        # question = get_object_or_404(Question, pk=pk)
-        # correct_options_count = question.correct_options_count
 
         context = {
             'form': form,
@@ -52,16 +47,14 @@ class CreateQuestionView(CreateView):
 
         return render(self.request, self.template_name, context)
 
-    
     def post(self, *args, **kwargs):
         """Override the default post method"""
         user = self.request.user
         form = self.form_class(self.request.POST, self.request.FILES)
         slug = self.kwargs.get('slug')
-        # quiz = get_object_or_404(Quiz, slug=slug)
         if form.is_valid():
             # create object manually to post user as author
-            # category not included to avoid "Direct assignment 
+            # category added later using set() to avoid "Direct assignment
             # of many-to-many prohibited error."
             if self.kwargs.get('slug'):
                 slug = self.kwargs.get('slug')
@@ -69,13 +62,11 @@ class CreateQuestionView(CreateView):
                 category = [quiz.category]
             else:
                 quiz = form.cleaned_data.get('quiz')
-                # question.category.set(category)
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
-            status = form.cleaned_data.get('status')
             question = Question.objects.create(body=body, quiz=quiz,
                                                featured_image=featured_image,
-                                               author=user, status=status)
+                                               author=user, status=0)
             print(form.cleaned_data)
             question.category.set(category)
             return redirect(f'../{question.pk}/details/')
@@ -88,39 +79,6 @@ class CreateQuestionView(CreateView):
         }
         print(slug)
         return render(self.request, 'questions/add_new_question.html', context)
-
-   
-# def add_new_question_view(request, *args, **kwargs):
-#     """Add new question independently"""
-
-#     user = request.user
-#     if request.method == 'POST':
-#         form = NewQuestionForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             # create object manually to post user as author
-#             # category not included to avoid "Direct assignment 
-#             # of many-to-many prohibited error."
-#             quiz = form.cleaned_data.get('quiz')
-#             body = form.cleaned_data.get('body')
-#             featured_image = form.cleaned_data.get('featured_image')
-#             status = form.cleaned_data.get('status')
-#             category = form.cleaned_data.get('category')
-#             question = Question.objects.create(body=body, quiz=quiz,
-#                                                featured_image=featured_image,
-#                                                author=user, status=status)
-#             print(form.cleaned_data)
-#             question.category.set(category)
-
-#             return redirect(f'../{question.pk}/details/')
-#         else:
-#             print(form.errors)
-#     else:
-#         form = NewQuestionForm()
-
-#     context = {
-#         'form': form,
-#     }
-#     return render(request, 'questions/add_new_question.html', context)
 
 
 class CreateOptionView(BSModalCreateView):
@@ -213,7 +171,7 @@ class EditQuestionView(BSModalUpdateView):
     model = Question
     form_class = NewQuestionForm
     template_name = 'questions/edit_question_element_modal.html'
-    success_message = 'Success: Question was updated.'
+    success_message = 'Question was updated.'
 
     def get_success_url(self, *args, **kwargs):
         pk = self.object.pk
@@ -315,32 +273,3 @@ class SearchQuestionResultsView(ListView):
     template_name = 'questions/search_question_results.html'
     queryset = Question.objects.filter(body__icontains='languages')
 
-
-def upload_image(request):
-    """Upload image when creating new quiz."""
-    context = dict(backend_form=NewQuestionForm())
-
-    if request.method == 'POST':
-        form = NewQuestionForm(request.POST, request.FILES)
-        context['posted'] = form.instance
-        if form.is_valid():
-            form.save()
-
-    return render(request, 'questions/add_question.html', context)
-
-
-def update_image(request, pk):
-    """Update image in question."""
-    
-    question = get_object_or_404(Question, pk=pk)
-    context = {
-        'backend_form': NewQuestionForm(),
-        'question': question
-    }
-    if request.method == 'POST':
-        form = NewQuestionForm(request.POST, request.FILES)
-        context['posted'] = form.instance
-        if form.is_valid():
-            form.save()
-
-    return render(request, 'questions/edit_question_element_modal.html', context)
