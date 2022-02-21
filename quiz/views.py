@@ -1,5 +1,6 @@
 # from django.http import HttpResponseRedirect
-from django.urls import reverse_lazy, reverse
+from django.contrib import messages
+from django.urls import reverse_lazy
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -32,10 +33,13 @@ from questions.views import (
     EditQuestionView,
     QuestionDetailsView,
     )
-from questions.models import Option
-from results.models import Assessment, Answer
+from results.models import Assessment
 from .models import Quiz
-from .forms import NewQuizForm, AddQuestionToQuizForm
+from .forms import (
+    NewQuizForm,
+    AddQuestionToQuizForm,
+    # ToggleQuizStatusForm,
+)
 
 
 # class Error(Exception):
@@ -97,36 +101,6 @@ class CreateQuizView(generic.CreateView):
     def get_success_url(self):
         slug = self.object.slug
         return reverse_lazy('quiz:quiz_details', args=[slug])
-
-
-def upload_image(request):
-    """Upload image when creating new quiz."""
-    context = dict(backend_form=NewQuizForm())
-
-    if request.method == 'POST':
-        form = NewQuizForm(request.POST, request.FILES)
-        context['posted'] = form.instance
-        if form.is_valid():
-            form.save()
-
-    return render(request, 'add_quiz.html', context)
-
-
-def update_image(request, slug):
-    """Update image in quiz."""
-    
-    quiz = get_object_or_404(Quiz, slug=slug)
-    context = {
-        'backend_form': NewQuizForm(),
-        'quiz': quiz
-    }
-    if request.method == 'POST':
-        form = NewQuizForm(request.POST, request.FILES)
-        context['posted'] = form.instance
-        if form.is_valid():
-            form.save()
-
-    return render(request, 'quiz/edit_quiz.html', context)
 
 
 class EditQuizView(generic.UpdateView):
@@ -200,14 +174,42 @@ class QuizDetailsView(generic.DetailView):
         return render(self.request, self.template_name, context)
 
 
+# class ToggleQuizStatusView(BSModalUpdateView):
+#     """Toggle quiz status"""
+#     model = Quiz
+#     template_name = 'quiz/confirm_change_status.html'
+#     form_class = ToggleQuizStatusForm
+#     success_message = "Status changed"
+    
+#     def get(self, *args, **kwargs):
+#         slug = self.kwargs.get('slug')
+#         quiz = get_object_or_404(Quiz, slug=slug)
+#         form = self.form_class
+#         if quiz.status == 0:
+#             message = "will change to approve"
+            
+#         if quiz.status == 1:
+#             message = "will change to approve"
+#         quiz.toggle_status()
+#         context = {
+#             'quiz': quiz,
+#             'message': message,
+#             'form': form,
+#         }
+#         return render(self.request, self.template_name, context)
+
+    # def get_success_url(self, *args, **kwargs):
+    #     slug = self.kwargs.get('slug')
+    #     return reverse_lazy('quiz:quiz_details', args=[slug])
+
 def toggle_status(request, slug, *args, **kwargs):
     """"Togge quiz status."""
     quiz = get_object_or_404(Quiz, slug=slug)
-    if quiz.status != 0:
-        quiz.status = 0
+    if quiz.status == 0:
+        messages.warning(request, 'Quiz has been set as Approved. It is now accessible to test takers.')
     else:
-        quiz.status = 1
-    quiz.save()
+        messages.success(request, 'Quiz status changed to Draft.')
+    quiz.toggle_status()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
@@ -250,37 +252,7 @@ class CreateQuestionInQuizView(CreateQuestionView):
     CreateQuestionView in questions app and changes the form.
     """
     form_class = AddQuestionToQuizForm
-    
 
-# def add_question_view(request, slug):
-#     """Add new question from quiz details view."""
-
-#     user = request.user
-#     quiz = get_object_or_404(Quiz, slug=slug)
-#     quiz_title = quiz.title
-#     if request.method == 'POST':
-#         form = AddQuestionToQuizForm(request.POST)
-#         if form.is_valid():
-#             # create object manually to post user as author
-#             body = form.cleaned_data.get('body')
-#             featured_image = form.cleaned_data.get('featured_image')
-#             status = form.cleaned_data.get('status')
-#             question = Question.objects.create(body=body, quiz=quiz,
-#                                                featured_image=featured_image,
-#                                                author=user, status=status)
-#             print(form.cleaned_data)
-#             question.category.set([quiz.category])
-#             return redirect(f'../{question.pk}/details/')
-#         else:
-#             print(form.errors)
-#     else:
-#         form = AddQuestionToQuizForm()
-
-#     context = {
-#         'form': form,
-#         'quiz': quiz,
-#     }
-#     return render(request, 'questions/add_question.html', context)
 
 # Managing options while accessed from quiz view
 class CreateOptionInQuizView(CreateOptionView):
@@ -291,7 +263,7 @@ class EditOptionInQuizView(EditOptionView):
     """Edit option while in quiz."""
 
     def get_success_url(self, *args, **kwargs):
-        """Overwrite success url from base class."""
+        """Override success url from base class."""
         pk = self.object.question.pk
         slug = self.kwargs.get('slug')
         return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
