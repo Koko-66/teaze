@@ -87,10 +87,10 @@
 </div>
     {% else %}
 <!-- Displays list of quizzes available for the user if logged in as generic user -->
-<div class="container px-4 py-5" id="custom-cards">
+<div class="container px-md-4 py-md-5" id="custom-cards">
     <h2 class="pb-2 border-bottom">Your quizzes</h2>
     
-    <div class="row row-cols-1 {% if quiz_list.count < 3 %}row-cols-lg-{{quiz_list.count}}{% else %}row-cols-lg-3{% endif %} h-100 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 {% if quiz_list.count < 3 %}row-cols-lg-{{quiz_list.count}}{% else %}row-cols-lg-3{% endif %} h-100 align-items-stretch g-4 py-3 py-md-5">
     <!-- <div class="row row-cols-1 row-cols-lg-3 h-100 align-items-stretch g-4 py-5"> -->
         {% for quiz in quiz_list %}
         <div class="col">
@@ -99,16 +99,16 @@
                     <h4 class="modal-header">{{ quiz.title }}</h4>
                     <div class="modal-body">
                         <h5>Category: <small>{{ quiz.category }}</small></h5>
-                        <p class="fs-6">{{ quiz.description }}</p>
+                        <p class="text-smaller">{{ quiz.description }}</p>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <!-- Check if the user completed the quiz -->
                             {% if quiz in completed_quizzes %}
                             <!-- If yes display 'Completed' with a checkbox and a link to see results -->
                             <li class="d-flex align-items-center me-3">Completed<i class="fas fa-check-square ms-3"></i>
                             </li>
-                            <li class="d-flex align-items-center me-3 btn"><a
-                                    href="{% url 'results:assessment_details' assessment.quiz.slug assessment.pk %}">See
-                                    results</a></li>
+                            <li class="d-flex align-items-center me-3 btn"><a class=""
+                                    href="{% url 'results:assessment_details' assessment.quiz.slug assessment.pk %}">
+                                    Results</a></li>
                             <!-- if not completed, show button with link to take quiz -->
                             {% else %}
                             <li><a href="{% url 'results:take_quiz' quiz.slug %}" class="btn">Start Quiz</a></li>
