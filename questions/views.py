@@ -7,8 +7,9 @@ from django.shortcuts import (
 )
 from django.urls import reverse_lazy
 from django.views.generic import (
-    CreateView, 
+    CreateView,
     ListView,
+    View,
 )
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
@@ -18,6 +19,7 @@ from bootstrap_modal_forms.generic import (
     BSModalDeleteView
 )
 from quiz.models import Quiz
+from .filters import QuestionFilter
 from .forms import (
     NewQuestionForm,
     NewOptionForm,
@@ -64,9 +66,10 @@ class CreateQuestionView(CreateView):
                 quiz = form.cleaned_data.get('quiz')
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
+            feedback = form.cleaned_data.get('feedback')
             question = Question.objects.create(body=body, quiz=quiz,
                                                featured_image=featured_image,
-                                               author=user, status=0)
+                                               author=user, status=0, feedback=feedback)
             print(form.cleaned_data)
             question.category.set(category)
             return redirect(f'../{question.pk}/details/')
@@ -86,7 +89,7 @@ class CreateOptionView(BSModalCreateView):
 
     form_class = NewOptionForm
     template_name = 'questions/add_option_modal.html'
-    success_message = 'Option created.'
+    success_message = 'Option created successfully.'
 
     def get(self, *args, **kwargs):
         """
@@ -120,7 +123,6 @@ class CreateOptionView(BSModalCreateView):
                                             option=option_text,
                                             is_correct=is_correct, author=user)
             print(form.cleaned_data)
-        
         return redirect('../details')
 
 
@@ -149,20 +151,20 @@ class QuestionDetailsView(BSModalReadView):
         return render(request, self.template_name, context)
 
 
-class QuestionListView(ListView):
-    """View listing all questions in the databae."""
-    model = Question
-    template_name = 'questions/manage_questions.html'
+# class QuestionListView(ListView):
+#     """View listing all questions in the databae."""
+#     model = Question
+#     template_name = 'questions/manage_questions.html'
 
-    def get(self, request, *args, **kwargs):
-        if request.user.groups.filter(name='Admin').exists():
-            question_list = Question.objects.order_by('category')
-            return render(request, self.template_name, {
-                'question_list': question_list,
-                }
-            )
-        else:
-            return redirect('login.html')
+#     def get(self, request, *args, **kwargs):
+#         if request.user.groups.filter(name='Admin').exists():
+#             question_list = Question.objects.order_by('category')
+#             return render(request, self.template_name, {
+#                 'question_list': question_list,
+#                 }
+#             )
+#         else:
+#             return redirect('login.html')
 
 
 class EditQuestionView(BSModalUpdateView):
@@ -171,15 +173,10 @@ class EditQuestionView(BSModalUpdateView):
     model = Question
     form_class = NewQuestionForm
     template_name = 'questions/edit_question_element_modal.html'
-    success_message = 'Question was updated.'
+    success_message = 'Question updated successfully.'
 
-    def get_success_url(self, *args, **kwargs):
+    def get_success_url(self):
         pk = self.object.pk
-    
-        # if self.kwargs.get('slug'):
-        #     slug = self.object.quiz.slug
-        #     return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
-        # else:
         return reverse_lazy('questions:question_details', args=[pk])
 
 
@@ -220,6 +217,7 @@ class EditOptionView(BSModalUpdateView):
     model = Option
     template_name = 'questions/edit_option.html'
     form_class = NewOptionForm
+    success_message = 'Option updated successfully.'
 
     def get_success_url(self, *args, **kwargs):
         pk = self.object.question.pk
@@ -231,14 +229,17 @@ class DeleteQuestionView(BSModalDeleteView):
 
     model = Question
     template_name = 'questions/question_confirm_delete.html'
-    success_message = 'Question was successfully deleted.'
+    success_message = 'Question deleted successfully.'
     # success_url = reverse_lazy('questions:manage_questions')
 
     def get_success_url(self, *args, **kwargs):
-        """Change success url depending on whether accessed from quiz or question."""
+        """
+        Change success url depending on whether
+        accessed from quiz or question.
+        """
+
         slug = self.kwargs.get('slug')
         print(slug)
-
         return reverse_lazy('questions:manage_questions')
 
 
@@ -246,7 +247,7 @@ class DeleteOptionView(BSModalDeleteView):
     """Delete option."""
     model = Option
     template_name = 'questions/option_confirm_delete.html'
-    success_message = 'Success: Option was deleted.'
+    success_message = 'Option deleted successfully.'
     # success_url = reverse_lazy('questions:question_details')
 
     def get_success_url(self, *args, **kwargs):
@@ -265,11 +266,19 @@ def toggle_question_status(request, pk, *args, **kwargs):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-class SearchQuestionResultsView(ListView):
-    """Search facility for questions"""
+# Code for checkting if filter is filled from:
+# https://stackoverflow.com/questions/49732359/check-and-clear-filters-with-django-filter
+def search(request):
+    """Filter qustions"""
+    question_list = Question.objects.all()
+    question_filter = QuestionFilter(request.GET, queryset=question_list)
+    has_filter = any(field in request.GET for field in
+                     set(question_filter.get_fields()))
+    print(has_filter)
 
-    model = Question
-    context_object_name = 'questions'
-    template_name = 'questions/search_question_results.html'
-    queryset = Question.objects.filter(body__icontains='languages')
-
+    template = 'questions/manage_questions.html'
+    context = {
+        'filter': question_filter,
+        'has_filter': has_filter,
+        }
+    return render(request, template, context)

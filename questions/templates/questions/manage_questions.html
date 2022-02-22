@@ -1,44 +1,113 @@
 {% extends 'base.html' %}
+{% load widget_tweaks %}
 
 {% block content %}
 <!-- Modal diplaying edit and delete forms -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <!-- Form goes here -->
-        </div>
-    </div>
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<!-- Form goes here -->
+		</div>
+	</div>
 </div>
 
-<div class="container px-4 py-5" id="custom-cards">
-    <div class="d-flex justify-content-between border-bottom">
-        <div>
-            <h2 class="pb-2">Questions</h2>
-        </div>
-        <h3 class="pb-2"><a href="{% url 'questions:add_new_question' %}" id="add-question" alt="Add question" class="add-question text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
-    </div>
-    <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
-        {% for question in question_list %}
-            <div class="col">
-                <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg" style="background: {% if 'placeholder' not in question.featured_image.url %} url('{{question.featured_image.url}}'){% endif %};">
-                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
-                        <h5 class="pt-3 mt-2 mb-4 lh-1.7 border-bottom">{{ question.pk }} - {{ question.body }}</h5>
-                        <h6 class="card-title">{% if "," in question.get_categories %}Categories:{% else %}Category:{% endif %}<small> {{ question.get_categories }}</small></h6>
-                        <h6 class="card-title">Quizzes: <small>{{ question.quiz}}</small></h6>
-                        <ul class="d-flex list-unstyled mt-auto justify-content-end">
+<div class="container px-md-4 py-md-5" id="custom-cards">
+	<div class="d-flex justify-content-between border-bottom">
+		<div>
+			<h2 class="pb-2">Questions</h2>
+		</div>
+		<h3 class="pb-2"><a href="{% url 'questions:add_new_question' %}" id="add-question" alt="Add question"
+				class="add-question text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
+	</div>
+	<div>
+		<!-- A href 'button' to toggle filter -->
+		<div class="pt-3">
+			<a class="btn-secondary p-1 m-2 ms-4 rounded collapsed" data-bs-toggle="collapse" href="#collapseFilter"
+				role="button" aria-expanded="false" aria-controls="collapseFilter">Show filter
+				<i class="fas fa-filter ms-2"></i>
+			</a>
+			{% if has_filter %}
+			<a href="{%  url 'questions:manage_questions' %}" class="btn-secondary p-1 m-4 rounded">Clear filters</a>
+			{% endif %}
+		</div>
+		<!-- For with options for filtering -->
+		<form method="get" class="collapse m-2 mt-3" id="collapseFilter">
+			<div class="well shadow transparent-gray p-3">
+				<h4 style="margin-top: 0">Filter</h4>
+				<div class="row">
+					<div class="form-group col-md-6">
+						{{ filter.form.body.label_tag }}
+						{% render_field filter.form.body class="form-control" %}
+					</div>
+					<div class="form-group col-md-3">
+						{{ filter.form.quiz.label_tag }}
+						{% render_field filter.form.quiz class="form-select" %}
+					</div>
+					<div class="form-group col-md-3">
+						{{ filter.form.status.label_tag }}
+						{% render_field filter.form.status class="form-select" %}
+					</div>
+					<div class="form-group col-md-11 m-1">
+						{{ filter.form.category.label_tag }}
+						<div>
+							{% for choice in filter.form.category %}
+							<label class="ms-3 checkbox-inline">
+								{{ choice.tag }} {{ choice.choice_label }}
+							</label>
+							{% endfor %}
+						</div>
+					</div>
+				</div>
+				<button type="submit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-search"></span> Search
+				</button>
+			</div>
+		</form>
+	</div>
+	<!-- Display a list of questions - all or filtered results -->
+	<div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 pt-3 pb-5">
+		{% for question in filter.qs %}
+		<div class="col">
+			<!-- Check if question has image and add overlay if yes -->
+			{% if 'placeholder' not in question.featured_image.url %}
+			<div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg"
+				style="background: url('{{question.featured_image.url}}');">
+				<div class="d-flex flex-column h-100 w-md-75 p-md-5 pb-3 text-white text-shadow-1 dark-overlay">
+					{% else %}
+					<div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
+						<div class="d-flex flex-column h-100 p-md-5 pb-3 text-white text-shadow-1">
+							{% endif %}
+							<h5 class="modal-header">{{ question.body }} <a
+									data-form-url="{% url 'questions:delete_question' question.id %}"
+									class="delete-question bs-modal" aria-label="Delete question" title="Delete">
+									<i class="fas fa-trash me-3 ms-2"></i></a></h5>
+							<a class="p-1 m-2 collapsed" data-bs-toggle="collapse" href="#collapseQ-{{question.pk}}"
+								role="button" aria-expanded="false" aria-controls="collapseFilter">More...
+							</a>
+							<div id="collapseQ-{{question.pk}}" class="collapse ms-3">
+								<h6 class="card-title">
+									{% if "," in question.get_categories %}Categories:{% else %}Category:{% endif %}<small>
+										{{ question.get_categories }}</small></h6>
+								<h6 class="card-title">Quizzes: <small>{{ question.quiz}}</small></h6>
+								<h6 class="card-title">Status:
+									<small>{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</small></h6>
+								<ul class="d-flex list-unstyled mt-auto justify-content-end">
 
-                                <li><a href="{% url 'questions:question_details' question.id %}" class="" alt="Details" title="Details">
-                                    View and edit
-                                    <i class="fa fa-eye me-3 ms-2"></i></a></li>
-                                <li><a data-form-url="{% url 'questions:delete_question' question.id %}" class="delete-question bs-modal" aria-label="Delete question" title="Delete">
+									<li><a href="{% url 'questions:question_details' question.id %}" class=""
+											alt="Details" title="Details">
+											View and edit
+											<i class="fa fa-eye me-3 ms-2"></i></a></li>
+									<!-- <li><a data-form-url="{% url 'questions:delete_question' question.id %}" class="delete-question bs-modal" aria-label="Delete question" title="Delete">
                                     Delete
-                                    <i class="fas fa-trash me-3 ms-2"></i></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}  
-    </div>
+                                    <i class="fas fa-trash me-3 ms-2"></i></a></li> -->
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</div>
 </div>
-
 {% endblock %}
