@@ -66,7 +66,11 @@
                 </div>
                 <div class="m-1 p-1 w-100 rounded border-start">
                     <h6 class="ms-2 p-1 highlight rounded">Image:</h6>
-                    <h6 class="ms-2 my-0 flex-grow-1">{{ question.featured_image}}</h6>
+                    {% if 'placeholder' not in question.featured_image.url %}
+                    <h6 class="ms-2 my-0 flex-grow-1"><img src="{{ question.featured_image.url }}" class=" img-thumbnail"></h6>
+                    {% else %}
+                    <h6 class="ms-2 my-0 flex-grow-1">None</h6>
+                    {% endif %}
                 </div>
                 <div>
                     {% if quiz.slug %}

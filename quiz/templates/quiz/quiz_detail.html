@@ -40,14 +40,17 @@
                 </div>
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="p-1 highlight rounded">Image:</h6>
-                    <h6 class="ms-2 my-0 flex-grow-1">{{ quiz.featured_image }}</h6>
+                    {% if 'placeholder' not in quiz.featured_image.url %}
+                    <h6 class="ms-2 my-0 flex-grow-1"><img src="{{ quiz.featured_image.url }}" class=" img-thumbnail"></h6>
+                    {% else %}
+                    <h6 class="ms-2 my-0 flex-grow-1">None</h6>
+                    {% endif %}
                 </div>
             </div>
             <div class="modal-footer mt-3">
                 <div class="d-flex col-12 flex-row justify-content-end align-items-center">
                     <div>
                         <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a>
-                        <!-- <a href="{% url 'quiz:add_question_in_quiz' quiz.slug %}" class="btn">Add new question</a> -->
                     </div>
                 </div>
             </div>
