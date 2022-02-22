@@ -15,24 +15,24 @@
     </div>
 </div>
 <!-- List quizzes, questions and categories for managing if user is in the Admin group -->
-<div class="container px-4 py-5" id="custom-cards">
+<div class="container px-md-4 py-md-5" id="custom-cards">
     <h2 class="pb-2 border-bottom">Dashboard</h2>
 <!-- Quizzes -->
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-md-5">
         <div class="col"><a href="{% url 'quiz:manage_quizzes' %}">
                 <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
-                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <div class="d-flex flex-column h-100 p-3 p-md-5 pb-3 text-white text-shadow-1">
                         <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">Quizzes</h5>
                         <h6 class="card-title">Published: <small>{{ quiz_published_count }}</small></h6>
                         <h6 class="card-title">Drafts: <small>{{ quiz_draft_count }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li class="d-flex align-items-center me-3">
                                 <a href="{% url 'quiz:add_quiz' %}"><i class="far fa-edit"></i>
-                                    <small class="p-2">Add new</small></a>
+                                    <small class="p-md-2">Add new</small></a>
                             </li>
                             <li class="d-flex align-items-center">
                                 <a href="{% url 'quiz:manage_quizzes' %}"><i class="fas fa-book-open"></i>
-                                    <small class="p-2">Manage quizzes</small></a>
+                                    <small class="p-md-2">Manage quizzes</small></a>
                             </li>
                         </ul>
                     </div>
@@ -43,18 +43,18 @@
         <div class="col">
             <a href="{% url 'questions:manage_questions' %}">
                 <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
-                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <div class="d-flex flex-column h-100 p-3 p-md-5 pb-3 text-white text-shadow-1">
                         <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">Questions</h5>
                         <h6 class="card-title">Published: <small>{{ question_published_count }}</small></h6>
                         <h6 class="card-title">Drafts: <small>{{ question_draft_count }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li class="d-flex align-items-center me-3">
                                 <a href=""><i class="far fa-edit"></i>
-                                    <small class="p-2">Add new</small></a>
+                                    <small class="p-md-2">Add new</small></a>
                             </li>
                             <li class="d-flex align-items-center">
                                 <a href="{% url 'questions:manage_questions' %}"><i class="fas fa-book-open"></i>
-                                    <small class="p-2">Manage questions</small></a>
+                                    <small class="p-md-2">Manage questions</small></a>
                             </li>
                         </ul>
                     </div>
@@ -65,18 +65,18 @@
         <div class="col">
             <a href="{% url 'categories:manage_categories' %}">
                 <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
-                    <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                    <div class="d-flex flex-column h-100 p-3 p-md-5 pb-3 text-white text-shadow-1">
                         <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">Categories</h5>
                         <h6 class="card-title">Total: <small>{{ categories_count }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li class="d-flex align-items-center me-3">
                                 <a data-form-url="{% url 'categories:add_category' %}" class="add-category"
                                     alt="Add category"><i class="far fa-edit"></i>
-                                    <small class="p-2">Add new</small></a>
+                                    <small class="p-md-2">Add new</small></a>
                             </li>
                             <li class="d-flex align-items-center">
                                 <a href="{% url 'categories:manage_categories' %}"><i class="fas fa-book-open"></i>
-                                    <small class="p-2">Manage categories</small></a>
+                                    <small class="p-md-2">Manage categories</small></a>
                             </li>
                         </ul>
                     </div>
@@ -95,7 +95,7 @@
         {% for quiz in quiz_list %}
         <div class="col">
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow">
-                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <div class="d-flex flex-column h-100 p-4 p-md-5 pb-3 text-white text-shadow-1">
                     <h4 class="modal-header">{{ quiz.title }}</h4>
                     <div class="modal-body">
                         <h5>Category: <small>{{ quiz.category }}</small></h5>
@@ -122,23 +122,5 @@
     </div>
 </div>
     {% endif %}
-        <!-- {% else %}
-        <div class="container">
-            <div class="row col-lg-7 m-auto mt-5">
-                <div class="card card-cover h-100 overflow-hidden text-white rounded-5">
-                    <div class="modal-header">
-                        <h3 class="modal-title m-auto">Welcome to Teaze!</h3>
-                    </div>
-                    <div class="modal-body m-auto">
-                        <div class="p-2 fs-5">Welcome to our site. If you already have an account with us, <a
-                                href="{% url 'account_login' %}" class="text-warning lh-2">Log in</a> and enjoy.<br>
-                            Don't have an account yet?
-                            <a href="{{ signup_url }}" class="text-warning ms-2">Sign up here</a>.</h5>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div> -->
 {% endif %}
 {% endblock %}
