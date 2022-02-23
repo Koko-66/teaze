@@ -10,10 +10,9 @@
                 {% csrf_token %}
 
                 <div class="modal-header">
-                    <h3 class="modal-title">Add new question</h3> {{slug}}
+                    <h3 class="modal-title">Add new question</h3>
                     <!-- Cancel button -->
-                    {% if slug %}
-                    
+                    {% if slug %} 
                     <a href="{% url 'quiz:quiz_details' slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
                     {% else %}
                     <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
@@ -21,6 +20,7 @@
                 </div>
 
                 <div class="modal-body">
+                    <!-- Display non-field errors -->
                     <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
                         {% for error in form.non_field_errors %}
                         {{ error }}
@@ -39,7 +39,7 @@
                         {% elif field.label == "Status" or field.label == "Quiz"%}
                         <div class="shadow">{% render_field field class="form-select" placeholder=field.label %}</div>
                         {% elif field.label == "Category" %}
-                        <div class="lh-1 mb-1 ps-2 text-muted category-help-text">To select more than one category, hold Ctrl (Cmd on a Mac) while selecting.</div>  
+                        <div class="lh-1 mb-1 ps-2 text-muted text-smaller category-help-text">To select more than one category, hold Ctrl (Cmd on a Mac) while selecting.</div>  
                         <div class="shadow">{% render_field field class="form-select" placeholder=field.label %}</div>
                         {% else %}
                         <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
