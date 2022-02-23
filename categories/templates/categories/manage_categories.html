@@ -21,7 +21,7 @@
 </div>
 
 <!-- Main container that holds all cards -->
-<div class="container px-4 py-5" id="custom-cards">
+<div class="container px-4 py-2 py-md-5" id="custom-cards">
     <div class="d-flex justify-content-between border-bottom">
         <div>
             <h2 class="pb-2">Categories</h2>
@@ -31,10 +31,10 @@
         </div>
 
     </div>
-    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-md-5">
         <!-- loop through the database to find all categories and create card for each -->
         {% for category in category_list %}
-        <div class="col">
+        <div class="col pt-2">
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
                 <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                     <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">{{ category.name }}</h5>

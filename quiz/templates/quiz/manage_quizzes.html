@@ -13,7 +13,7 @@
     </div>
 </div>
 <!-- Main content -->
-<div class="container px-4 py-5" id="custom-cards">
+<div class="container px-md-4 py-md-5" id="custom-cards">
     <!-- Page header and add new quiz button -->
     <div class="d-flex justify-content-between border-bottom">
         <div>
@@ -23,16 +23,16 @@
             <h3 class="pb-2"><a href="{% url 'quiz:add_quiz' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
         </div>
     </div>
-    <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-5">
+    <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-md-5">
         {% for quiz in quiz_list %}
-        <div class="col">
+        <div class="col pt-2">
             {% if 'placeholder' not in quiz.featured_image.url %}
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg"
                 style="background: url('{{quiz.featured_image.url}}');">
-                <div class="d-flex flex-column h-100 w-75 p-5 pb-3 text-white text-shadow-1 dark-overlay">
+                <div class="d-flex flex-column h-100 w-75 p-2 p-md-5 text-white text-shadow-1 dark-overlay">
             {% else %}
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
-                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                <div class="d-flex flex-column h-100 p-2 p-md-5 text-white text-shadow-1">
             {% endif %}
                             <!-- <div class="h-100 bg-dark rounded"> -->
                             <div class="modal-header">
