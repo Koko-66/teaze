@@ -27,7 +27,7 @@
                     <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                     <div class="mx-2">{% render_field field class="form-check-input" placeholder=field.label %}</div>
                     {% else %}
-                    <div class="mt-1">Correct answer already exists.<br>Deselect current option to set this one as correct.
+                    <div class="mt-1 text-smaller">Correct answer already exists.<br>Deselect current option to set this one as correct.
                     </div>
                 </div>
                 {% endif %}
