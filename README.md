@@ -135,8 +135,8 @@ Once created, admin user has an option to check the quiz as it would appear to a
 
 #### Setting quiz status
 
-A quiz can have two statuses - _Draft_ and _Published_. Until the status is set to _Draft_, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
-At the time of creating, a new quiz is set to _Draft_ as detault and can be toggled to _Published_ in the Quiz detail view, once admin user is finished setting it up. 
+A quiz can have two statuses - _Draft_ and _Approved_. Until the status is set to _Draft_, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
+At the time of creating, a new quiz is set to _Draft_ as detault and can be toggled to _Approved_ in the Quiz detail view, once admin user is finished setting it up. 
 
 On setting the quiz to Published a pop-up alert informs the user that the status has been changed and the quiz is now available for all test-takers.
 
@@ -176,6 +176,13 @@ On this page the user also gets an opprotunity to manage options - they can add 
 
 At present, the application design allows for only one option to be set as correct. To prevent the user from setting more than one answer as correct, and once one option is set as such, the tick box for is_correct is replaced with information that one correct option already exists.
 ![Adding option when correct answer already exists]()
+
+#### Question status
+
+As quizzes, questions have two statuses _Draft_ and _Approved_. At present this feature is simply for to the admin user to keep track of questions that still needs to be reviewed, but they can still be used in the quiz, if the user wishes to use them. 
+Draft qustions are clearly indicated in the _Quiz detail_ page and can be reviewed and approved before adding to the quiz and publishing the latter.
+
+![Draft questions indicated in the Quiz detail page]()
 
 #### Accessibility and alerts
 
