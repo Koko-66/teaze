@@ -6,11 +6,7 @@ from django.shortcuts import (
     HttpResponseRedirect,
 )
 from django.urls import reverse_lazy
-from django.views.generic import (
-    CreateView,
-    ListView,
-    View,
-)
+from django.views.generic import CreateView
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalReadView,
@@ -19,6 +15,7 @@ from bootstrap_modal_forms.generic import (
     BSModalDeleteView
 )
 from quiz.models import Quiz
+from results.models import Answer
 from .filters import QuestionFilter
 from .forms import (
     NewQuestionForm,
@@ -30,6 +27,7 @@ from .forms import (
     EditQuestionImageForm
 )
 from .models import Question, Option
+
 
 class CreateQuestionView(CreateView):
     """Add new question independently view"""
@@ -69,7 +67,8 @@ class CreateQuestionView(CreateView):
             feedback = form.cleaned_data.get('feedback')
             question = Question.objects.create(body=body, quiz=quiz,
                                                featured_image=featured_image,
-                                               author=user, status=0, feedback=feedback)
+                                               author=user, status=0,
+                                               feedback=feedback)
             print(form.cleaned_data)
             question.category.set(category)
             return redirect(f'../{question.pk}/details/')
@@ -220,17 +219,17 @@ class DeleteQuestionView(BSModalDeleteView):
         """Override the default get function."""
         pk = self.kwargs.get('pk')
         question = get_object_or_404(Question, pk=pk)
-        quizzes = Quiz.objects.all()
         protected = False
         protected_message = ''
 
-        # Check if question is used in a quiz:
+        # Check if question exists in answers:
         # if yes, prevent deletion displaying message to the user,
         # if not, ask the user to confirm deletion.
-        for quiz in quizzes:
-            if quiz == question.quiz:
-                protected_message = f"""This quetion is used in quiz
-                 <strong>{quiz.title}</strong> and cannot be deleted."""
+        answers = Answer.objects.all()
+        for answer in answers:
+            if question == answer.question:
+                protected_message = """This question appears in an
+                assessments and cannot be deleted."""
                 protected = True
 
         context = {
@@ -257,7 +256,32 @@ class DeleteOptionView(BSModalDeleteView):
     model = Option
     template_name = 'questions/option_confirm_delete.html'
     success_message = 'Option deleted successfully.'
-    # success_url = reverse_lazy('questions:question_details')
+
+    def get(self, *args, **kwargs):
+        """Override the default get function."""
+        pk = self.kwargs.get('pk')
+        option = get_object_or_404(Option, pk=pk)
+        answers = Answer.objects.all()
+        protected = False
+        protected_message = ''
+
+        # Check if question exists in answers:
+        # if yes, prevent deletion displaying message to the user,
+        # if not, ask the user to confirm deletion.
+
+        for answer in answers:
+            if answer.answer == option:
+                protected_message = """This option appears in an
+                assessments and cannot be deleted."""
+                protected = True
+
+        context = {
+            'protected_message': protected_message,
+            'protected': protected,
+            'option': option,
+        }
+        return render(self.request, 'questions/option_confirm_delete.html',
+                      context)
 
     def get_success_url(self, *args, **kwargs):
         pk = self.object.question.pk

@@ -9,14 +9,14 @@
     </div>
 
     <div class="modal-body">
-        <!-- Check if question is used in a quiz -->
+        <!-- Check if question protected -->
         {% if protected %}
         <p>{{ protected_message|safe }}</p>
     </div>
     <div class="modal-footer">
         <button type="button" data-bs-dismiss="modal" class="btn" aria-label="Ok">OK</button>
     </div>
-    <!-- If qustion not in any quiz, ask to confirm deletion. -->
+    <!-- If not protected, ask to confirm deletion. -->
     {% else %}
     <p>Are you sure you want to delete this question?<br>
         <strong>{{ question.body }}</strong><br>

@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-
+<!-- Main Question details container -->
 <div class="container">
     <div class="row m-md-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
@@ -19,13 +19,11 @@
                 <!-- Cancel button-->
                 <div>
                 <!-- Change redirection depending on starting point -->
-
                     {% if quiz.slug %}
                     <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
                     {% else %}
                     <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
                     {% endif %}
- 
                 </div>
             </div>
             <div class="me-3 d-flex align-items-center justify-content-end">
@@ -33,7 +31,7 @@
                 <a href="{% url 'questions:toggle_question' question.pk %}"
                     class="btn py-0">{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</a>
             </div>
-            <div class="d-flex m-2 p-1 align-items-baseline rounded bg-light shadow">
+            <div class="d-flex my-2 m-md-2 p-1 align-items-baseline rounded bg-light shadow">
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="highlight rounded p-1">Question:</h6>
                     <h6 class="ms-2 my-0 flex-grow-1">{{ question.body }}</h6>
@@ -49,7 +47,7 @@
                 </div>
             </div>
 
-            <div class="d-flex m-2 p-1 align-items-baseline rounded bg-light shadow">
+            <div class="d-flex my-2 m-md-2 p-1 align-items-baseline rounded bg-light shadow">
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="highlight rounded p-1">Question feedback:</h6>
                     <h6 class="flex-grow-1">
@@ -82,7 +80,7 @@
                     {% endif %}
                 </div>
             </div>
-            <div class="d-flex flex-col m-2 p-1 align-items-baseline rounded bg-light shadow">
+            <div class="d-flex flex-col my-2 m-md-2 p-1 align-items-baseline rounded bg-light shadow">
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="p-1 highlight rounded">Quiz:</h6>
                     <h6 class="my-0 flex-grow-1">{{ question.quiz }}</h6>
@@ -96,9 +94,7 @@
                         <i class="fas fa-edit mx-2 icon"></i></a>
                     {% endif %}
                 </div>
-                <!-- </div> -->
 
-                <!-- <div class="d-flex m-2 p-1 align-items-baseline rounded bg-light shadow"> -->
                 <div class="m-1 p-1 w-100 rounded border-start">
                     <h6 class="ms-2 p-1 highlight rounded">{% if "," in question.get_categories %}Categories:{% else %}
                         Category:{% endif %}</h6>
@@ -114,18 +110,7 @@
                     {% endif %}
                 </div>
             </div>
-            <!-- <div class="d-flex m-2 p-1 align-items-baseline rounded bg-light shadow">
-                    <div class="m-1 p-1 w-100 rounded">
-                        <h6 class="highlight rounded p-1">Image:</h6>
-                        <h6 class="ms-2 my-0 flex-grow-1">{{ question.featured_image }}</h6>
-                    </div>
-                    <div>
-                        <a data-form-url="{% url 'questions:edit_question_image' question.pk %}" class="edit-question">
-                            <i class="fas fa-edit mx-2 pe-2 icon"></i></a>
-                    </div>
-                </div> -->
-
-            <ol class="modal-body m-md-3 bg-light shadow">
+            <ol class="modal-body m-md-3 bg-light shadow rounded">
                 <div class="d-flex flex-row justify-content-between">
                     <h5 class="py-1"><small>Answer options:</small></h5>
                     <div class="">
@@ -136,7 +121,6 @@
                     </div>
                 </div>
                 {% for option in question.options.all %}
-                <!-- <div class="d-flex m-2 p-2 ms-0 ps-4 rounded bg-light shadow"> -->
                 <div class="d-flex m-2 p-2 ms-0 ps-4 rounded highlight">
                     <li class="flex-grow-1">{{ option.option }} {% if option.is_correct %}<span class="small text-muted">
                             (Correct)</span>{% endif %}</li>
@@ -165,14 +149,12 @@
             <div class="modal-footer">
 
                 <div class="d-flex justify-content-md-end justify-content-sm-center">
-                    {% if quiz.slug %}
-                    <a data-form-url="{% url 'quiz:delete_question_in_quiz' quiz.slug question.pk %}"
-                        class="delete-question btn">Delete</a>
+                    {% if question.quiz %}
+                    <a class="btn">To delete question, unassign it from quiz</a>
                     {% else %}
                     <a data-form-url="{% url 'questions:delete_question' question.pk %}"
                         class="delete-question btn">Delete</a>
                     {% endif %}
-                    {% if correct_option_counter == 1 %}
                         {% if quiz.slug %}
                         <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="submit" class="btn"
                                 aria-label="Save">OK</button></a>
@@ -180,8 +162,6 @@
                         <a href="{% url 'questions:manage_questions' %}"><button type="submit" class="btn"
                                 aria-label="Save">OK</button></a>
                         {% endif %}
-                    
-                    {% endif %}
                 </div>
             </div>
         </div>

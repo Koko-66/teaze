@@ -11,7 +11,7 @@
 	</div>
 </div>
 
-<div class="container px-md-4 py-md-5" id="custom-cards">
+<div class="container px-0 px-md-4 py-md-5" id="custom-cards">
 	<div class="d-flex justify-content-between border-bottom">
 		<div>
 			<h2 class="pb-2">Questions</h2>
@@ -82,10 +82,12 @@
 								<a class="p-1 m-2 collapsed linked" data-bs-toggle="collapse" href="#collapseQ-{{question.pk}}"
 								role="button" aria-expanded="false" aria-controls="collapseFilter">More...
 								</a>
+								{% if question.quiz is None %}
 								<a data-form-url="{% url 'questions:delete_question' question.id %}"
 									class="delete-question bs-modal linked" aria-label="Delete question" title="Delete">
 									<i class="fas fa-trash me-3 ms-2 fs-6"></i>
 								</a>
+								{% endif %}
 							</div>
 							
 							<div id="collapseQ-{{question.pk}}" class="collapse ms-3">
