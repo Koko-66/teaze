@@ -30,7 +30,7 @@ hr {
     margin: 20px auto;
 }
 /* links */
-a {
+.linked {
     color: rgb(240,240,243);
     text-decoration: none;
 }
@@ -58,9 +58,6 @@ a:hover{
     font-weight: 300;
 }
 
-/* .nav-link {
-    color: #2b2e31;
-} */
 
 /* Links to add quiz, question and category at the top of their management pages */
 .add-button {
@@ -68,11 +65,11 @@ a:hover{
     background: none;
 }
 
-.nav-tabs .nav-item.show, .nav-tabs .nav-link.active {
-    color: #2b2e31;
-    background-color: rgb(100, 65, 93, 0.3);
-    border-color: #dee2e6 #dee2e6 #fff;
-}
+/* .nav-tabs .nav-item.show, .nav-tabs .nav-link.active {
+    /* color: #2b2e31; */
+    /* background-color: rgb(100, 65, 93, 0.3); */
+    /* border-color: #dee2e6 #dee2e6 #fff; */
+} */
 
 /* .nav-link:hover,
 .nav-link:active {
@@ -162,7 +159,6 @@ form hr {
 }
 
 /* ____Forms____ */
-
 input {
     border: none;
     border-bottom: solid 1px;
@@ -171,7 +167,6 @@ input {
 }
 
 /* Text styling */
-
 .small-caps {
     font-variant: small-caps;
 }
@@ -180,13 +175,17 @@ input {
     font-size: 0.7em;
 }
 
+.text-lightgray {
+    color: rgba(255,255,255,0.55);
+}
+
 /* Error messages in the forms */
 .help-block {
     /* color: rgb(172, 110, 3); */
     color: darkred; 
 }
-/* Features styling */
 
+/* Cards styling */
 .b-example-divider {
     height: 3rem;
     background-color: rgba(0, 0, 0, .1);
