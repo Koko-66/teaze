@@ -1,40 +1,42 @@
+"""Views for results app"""
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView
-from .models import Answer, Assessment
 from quiz.models import Quiz
 from questions.models import Question, Option
+from .models import Answer, Assessment
 
 
 class TakeQuizView(ListView):
     """Quiz completion view (in one page)."""
 
-    def get(self, request, slug):
+    def get(self, *args, **kwargs):
         """Overwrite the built-in get method to get the questions queryset"""
 
+        slug = self.kwargs.get('slug')
         quiz = get_object_or_404(Quiz, slug=slug)
         questions = quiz.get_questions()
         context = {
             'questions': questions,
             'quiz': quiz,
         }
-        return render(request, 'results/take_quiz.html', context)
+        return render(self.request, 'results/take_quiz.html', context)
 
-    def post(self, request, slug):
+    def post(self, *args, **kwargs):
         """Overwrite the built-in post method."""
 
-        user = request.user
+        slug = self.kwargs.get('slug')
+        user = self.request.user
         quiz = get_object_or_404(Quiz, slug=slug)
         questions = quiz.get_questions()
 
-        if request.method == "POST":
+        if self.request.method == "POST":
             # get dict:question_id:option_id
-            raw_data = dict(request.POST.items())
+            raw_data = dict(self.request.POST.items())
             answered_questions = list(raw_data.keys())
             answers = list(raw_data.values())
             del answers[0]
             del answered_questions[0]
 
-            # data = []
             score = 0
             # create blank assessment
             assessment = Assessment.objects.create(user=user, quiz=quiz,
@@ -47,8 +49,6 @@ class TakeQuizView(ListView):
                         score += 1
                 else:
                     response = None
-                    print(score)
-                # data.append((answered_question, response))
                 answer = Answer.objects.create(question=answered_question,
                                                answer=response,
                                                assessment=assessment)
@@ -60,12 +60,12 @@ class TakeQuizView(ListView):
                         'assessment': assessment,
                         'questions': questions,
                     }
-            # print(data)
             assessment.score = score
-            return render(request, 'results/results.html', context)
-        # return reverse('results/results.html')
+            return render(self.request, 'results/results.html', context)
 
 
 class AssessmentView(DetailView):
+    """Assessment (results) view"""
+
     model = Assessment
     template_name = 'results/results.html'
