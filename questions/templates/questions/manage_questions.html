@@ -16,7 +16,7 @@
 		<div>
 			<h2 class="pb-2">Questions</h2>
 		</div>
-		<h3 class="pb-2"><a href="{% url 'questions:add_new_question' %}" id="add-question" alt="Add question"
+		<h3 class="pb-2"><a href="{% url 'questions:add_new_question' %}" id="add-question"
 				class="add-question text-dark linked">Add new<i class="fas fa-plus ms-1 ms-md-3"></i></a></h3>
 	</div>
 	<div>
@@ -73,24 +73,24 @@
 			<div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg"
 				style="background: url('{{ question.featured_image.url }}');">
 				<div class="d-flex flex-column h-100 w-75 p-md-5 pb-3 text-white text-shadow-1 dark-overlay">
-					{% else %}
-					<div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
-						<div class="d-flex flex-column h-100 p-md-5 pb-3 text-white text-shadow-1">
-							{% endif %}
-							<h5 class="modal-header">{{ question.body }}</h5>
-							<div class="d-flex d-row align-items-center justify-content-between ">
-								<a class="p-1 m-2 collapsed linked" data-bs-toggle="collapse" href="#collapseQ-{{question.pk}}"
+			{% else %}
+			<div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
+				<div class="d-flex flex-column h-100 p-md-5 pb-3 text-white text-shadow-1">
+			{% endif %}
+					<h5 class="modal-header">{{ question.body }}</h5>
+						<div class="d-flex d-row align-items-center justify-content-between ">
+							<a class="p-1 m-2 collapsed linked" data-bs-toggle="collapse" href="#collapseQ-{{question.pk}}"
 								role="button" aria-expanded="false" aria-controls="collapseFilter">More...
-								</a>
-								{% if question.quiz is None %}
-								<a data-form-url="{% url 'questions:delete_question' question.id %}"
+							</a>
+							{% if question.quiz is None %}
+							<a data-form-url="{% url 'questions:delete_question' question.id %}"
 									class="delete-question bs-modal linked" aria-label="Delete question" title="Delete">
 									<i class="fas fa-trash me-3 ms-2 fs-6"></i>
-								</a>
-								{% endif %}
-							</div>
+							</a>
+							{% endif %}
+						</div>
 							
-							<div id="collapseQ-{{question.pk}}" class="collapse ms-3">
+						<div id="collapseQ-{{question.pk}}" class="collapse ms-3">
 								<h6 class="card-title">
 									{% if "," in question.get_categories %}Categories:{% else %}Category:{% endif %}<small>
 										{{ question.get_categories }}</small></h6>
@@ -104,12 +104,10 @@
 											View / edit
 											<i class="fa fas fa-edit me-3 ms-2"></i></a></li>
 								</ul>
-							</div>
 						</div>
-					</div>
-				</div>
-				{% endfor %}
+				</div>	
 			</div>
+		{% endfor %}
 		</div>
 	</div>
 </div>
