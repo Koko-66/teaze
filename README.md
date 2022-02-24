@@ -2,164 +2,205 @@
 # TABLE OF CONTENTS
 1. [Introduction](#intro)
 2. [UX](#ux)<br>
-  2.1 [User Story](#user-story)
+  2.1 [User Stories](#user-story)
 3. [Features and design](#features-design)<br>
-  3.1. [Existing features](#existing-features)<br>
-  3.2. [Features left to implement](#left-to-implement)
-4. [Technologies](#technologies)<br>
-  4.1. [Languages used](#languages)<br>
-  4.2. [Frameworks, libraries and programs used](#libraries-and-programs)
-5. [Testing](https://github.com/Koko-66/Translate_it/blob/main/TESTING.md)
-6. [Deployment](#deployment)
-7. [Credits](#credits)
+  3.1. [Existing features](#existing-features)
+  3.2. [Features left to implement](#left-to-implement)<br>
+4. [Management via Django admin](#django-admin)
+5. [Technologies](#technologies)<br>
+  5.1. [Languages used](#languages)<br>
+  5.2. [Frameworks, libraries and programs used](#libraries-and-programs)
+6. [Testing](https://github.com/Koko-66/Translate_it/blob/main/TESTING.md)
+7. [Deployment](#deployment)
+8. [Credits](#credits)
 
-## <a name="intro">Teaze</a>
+
+# <a name="intro">Teaze</a>
 
 ![Responsive Mockup]()
 
-Teaze is a web-based application for use as a quiz and self-testing tool for fun and in aid of training. There are two levels of users,Admin user can manage and create quizzes and questions, and in the future would be also able to view and manage user assessments. To gain Admin access the user needs to request it from the site manger. A standard user has access to published quizzes, can take the quiz and view his or her results.
+Teaze is a web-based application for use as a quiz and self-testing tool for fun and in aid of training, currently for internal company use, with a view of using it in the future as a tool to engage existing and potential customers and sign them up for the company newsletter.
+At present, the application is at Stage 1 of develeopment and the focus during the development has been placed on achieving a functioning Minimum Viable Product (MVP). Further improvements to the application UI and functionality will be done after stakeholder's input and testing.
 
-Link to the deployed app: 
+<!-- There are two levels of users, Admin user can manage and create quizzes and questions, and in the future would be also able to view and manage user assessments. To gain Admin access the user needs to request it from the site manger. A standard user has access to published quizzes, can take the quiz and view his or her results. -->
 
-## <a name="ux"></a>UX
+Link to the deployed app: https://teaze.herokuapp.com/accounts/login/
 
-### <a name="user-story"></a>User Stories 
-The application was developed using Agile methodology. User stories are logged in the Git Project and are available to view [here](https://github.com/Koko-66/teaze/projects/1).
 
-## <a name="features-design"></a>Features and Design
+# <a name="ux">UX</a>
 
-The app is designed following the UX design principles, with the user's convenience and intuitive navigation in mind. Visual design is kept simple and clean, prioritising usability and speed. Application features are described in more detail below.
+The initial user interface design idea was captured in wireframes available [here](),
+ <!-- while the application logic captured in the following an algorithm. -->
+The design is driven by the user's needs and ease of use, taking into account the process the user would usually go through when creating a quiz, while at the same time allowing flexibility by providing access to various features of the appliction from different pages adn at different stages of creating a quiz (e.g. editing features or adding and removing questions).
+With user experience in mind, the design of the application is kept simple with primary focus placed on functionality at this first stage of the product. 
 
-### Models and functional design
 
-The application is composed of quiz, question, option, category, assessment and answer models. The relationships bewtween these are represented in the model available [here]().   
-<!-- Add about models and design -->
+## <a name="user-story"></a>User Stories 
 
-### <a name="existing-features"></a>Existing Features
+The application was developed using Agile methodology, with User Stories managed within a Github Project. All completed and outsatanding User Stories can be viewed [here](https://github.com/Koko-66/teaze/projects/1).
 
-#### Sign up and Log in
 
-When first accessing the page, the user is directed to a log in page. If they do not yet have an account, they can follow a link to the Sign up page or can log in, if they already have an account. Sign up and Log in forms are delivered by Allauth django app and are fully validated for correct format, asking for providing the password twice and allowing an option to provide an e-mail address.
+# <a name="features-design">Features and Design</a>
+
+## Models and functional design
+
+The application uses Postgres relationship database to store its data and the data model comprises of `Quiz`, `Question`, `Option`, `Category`, `Assessment` and `Answer` models. The components of each model and the relationships between them are represented in the model avilable [here]().
+
+The decision to keep `Quiz`, `Question` and `Options` as separate models was driven by flexibility. This kind of model means that Questions can be used in different quizzes and do not get deleted if the Quiz is deleted. A quiz can have as many qustions as the user wishes and the number of options per questions is also entirely up to the user. 
+
+## <a name="existing-features">Existing Features</a>
+
+### Sign up and Log in
+
+When first accessing the application, the user is directed to a Log in page. The page includes a link to a Sign up form, should the visitor not yet have an account. Sign up and Log in forms are delivered by Allauth django app and are fully validated for correct data input, asking to confim password and with an option to provide an e-mail address.
 <!-- Add information that in order to reset password you need to provide email - if that functionality will be added -->
 
-![screentots of forms and admin site]()
+![Log in form]()
 
 Users are managed via backend django admin, where superadmin can assign users to Admin group with advanced rights. 
 
-![screentots of forms and admin site]()
+![Sign up form]()
 
-#### Landing page
+### Landing page
 
 After logging in, standard user is redirected to their homepage, where they can see a list of published quizzes available for them to complete. If the quiz has been completed it is marked as such, and the button for taking the quiz is replaced with one taking to the user to a page showing their quiz results.
 
-Admin users are redirected to a dashboard with an overview of quizzes, qustions and categories existing in the application. From here, via an extended menu, they can manage (create, edit and delete) quizzes, questions and categories.
+![Standard user's home page]()
 
-![screenshot]()
+Admin users are redirected to a dashboard with an overview of quizzes, questions and categories existing in the application. From here, via an extended menu, they can manage (create, edit and delete) all of these elements.
 
-#### Navigation
+![Admin user's home page]()
 
-Navigation adjusts depending on whether the user is authenticated and if yes, the type of user. 
-Menu for non-authenticated user:
-![screenshot]()
+### Navigation
 
-Menu for authenticated standard user:
-![screenshot]()
+Navigation menu is placed at the top of the page and changes depending on whether the user is authenticated or not, and also depending on the type of user. 
 
-Menu for authenticated admin user:
-![screenshot]()
+![Non-authenticated user's]()
 
-#### Taking the quiz / Preview
+![Standard user's menu]()
 
-Standard user can take the quiz from their dashboard. Upon clicking on _Take quiz_ button, the user is redirected to a page with the quiz, featuring the quiz title and the questions.
-![screenshot]()
+![Admin user's menu]()
 
-The quiz allows only one answer per question, but not all questions have to be answered to submit answers. On submission of answers, the user is redirected to a page showing their results - total score for the quiz and feedback for each of the questions. These quiz results are available to access later via the links on the homepage. Quiz results are saved as assessment against the user and the user cannot take the same quiz more than once.
-![screenshot]()
+### Taking the quiz
 
-Admin user has an option to preview how quiz will look like on the standard user's page and can preview and complete the assessment as many times as they wish.
-![screenshot]()
+On their homepage a Standard User can see a list of all published quizes, available for them to take as well as those they have already taken. 
+Upon clicking the _Take quiz_ button, the user is taken to a page with a list of all questions.
+![Take quiz view]()
 
-#### Quiz creation
+The quiz allows only one answer per question, but not all questions have to be answered in order to submit the quiz. On submission, the user is redirected to a page showing their results - total score for the quiz and feedback for each of the questions. These quiz results are available for the user to view at any time via the links on their homepage. Quiz results are saved as assessment against the user and, at present, the user cannot take the same quiz more than once.
+![Quiz results view]()
 
-In order to create a new quiz, the user needs to be assigned to Admin group. This can be requested from app managers (superusers). Adding quiz is a simple process and can be done either directly from Dashboard or from the Manage quizzes page accessible from the Menu at the top of the page.
-![screenshot]()
+### Quiz creation
 
-Clicking the _Add_ button initiates Add quiz form, where the user needs to fill in information for the quiz. The form is validated for required fields and duplicated quiz name. Quiz can only be assigned one category.
-![screenshot]()
+In order to create a new quiz, the user needs to be assigned relevant permissions that can be given by adding them to the Admin group. This can be requested from app managers (superusers). Adding quiz is a simple process and can be done either directly from the Dashboard or from the Manage quizzes page accessible from the Menu at the top of the page.
+
+![Adding quiz from Dashboad]()
+
+
+![Adding quiz from Manage quizzes]()
+
+
+Clicking the _Add_ button initiates `Add quiz form`, where the user needs to fill in the quiz title (required), category (required), description (optional), and image (optional). The form is validated for required fields and duplicated quiz name. 
+![Add quiz form]()
+
+Quiz can also only be assigned one category, and if the required category does not yet exist, it can be added from this view as well.
+![Add category while creating new quiz]()
 
 If the user decides not to save the changes, they can cancel the process at any point by clicking either _Cancel_ button or the X sign in the top right corner of the form.
 
-Clicking Save, redirects the user to a view with quiz details.
+Clicking _Save_, redirects the user to a view with quiz details.
 
-##### Uploading images - Cloudinary
+### Quiz details view
 
-The user can upload a feature image to the quiz directly to Cloudinary storage. <!-- later used as background in the take quiz view --> 
-<!-- At the time of upload, the images are converted to preset sizes. -->
-
-#### Quiz details view
-
-After creating a quiz, the admin user is redirected to a quiz detail view, where they can see information about the quiz: name, status, category, description, image and quiz questions, if any already exist.
-If any questions in the same category as the quiz exist and are not used in another quiz <!-- Change questions models to be many-to-many --> they are listed below the main quiz details and can be added to the quiz by clicking the small __+__ icon. Questions can be as easily removed from the quiz by clicking the __x__ icon in the quiz qustions list. 
+After creating a quiz, the admin user is redirected to a Quiz detail view, where they can see information about the quiz: title, status, category, description, image and quiz questions, if any already exist.
+If any questions in the same category as the quiz exist in the database and are not assigned to any other quiz, they are listed below the main quiz details and can be added to the quiz by clicking the small __+__ icon. Questions can be as easily removed from the quiz by clicking the __x__ icon in the quiz qustions list.
 Note that this action merely remvoves question from the quiz and does not delete it.
+At present, the question can be added to the quiz only 
 
-![screenshot]()
+![Questions availble to add to quiz]()
 
-The _Edit quiz_ button redirects to editing form, where the user can make tweaks to the quiz details.
+The _Edit quiz_ button redirects to editing form, where the user can make tweaks to the quiz details. The form mirros `Add quiz` form, but is populated with exsiting quiz data.
 
-![screenshot]()
+![Edit quiz]()
 
-##### Setting quiz status
+#### Quiz featured image 
 
-A quiz can have two statuses - _Draft_ and _Published_. Until the status is set to _Draft_, quiz will not be visible to the standard user to prevent them from completing quizzes which have not been properly prepared and vetted.
-At the time of creating, quiz is set to _Draft_ as detault and can be toggled to _Published_ in the Quiz detail view, once admin user is finished setting up the quiz. 
+The user can upload a feature image to the quiz which is uploaded directly to Cloudinary. The images are then appearing as background on the quiz cards and can be showing as a background to the quiz in the Take Quiz and Resulsts views in the future. Images can be previewed in the Quiz details view, can be removed and updated as needed. There are certain considerations for using images in the application (in relation to size, colouring,  ratios, etc.) which will be addressed in the admin user training and contorlled programmatically in the future.
 
-#### Managing questions
+![Quiz details with image thumbnail]()
+
+#### Quiz preview
+
+Once created, admin user has an option to check the quiz as it would appear to a standard user by using _Preview_ button on the quiz card in the Manage quizzes page. The Preview mimics the actual quiz-taking experience of a standard user. Admin user's quizzes get saved into the database to ensure everything is working correctly, but they can take the quiz more than once.
+
+#### Setting quiz status
+
+A quiz can have two statuses - _Draft_ and _Published_. Until the status is set to _Draft_, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
+At the time of creating, a new quiz is set to _Draft_ as detault and can be toggled to _Published_ in the Quiz detail view, once admin user is finished setting it up. 
+
+On setting the quiz to Published a pop-up alert informs the user that the status has been changed and the quiz is now available for all test-takers.
+
+### Managing questions
 
 Questions are a building block of the application and as such, have their own model and can be managed as individual items. The question management page can be accessed from the link in the card on the __Home__ page or link in the menu at the top of the page.
 
-In the Qustion management page the admin user sees a list of questions with their basic details <!-- and is able to filter them by category and search by keyword typed in. -->.
-![screenshot]()
+In the Qustion management page the admin user sees a list of questions with their basic details and is able to filter them by category and quiz, and search by keywords typed in. The filter is collapsed by default to make the page cleaner. When a filter is applied a button for clearing it appears. 
+![Manage question page with filter not collapsed]()
+![Manage qestion page with Clear filter button]()
 
-##### Adding questions
+#### Adding questions
 
-A new question can be added from quiz detail view, in which case the quiz is being automatically set to that of the quiz viewed, or from manage questions view, where the question can be created without selecting a quiz and added to a quiz when needed.
+A new question can be added from _Quiz detail_ page , in which case the Quiz property of the question is being automatically set to that of the quiz viewed, or from _Manage questions_ page, where the question can be created without selecting a quiz and added to a quiz when needed.
 
-Adding question from quiz ![screenshot]
-Adding question from ![screenshot]
+![Adding question from Quiz details page]()
+![Adding question from Manage questions page]()
 
-A question can be assigned more than one category <!--and can be used in more than one question. --> by holding down `Ctrl` button (or `Cmd` on a Mac) and making a selection.
+A question can be assigned more than one category by holding down `Ctrl` button (or `Cmd` on a Mac) and making a selection. The user is informed about this on the form.
 
-Once the user is happy with the details for the qustion and click `Save`, they are redirected to a question detail page, which is also an editing view.
+Once the user is happy with the the information they put in and click `Save`, they are redirected to a question detail page, which is also an editing view.
 
-##### Editing questions and managing options
+#### Featured images in questions
 
-The user can edit qustion elements individually, which open in modals, and can add and delete options as required.
-![Screenshot]
-Because options are not part of a question model, but have model of their own, the number of options per qustions is not pre-set and can be set individually per question. 
-<!-- The applicatoin prompts the user if they are trying to add an answer option with the same text that already exists.  -->
+As in quiz, the images can have their own images with a view that some questions might require images for illustration purposes or which can be part of the question. 
 
-##### Option uniqueness checks
-At prsent, the application design allows for only one option to be set as correct and once one option is set as correct, the tick box for setting an option as correct is not available.
-![Screenshot]
+#### Editing questions and managing options
 
-##### Accessibility and alerts
+The question details view follows the same layout as quiz view, including image preview.
+The user can edit question elements individually by clicking on the edit icon. Each edit form opens in a separate modal showing over the page, which helps the user stay focused on the task. 
 
-Each button that does not contain text has a `title` tag which on hover provides information about the button's function. Each action is also confirmed by an alert, which is dismissed automatically after 3 seconds if the uer does not dissmiss it.
+![Question details page with modal open]()
 
-### <a name="left-to-implement"></a>Features Left to Implement
+On this page the user also gets an opprotunity to manage options - they can add and delete them as required. Because options are not part of a question model but have model of their own, the number of options per qustions is not determined by design and can be set individually per question. 
 
-#### User managment of their own account
+#### Option uniqueness checks
 
-In the future, the user will have access to a page allowing them to manage their account and 
+At present, the application design allows for only one option to be set as correct. To prevent the user from setting more than one answer as correct, and once one option is set as such, the tick box for is_correct is replaced with information that one correct option already exists.
+![Adding option when correct answer already exists]()
 
-#### Display quiz qustions one per page
+#### Accessibility and alerts
 
-#### Assessment management for Admin user
+To increase users' engagement with the application each button that does not contain text has a `title` tag which on hover provides information about the button's function. Each action is also confirmed by an alert, which is dismissed automatically after 3 seconds if the uer does not dissmiss it.
 
-#### Filtering and searching in questions
+## <a name="left-to-implement">Features Left to Implement</a>
 
-## <a name="technologies"></a>Technologies used
-### <a name="languages"></a>Languages
+### User managment of their own account
+
+In the future, the user will have access to a page allowing them to manage their account, change their password, add an avatar etc.
+
+### Display quiz questions one per page
+
+Display one question per page would be especially helpful for questions using an image as part of their content. 
+
+### Assessment management for Admin user
+
+At present, management of the assessments is only available to the admin user via Django admin page after they have been set as Staff members by a superuser. In the future this functionality would be available for admin users from front-end.
+
+# <a name="django-admin">Management via Django admin site</a>
+
+
+
+# <a name="technologies">Technologies used</a>
+## <a name="languages">Languages</a>
 
 Programming languages used in the project: 
 
@@ -167,7 +208,7 @@ Programming languages used in the project:
 - Python
 - JavaScript
 
-### <a name="libraries-and-programs"></a>Frameworks, Libraries, Plugins and other services used
+## <a name="libraries-and-programs"></a>Frameworks, Libraries, Plugins and other services used
 - __Django__: main application framework
 - __Bootstrap__
 - __GitPod__: primary code editor
@@ -185,10 +226,10 @@ Programming languages used in the project:
 - __[Heroku](https://www.heroku.com/)__: used to deploy the live version of the project
 - __[Am I Responsive?](http://ami.responsivedesign.is/#)__ site to generate the responsive mockup
 
-## <a name="testing"></a>Testing 
+# <a name="testing"></a>Testing 
 Information about testing is available in a separate file [here]().
 
-## <a name="deployment">Deployment</a>
+# <a name="deployment">Deployment</a>
 The program was deployed to Heroku at the start of the project to ensure it's correct functioning and is accessible here: 
 
 The steps taken to deploy the app: 
@@ -210,12 +251,13 @@ The steps taken to deploy the app:
  - searched for 'teaze' repository and confirmed the connection.
 6. First time deployed the app using the manual Deploy Branch button, then enabled automatic deploys.
 7. Once the first build finished, changed the setting to deploy automatically. 
-8. When finished development, enabled static files.
+8. Towards the end of development, enabled static files by chaning the value of DISABLE_COLLECTSTATIC to 0. Resolved issues caused by settings for cloudinary in the static files setup in the settings.py file (see Testing file for more details).
+9. Installed whitenoise to ensure static files are served in production mode.
  
-## Requirements
+# Requirements
 All requirements are contained in the requirements.txt file.
 
-## <a name="credits">Credits</a>
+# <a name="credits">Credits</a>
 A great thank you to: 
 - My mentor, Caleb Mbakwe, for invaluable advice on the best approach to the project, organisation of code, and support throughout the whole project. 
 - Stackoverflow: for pointing in the right direction on arranging question and option models
