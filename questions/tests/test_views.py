@@ -46,16 +46,16 @@ class QuestionViewsTestCase(TestCase):
         # test post
 
         # https://stackoverflow.com/questions/65790933/unit-testing-in-django-for-createview
-        slef.client.login(username='admin', password='password')
+        self.client.login(username='admin', password='password')
         data = {
             'body': 'Test question',
             'author': user,
             'status': 0,
-            'category': 1
+            'category': 1,
         }
 
         response = self.client.post('/questions/add_new_question/', data=data)
-        self.assertEqual(response.status_code, 200)
+        self.assertRedirects(response, f'/questions/3/details/')
         self.assertEqual(Question.objects.filter(body='Test question').count(), 1)
 
     def test_create_option_view(self):
@@ -71,7 +71,6 @@ class QuestionViewsTestCase(TestCase):
     def test_edit_question_view(self):
         """Test edit question get success url"""
         response = self.client.post(f'/questions/{self.question.pk}/edit_question/')
-        print(response)
         self.assertEqual(response.status_code, 200)
     
     def test_edit_option_view(self):
@@ -102,6 +101,3 @@ class QuestionViewsTestCase(TestCase):
         self.client.get(f'/questions/{question2.pk}/toggle/')
         updated_question2 = Question.objects.get(pk=question2.pk)
         self.assertEqual(updated_question2.status, 0)
-
-
-    
