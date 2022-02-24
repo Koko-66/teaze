@@ -145,74 +145,88 @@ The __Edit quiz__ button redirects the user to the _Edit quiz_ page, where the u
 
 #### Setting quiz status
 
-A quiz can be set as either `Draft` or `Approved`. Until the status is set to `Draft`, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
-At the time of creating, a new quiz is set to `Draft` as detault and can be toggled to `Approved` in the Quiz detail view, once admin user is finished setting it up. 
+A quiz can be set as either `Draft` or `Approved`. By default when created a quiz is given a status of `Draft`. Until the status is set to `Draft`, a quiz will not be visible to a standard User to prevent them from completing quizzes that have not been finished and verified.
+The quiz can be toggled to `Approved` in the _Quiz detail_ page at any time, once an Admin user is finished setting it up. 
 
 On setting the quiz to `Approved` a pop-up alert informs the user that the status has been changed and the quiz is now available for all test-takers.
 
 #### Quiz featured image 
 
-The user can upload a feature image to the quiz which is uploaded directly to Cloudinary. The images are then appearing as background on the quiz cards and can be showing as a background to the quiz in the Take Quiz and Resulsts views in the future. Images can be previewed in the Quiz details view, can be removed and updated as needed. There are certain considerations for using images in the application (in relation to size, colouring,  ratios, etc.) which will be addressed in the admin user training and contorlled programmatically in the future.
+TThe user can upload an image to act as a feature image for the quiz which is uploaded directly from the form to Cloudinary. The uploaded images are then appearing as background on the quiz cards and can be set as showing as a background to the quiz in the _Take Quiz_ and _Resulsts_ pages in the future. Images appear on the _Quiz details_ page as thumbnails and can be removed and updated as needed. There are certain considerations for using images in the application (in relation to size, colouring,  ratios, etc.) that will be addressed in the Admin user training and controlled programmatically in the future.
 
-![Quiz details with image thumbnail](https://github.com/Koko-66/teaze/blob/main/static/data/quiz_details_with_img_thumbnail.png)
+Quiz details with image thumbnail
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/quiz_details_with_img_thumbnail.png" width="500">
 
 #### Quiz preview
 
-Once created, admin user has an option to check the quiz as it would appear to a standard user by using __Preview__ button on the quiz card in the Manage quizzes page. The Preview mimics the actual quiz-taking experience of a standard user. Admin user's quizzes get saved into the database to ensure everything is working correctly, but they can take the quiz more than once.
+Once created, an Admin user has an option to check the quiz as it would appear to a standard User by using the __Preview__ button on the quiz card in the _Manage quizzes_ page. The __Preview__ mimics the actual quiz-taking experience of a standard user. Admin users' quizzes get saved into the database to ensure everything is working correctly, but they can take the quiz more than once.
 
 ### Managing questions
 
-Questions are a building block of the application and as such, have their own model and can be managed as individual items. The question management page can be accessed from the link in the card on the _Home_ page or link in the menu at the top of the page.
+The _Manage questions_ page can be accessed from the link in the card on the _Home_ page or via the Menu at the top of the page.
 
-In the Qustion management page the admin user sees a list of questions with their basic details and is able to filter them by category and quiz, and search by keywords typed in. The filter is collapsed by default to make the page cleaner. When a filter is applied a button for clearing it appears. 
-![Manage question page with filter not collapsed](https://github.com/Koko-66/teaze/blob/main/static/data/manage_question_filters.png)
+In the _Manage questions_ page the admin user sees a list of questions with their basic details and can filter them by category and quiz, and search by text that might show in the question text. Filtering options are collapsed by default to make the page cleaner but are easily accessible at the top of the page.
 
-![Manage qestion page with Clear filter button](https://github.com/Koko-66/teaze/blob/main/static/data/question_filters_when_selected.png)
+Filter optons
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/manage_question_filters.png" width="500">
+
+When a filter is applied a button __Clear filters__  appears that clears all filters and shows all questions in the database.
+
+Manage qestion page with __Clear filter__ button
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/question_filters_when_selected.png" width="500">
 
 #### Adding questions
 
-A new question can be added from _Quiz detail_ page , in which case the Quiz property of the question is being automatically set to that of the quiz viewed, or from _Manage questions_ page, where the question can be created without selecting a quiz and added to a quiz when needed.
+A new question can be added from the _Quiz detail_ page, in which case the `quiz` and `category` properties of the question are set based on those of the quiz, or from the _Manage questions_ page, where the question can be created without selecting a quiz or category and added to a quiz when needed.
 
-![Adding question from Quiz details page](https://github.com/Koko-66/teaze/blob/main/static/data/create_question_in_quiz.png)
+Adding question from Quiz details page
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/create_question_in_quiz.png" width="500">
 
-![Adding question from Manage questions page](https://github.com/Koko-66/teaze/blob/main/static/data/add_question_from_question_manag.png)
+Adding question from Manage questions page
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_question_from_question_manag.png" width="500">
 
-A question can be assigned more than one category by holding down `Ctrl` button (or `Cmd` on a Mac) and making a selection. The user is informed about this on the form.
+A question can be assigned more than one category by holding down the `Ctrl` button (or `Cmd` on a Mac) and making a selection. The user is informed about this option on the form.
 
-Once the user is happy with the the information they put in and click `Save`, they are redirected to a question detail page, which is also an editing view.
+Once the user is happy with the information they provided and click `Save`, they are redirected to the _Question detail_ page, which is also an editing view.
 
 #### Featured images in questions
 
-As in quiz, the images can have their own images with a view that some questions might require images for illustration purposes or which can be part of the question. 
+As in a #### Featured images in questions
+
+As in quiz, a question can have a featured image with a view that some questions might require images for illustration purposes or which can be part of the question. This is also handled by Cloudinary, and works in the same way as in the case of quizzes.quiz, a question can have a featured image with a view that some questions might require images for illustration purposes or which can be part of the question. This is also handled by Cloudinary, and works in the same way as in the case of quizzes.
 
 #### Editing questions and managing options
 
-The question details view follows the same layout as quiz view, including image preview.
-The user can edit question elements individually by clicking on the edit icon. Each edit form opens in a separate modal showing over the page, which helps the user stay focused on the task. 
+The _Question details_ follows the same layout as the _Quiz details_ page, including the image preview as a thumbnail.
+For convenience, the user can edit question elements individually by clicking on the __Edit__ icon. The edit form for each of the elements opens in a separate modal showing over the page, which helps the user stay focused on the task. 
 
-![Question details page with modal open](https://github.com/Koko-66/teaze/blob/main/static/data/edit_question_modal_view.png)
+Question details page with modal open
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/edit_question_modal_view.png" width="500">
 
-On this page the user also gets an opprotunity to manage options - they can add and delete them as required. Because options are not part of a question model but have model of their own, the number of options per qustions is not determined by design and can be set individually per question. 
+On this page the user also gets an opportunity to manage options - they can create and delete them as required. Because options are not part of a question model but have a model of their own, the number of options per question is not determined by design and can be set individually per question. Creating and editing forms for options are also opened in modals for convenience.
 
 #### Option uniqueness checks
 
-At present, the application design allows for only one option to be set as correct. To prevent the user from setting more than one answer as correct, and once one option is set as such, the tick box for is_correct is replaced with information that one correct option already exists.
-![Adding option when correct answer already exists](https://github.com/Koko-66/teaze/blob/main/static/data/add_option_when_correct_exists.png)
+At present, the quiz design allows only one option to be set as correct. To prevent the Admin user from setting more than one answer as correct, the tick box for `is_correczt is replaced with information that one correct option already exists if this is the case.
+
+Adding option when correct answer already exists
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_option_when_correct_exists.png" width="500">
 
 #### Question status
 
-As quizzes, questions have two statuses _Draft_ and _Approved_. At present this feature is simply for to the admin user to keep track of questions that still needs to be reviewed, but they can still be used in the quiz, if the user wishes to use them. 
-Draft qustions are clearly indicated in the _Quiz detail_ page and can be reviewed and approved before adding to the quiz and publishing the latter.
+As quizzes, questions have two statuses _Draft_ and _Approved_. At present this feature is simply for the Admin user to keep track of questions that still need to be reviewed, but they can still be used in the quiz if the Admin wishes so. 
+Draft questions are clearly indicated in the _Quiz detail_ page and can be reviewed and approved before adding to the quiz and publishing the latter.
 
-![Draft questions indicated in the Quiz detail page](https://github.com/Koko-66/teaze/blob/main/static/data/draft_qustions_in_quiz_details.png)
+Draft questions indicated in the Quiz detail page
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/draft_qustions_in_quiz_details.png" width="500">
 
 #### Deleting questions and options
-Question can be deleted from the _Manage questions_ or _Question details_ pages however the option is only available if it is not used in any quiz. Before the question is deleted, the application will also performa an  additional check to see if it appears any saved assessments. If yes, the user will be provided with appropriate feedback, and deletion would not be possible.
-Options can be deleted from _Question details_ page as well, and are also checked for appearance in saved answers to prefent Protected error. 
+A question can be deleted from the _Manage questions_ or _Question details_ pages, however, the delete option is only available if it is not used as a questions in any of the existing quizzes. Before the question is deleted, the application will also performa an additional check to see if it appears in any of the saved assessments. If yes, the user will be provided with appropriate feedback, and the deletion would not be possible.
+Options can be deleted from _Question details_ page as well, and are also checked for appearance in saved answers to prefent ProtectedError. 
 
 !()
-Considering the data model and the fact that assessments and answers need to be stored beyoed the life-cycle of any quiz, question or option, the deletions need further consideation and will be replaced with 'active/disabled' approach instead.
-
+As explained above, considering the data model and the fact that assessments and answers need to be stored beyondd the life-cycle of any quiz, question or option, the deletions need further consideation and will be replaced with `Active/Disabled` approach instead.
+ 
 ### Managing Categories
 
 Categories are the smalles model and are the simplest to manage. They can be added while creating a new quiz or from their own _Manage categories_ page. 
@@ -220,24 +234,42 @@ An attempt to delete a Category triggers a check for its use in a Quiz or a Ques
 
 ### Accessibility and alerts
 
-To increase users' engagement with the application each button that does not contain text has a `title` tag which on hover provides information about the button's function. Each action is also confirmed by an alert, which is dismissed automatically after 3 seconds if the uer does not dissmiss it.
+To increase users' engagement with the application the user is offered feedback on various operations via alerts as well as the use of `title` tags.
 
-## <a name="left-to-implement">Features Left to Implement</a>
+## <a name="left-to-implement"></a>Features Left to Implement
 
-### User managment of their own account
+### User management of their account
 
-In the future, the user will have access to a page allowing them to manage their account, change their password, add an avatar etc.
+In the future, the user will have access to a page allowing them to manage their account: change their password, add an avatar etc.
 
 ### Display quiz questions one per page
 
-Display one question per page would be especially helpful for questions using an image as part of their content. 
+Displaying one question per page would be especially helpful for questions using an image as part of their content. 
 
 ### Assessment management for Admin user
 
-At present, management of the assessments is only available to the admin user via Django admin page after they have been set as Staff members by a superuser. In the future this functionality would be available for admin users from front-end.
+At present, management of the assessments is only available to the admin user via the Django admin page after they have been set as Staff members by a user with superuser rights. In the future, this functionality would be available for Admin users from the front-end as well.
 
+### Other
+
+There are a lot of additional features that can be added to the application to improve the user experience and add functionality. These will be discussed with the stakeholders, changed into new User Stories and prioritised as appropriate.
 
 # <a name="django-admin">Management via Django admin site</a>
+
+As with any Django application, all models and functionality of the application can be managed via Django's administration site, provided the user is set as a __Staff__ user. 
+
+Superuser has access to all content while Admin user has only certain specific permissions available to them.
+
+Admin user Django admin access
+<img src="" width="500">
+
+To make the management easier in the Django admin site, the models have been set up to be viewed as sets of data (e.g. questions can be added within quiz and options within questions). The views also include filters and display information on the main page deemed most important. Again, this can be easily adjusted depending on the stakeholders and admin preferences.
+
+Qustion view - Django admin
+<img src="" width="500">
+
+Assessment view - Django admin
+<img src="" width="500">
 
 
 # <a name="technologies">Technologies used</a>
@@ -271,12 +303,12 @@ Programming languages used in the project:
 
 # <a name="errors-testing">Error handling and testing</a>
 
-The error handling is currently mostly hadnled by the inbuilt functionality of class based views as well as some if-statment based checks within these. Going forward, the application willbe be using a more robust approach using a set of custom error classes.
+The error handling is currently mostly handled by the inbuilt functionality of class-based views as well as some if-statement based checks within these. Going forward, the application will be using a more robust approach using a set of custom error classes.
 
 Information about the application testing is available in a separate file [here]().
 
 # <a name="deployment">Deployment</a>
-The program was deployed to Heroku at the start of the project to ensure it's correct functioning and is accessible here: 
+The program was deployed to Heroku at the start of the project to ensure its correct functioning and is accessible here: 
 
 The steps taken to deploy the app: 
 
@@ -284,31 +316,30 @@ The steps taken to deploy the app:
 2. Checked the project structure and run the program to ensure everything is working as expected.
 3. Created the Tease project on Heroku, giving it the name 'teaze'.
 4. Added a new Postgres database:
-  - In the Resources tab, searched for Heroku Postgres add-in and selected free Hobby Dev option.
+  - In the Resources tab, searched for Heroku Postgres add-in and selected the free Hobby Dev option.
 5. In the Config Vars section of the Settings tab, added the environment variables to set up: 
   - Link to Postgres database 
   - Link to Cloudinary
   - Disabled static files for the time of development
-  - App sectret key
+  - App secret key
 5. In the Deployment tab:
  - selected GitHub as deployment method,
  - selected Connect,
  - authorised Heroku to access the GitHub account,
  - searched for 'teaze' repository and confirmed the connection.
 6. First time deployed the app using the manual Deploy Branch button, then enabled automatic deploys.
-7. Once the first build finished, changed the setting to deploy automatically. 
-8. Towards the end of development, enabled static files by chaning the value of DISABLE_COLLECTSTATIC to 0. Resolved issues caused by settings for cloudinary in the static files setup in the settings.py file (see Testing file for more details).
-9. Installed whitenoise to ensure static files are served in production mode.
+7. Once the first build was complete, changed the settings to deploy automatically. 
+8. Towards the end of development, enabled static files by changing the value of DISABLE_COLLECTSTATIC to 0. Resolved issues caused by settings for Cloudinary in the static files setup in the settings.py file (see Testing file for more details).
+9. Installed Whitenoise to ensure static files are served in production mode.
  
 # Requirements
 All requirements are contained in the requirements.txt file.
 
 # <a name="credits">Credits</a>
 A great thank you to: 
-- My mentor, Caleb Mbakwe, for invaluable advice on the best approach to the project, organisation of code, and support throughout the whole project. 
-- Stackoverflow: for pointing in the right direction on arranging question and option models
-- https://stackoverflow.com/questions/54048741/nonetype-object-has-no-attribute-is-ajax: for solving issue of pulling author from logged user rather than having to set it in the form.
-<!-- - Izen Oku: for his [blog post](https://medium.com/swlh/overview-building-a-full-stack-quiz-app-with-django-and-react-57fd07449e2f) on creating a Quiz app:  -->
-- https://www.youtube.com/watch?v=vXXfXRf2S4M
-- Creators of [Heroku documentation](https://devcenter.heroku.com/).
+- My mentor, Caleb Mbakwe, for invaluable advice on the best approach to the project, organisation of code, and support throughout.
+- Stackoverflow community: for pointing in the right direction on so many issues it's not efficient to list them here, though specific mention should be given to Bishwa Karki for solving the issue of [pulling author from the logged user rather than having to set it in the form](https://stackoverflow.com/questions/54048741/nonetype-object-has-no-attribute-is-ajax).
+- TO Izen Oku: for his [blog post](https://medium.com/swlh/overview-building-a-full-stack-quiz-app-with-django-and-react-57fd07449e2f) on creating a Quiz app and pointers on how to organise my database models.
+- [To PyPlane](https://www.youtube.com/channel/UCQtHyVB4O4Nwy1ff5qQnyRw) and [Lara Code](https://www.youtube.com/channel/UClXcbBNNhFU9ATAcXB6U7eQ) for their tutorials on creating a quiz in Django.
+- Creators of Django and Heroku documentation as well as authors of all the plugins and libraries used in this application.
 
