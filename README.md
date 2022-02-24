@@ -15,116 +15,140 @@
 8. [Credits](#credits)
 
 
-# <a name="intro">Teaze</a>
+# <a name="intro"></a>Teaze
 
 ![Responsive Mockup]()
 
-Teaze is a web-based application for use as a quiz and self-testing tool for fun and in aid of training, currently for internal company use, with a view of using it in the future as a tool to engage existing and potential customers and sign them up for the company newsletter.
-At present, the application is at Stage 1 of develeopment and the focus during the development has been placed on achieving a functioning Minimum Viable Product (MVP). Further improvements to the application UI and functionality will be done after stakeholder's input and testing.
+Teaze is a web-based application build for use as an internal self-testing tool in aid of training as well as for use in more fun team building activities. In the future, it's use might be extended to external users as a marketing tool aiming at increasing the engagement of the existing and potential customers and encouraging them up for the company's newsletter.
 
-<!-- There are two levels of users, Admin user can manage and create quizzes and questions, and in the future would be also able to view and manage user assessments. To gain Admin access the user needs to request it from the site manger. A standard user has access to published quizzes, can take the quiz and view his or her results. -->
+At present, the application is at Stage 1 of development and the focus of the development efforts has been placed on achieving a functioning Minimum Viable Product (MVP) which allows the users to take and create quizzes. Further improvements to the application UI and functionality will be ventured after main stakeholders' input and testing.
 
 Link to the deployed app: https://teaze.herokuapp.com/accounts/login/
 
 
-# <a name="ux">UX</a>
+# <a name="ux"></a>UX
 
-The initial user interface design idea was captured in wireframes available [here](https://github.com/Koko-66/teaze/blob/main/data/teaze_wireframes.pdf),
- <!-- while the application logic captured in the following an algorithm. -->
-The design is driven by the user's needs and ease of use, taking into account the process the user would usually go through when creating a quiz, while at the same time allowing flexibility by providing access to various features of the appliction from different pages adn at different stages of creating a quiz (e.g. editing features or adding and removing questions).
-With user experience in mind, the design of the application is kept simple with primary focus placed on functionality at this first stage of the product. 
+The initial user interface design idea was captured in the wireframes available [here](https://github.com/Koko-66/teaze/blob/main/data/teaze_wireframes.pdf), while the flow of the application logic in a diagram available for viewing [here](https://github.com/Koko-66/teaze/blob/main/static/data/Teaze_algorithm.pdf).
+The design is driven by the user's needs and ease of use. It aims to replicate the process the user would usually go through when creating a quiz, but also offer flexibility by providing access to various features from different places in the application and at different stages of creating or managing a quiz (e.g. editing questions or adding and removing their options).
+With user experience in mind, the design of the application is kept simple with primary focus placed on functionality. 
 
 
 ## <a name="user-story"></a>User Stories 
 
-The application was developed using Agile methodology, with User Stories managed within a Github Project. All completed and outsatanding User Stories can be viewed [here](https://github.com/Koko-66/teaze/projects/1).
+The application was developed using Agile methodology, with User Stories managed within a Github Project. All completed and outstanding User Stories can be viewed [here](https://github.com/Koko-66/teaze/projects/1).
 
 
-# <a name="features-design">Features and Design</a>
+# <a name="features-design"></a>Features and Design
 
 ## Models and functional design
 
-The application uses Postgres relationship database to store its data and the data model comprises of `Quiz`, `Question`, `Option`, `Category`, `Assessment` and `Answer` models. The components of each model and the relationships between them are represented in the model avilable [here](https://github.com/Koko-66/teaze/blob/main/static/data/teaze_data_model.pdf).
+The application uses Postgres relationship database to store its data and the data model is comprised of `Quiz`, `Question`, `Option`, `Category`, `Assessment` and `Answer`. The components of each model and the relationships between them are represented in a graphic model representation available [here](https://github.com/Koko-66/teaze/blob/main/static/data/teaze_data_model.pdf).
 
-The decision to keep `Quiz`, `Question` and `Options` as separate models was driven by flexibility. This kind of model means that Questions can be used in different quizzes and do not get deleted if the Quiz is deleted. A quiz can have as many qustions as the user wishes and the number of options per questions is also entirely up to the user. 
+The decision to keep `Quiz`, `Question` and `Options` as separate models was driven by flexibility. This kind of approach allows maximum flexibility when creating quizzes and questions, as the user is not restricted to a pre-set structure, number of questions per quiz, options per question etc. It also allows for the questions to be reused even if the quiz has been deleted, as they are not inherently a part of the quiz either.
 
-<!-- Info about on_delete settings -->
+This approach, however, calls for careful consideration of the relationships between various models and what should happen if instances of these are deleted while related to an instance of another model. These considerations are still pending in Teaze app, and need to be addressed.
 
-## <a name="existing-features">Existing Features</a>
+At present, the relationship between quiz and question is One-to-Many, though it would, arguably, be more beneficial to the user to be able to use the same question in more than one quiz. The deletion of questions, options and categories also poses a problem due to their links with other models for which cascading deletion is not an option. In the future, the `Delete` will be replaced with the __Active/Disabled__ approach instead.
+
+## <a name="existing-features"></a>Existing Features
 
 ### Sign up and Log in
 
-When first accessing the application, the user is directed to a Log in page. The page includes a link to a Sign up form, should the visitor not yet have an account. Sign up and Log in forms are delivered by Allauth django app and are fully validated for correct data input, asking to confim password and with an option to provide an e-mail address.
-<!-- Add information that in order to reset password you need to provide email - if that functionality will be added -->
+When first accessing the application, the user is directed to a _Log in_ page. The page includes a link to a _Sign up_ form, should the visitor not yet have an account. _Sign up_ and _Log in_ forms are delivered by __Allauth__ Django app. The forms are fully validated for correct data input, and the _Sign up_ form asks to confirm the inserted password and an option to provide an e-mail address.
 
-![Log in form](https://github.com/Koko-66/teaze/blob/main/static/data/Sign_in_unauth_user_landing_p.png)
+Log in form 
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/Sign_in_unauth_user_landing_p.png" width="500">
 
-Users are managed via backend django admin, where superadmin can assign users to Admin group with advanced rights. 
+Sign up form
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/Sign_up_page.png" width="500">
 
-![Sign up form](https://github.com/Koko-66/teaze/blob/main/static/data/Sign_up_page.png)
+All users are managed via backend Django admin site, where __superadmin__ user can assign users to the __Admin__ group with advanced rights. 
+At the moment, the application is not linked to any e-mail address and the passwords can only be reset via contact with the application admin. This will be fixed in the future, however, considering the internal nature of the application this is not affecting the app usability hugely at this stage.
 
 ### Landing page
 
-After logging in, standard user is redirected to their homepage, where they can see a list of published quizzes available for them to complete. If the quiz has been completed it is marked as such, and the button for taking the quiz is replaced with one taking to the user to a page showing their quiz results.
+After logging in, a standard User is redirected to their homepage, where they can see a list of quizzes that have been published (i.e. set to `Approved`. If the quiz has been completed it is marked as such, and the button for taking the quiz is replaced with __Results__ that take the user to a page showing their results for that particular quiz.
 
-![Standard user's home page](https://github.com/Koko-66/teaze/blob/main/static/data/Standard_user_home_page.png)
-<img src='https://github.com/Koko-66/teaze/blob/main/static/data/Standard_user_home_page.png' width='400'>
+Standard user's home page
+<img src='https://github.com/Koko-66/teaze/blob/main/static/data/Standard_user_home_page.png' width="500">
 
-Admin users are redirected to a dashboard with an overview of quizzes, questions and categories existing in the application. From here, via an extended menu, they can manage (create, edit and delete) all of these elements.
+Admin users, on the other hand, are redirected to a dashboard with an overview of quizzes, questions and categories existing in the application. From here, via an extended menu, they can manage (create, edit and delete) all of these elements.
 
-![Admin user's home page](https://github.com/Koko-66/teaze/blob/main/static/data/Admin_user_home_page.png)
+Admin user's home page
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/Admin_user_home_page.png" width="500">
 
 ### Navigation
 
-Navigation menu is placed at the top of the page and changes depending on whether the user is authenticated or not, and also depending on the type of user. 
+The navigation menu is placed at the top of the page and changes depending on whether the user is authenticated or not, and also depending on the type of user. 
 
-![Non-authenticated user's menu](https://github.com/Koko-66/teaze/blob/main/static/data/non-authenticated_user_menu.png)
+Non-authenticated user's menu
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/non-authenticated_user_menu.png" width="200">
 
-![Standard user's menu](https://github.com/Koko-66/teaze/blob/main/static/data/standard_user_menu.png)
+Standard user's menu
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/standard_user_menu.png" width="200">
 
-![Admin user's menu](https://github.com/Koko-66/teaze/blob/main/static/data/admin_user_menu.png)
+Admin user's menu
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/admin_user_menu.png" width="500">
+
+The menu is also responsive and collapses into a button on smaller devices.
 
 ### Taking the quiz
 
-On their homepage a Standard User can see a list of all published quizes, available for them to take as well as those they have already taken. 
+On their homepage, a standard User can see a list of all published quizzes available for them to take as well as those they have already taken. 
 Upon clicking the _Take quiz_ button, the user is taken to a page with a list of all questions.
-![Take quiz view](https://github.com/Koko-66/teaze/blob/main/static/data/take_quiz.png)
+Take quiz view
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/take_quiz.png" width="500">
 
-The quiz allows only one answer per question, but not all questions have to be answered in order to submit the quiz. On submission, the user is redirected to a page showing their results - total score for the quiz and feedback for each of the questions. These quiz results are available for the user to view at any time via the links on their homepage. Quiz results are saved as assessment against the user and, at present, the user cannot take the same quiz more than once.
-![Quiz results view](https://github.com/Koko-66/teaze/blob/main/static/data/quiz_results.png)
+The quiz allows only one answer per question, however, not all questions have to be answered to submit the quiz. On submission, the User is redirected to a page showing their results - total score for the quiz and feedback for each of the questions. These quiz results are available for the User to view at any time via the links on each quiz card on their homepage.
+
+Quiz results view
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/quiz_results.png" width="500">
+
+Each response is saved as an individual answer assigned to an assessment which is saved against the user and, at present, the user cannot take the same quiz more than once. This again is something to be discussed and agreed on with the stakeholders.
 
 ### Quiz creation
 
-In order to create a new quiz, the user needs to be assigned relevant permissions that can be given by adding them to the Admin group. This can be requested from app managers (superusers). Adding quiz is a simple process and can be done either directly from the Dashboard or from the _Manage quizzes_ page accessible from the Menu at the top of the page.
+To create a new quiz, the user needs to be assigned relevant permissions by the superuser, e.g. by adding them to the __Admin__ group. Adding a quiz is a simple process and can be done either directly from the Dashboard or the _Manage quizzes_ page accessible from the __Menu__ at the top of the page.
 
-![Adding quiz from Dashboad](https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_dashboard.png)
+Adding quiz from Dashboad
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_dashboard.png" width="500">
 
+Adding quiz from Manage quizzes
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_manage_quizzes.png" width="500">
 
-![Adding quiz from Manage quizzes](https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_manage_quizzes.png)
+Clicking the __Add__ button initiates the _Add quiz_ form, where the user can fill in the quiz Title (required), Category (required), Description (optional), and Image (optional). The form is validated for required fields and checks if a quiz with the same title already exists.
 
+Add quiz form 
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_form.png" width="500">
 
-Clicking the _Add_ button initiates _Add quiz_ form, where the user needs to fill in the quiz title (required), category (required), description (optional), and image (optional). The form is validated for required fields and duplicated quiz name. 
-![Add quiz form](https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_form.png)
+A quiz can only be assigned one category, and if the required category does not yet exist, it can be added from the _Add quiz_ view as well.
 
-Quiz can also only be assigned one category, and if the required category does not yet exist, it can be added from this view as well.
-![Add category while creating new quiz](https://github.com/Koko-66/teaze/blob/main/static/data/add_category_while_in_quiz.png)
+Add category while creating new quiz
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_category_while_in_quiz.png" width="500">
 
-If the user decides not to save the changes, they can cancel the process at any point by clicking either __Cancel__ button or the X sign in the top right corner of the form.
+If the user decides not to save the changes, they can cancel the process at any point by clicking either the __Cancel__ button or the __X__ sign in the top right corner of the form.
 
 Clicking __Save__, redirects the user to a view with quiz details.
 
 ### Quiz details view
 
-After creating a quiz, the admin user is redirected to a Quiz detail view, where they can see information about the quiz: title, status, category, description, image and quiz questions, if any already exist.
-If any questions in the same category as the quiz exist in the database and are not assigned to any other quiz, they are listed below the main quiz details and can be added to the quiz by clicking the small __+__ icon. Questions can be as easily removed from the quiz by clicking the __x__ icon in the quiz qustions list.
-Note that this action merely remvoves question from the quiz and does not delete it.
-At present, the question can be added to the quiz only 
+After creating a quiz, the Admin user is redirected to a _Quiz detail_ page, where they can see information about the quiz: title, status, category, description, image and quiz questions, if any already exist.
+If there are any questions in the database that are assigned the same category as the quiz and are not assigned to any other quiz, they are listed below the main quiz details and can be added to the quiz by clicking the small __+__ icon showing to the right. Similarly, questions can be as easily removed from the quiz by clicking the __x__ icon in the quiz questions list.
+Note that this action merely removes the question from the quiz and does not delete it.
 
-![Questions availble to add to quiz](https://github.com/Koko-66/teaze/blob/main/static/data/available_questions_to_add.png)
+List of questions availble for adding to the quiz
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/available_questions_to_add.png" width="500">
 
-The __Edit quiz__ button redirects to editing form, where the user can make tweaks to the quiz details. The form mirros _Add quiz_ form, but is populated with exsiting quiz data.
+The __Edit quiz__ button redirects the user to the _Edit quiz_ page, where the user can make tweaks to the quiz details. The form mirrors the _Add quiz_ form but is populated with existing quiz data.
 
-![Edit quiz](https://github.com/Koko-66/teaze/blob/main/static/data/edit_quiz.png)
+<img src ="https://github.com/Koko-66/teaze/blob/main/static/data/edit_quiz.png" width="500">
+
+#### Setting quiz status
+
+A quiz can be set as either `Draft` or `Approved`. Until the status is set to `Draft`, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
+At the time of creating, a new quiz is set to `Draft` as detault and can be toggled to `Approved` in the Quiz detail view, once admin user is finished setting it up. 
+
+On setting the quiz to `Approved` a pop-up alert informs the user that the status has been changed and the quiz is now available for all test-takers.
 
 #### Quiz featured image 
 
@@ -135,13 +159,6 @@ The user can upload a feature image to the quiz which is uploaded directly to Cl
 #### Quiz preview
 
 Once created, admin user has an option to check the quiz as it would appear to a standard user by using __Preview__ button on the quiz card in the Manage quizzes page. The Preview mimics the actual quiz-taking experience of a standard user. Admin user's quizzes get saved into the database to ensure everything is working correctly, but they can take the quiz more than once.
-
-#### Setting quiz status
-
-A quiz can have two statuses - `Draft` and `Approved`. Until the status is set to `Draft`, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
-At the time of creating, a new quiz is set to `Draft` as detault and can be toggled to `Approved` in the Quiz detail view, once admin user is finished setting it up. 
-
-On setting the quiz to `Approved` a pop-up alert informs the user that the status has been changed and the quiz is now available for all test-takers.
 
 ### Managing questions
 
