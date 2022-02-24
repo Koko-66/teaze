@@ -34,8 +34,10 @@ class TakeQuizView(ListView):
             raw_data = dict(self.request.POST.items())
             answered_questions = list(raw_data.keys())
             answers = list(raw_data.values())
-            del answers[0]
-            del answered_questions[0]
+            if len(answers) > 1:
+                del answers[0]
+            if len(answered_questions) > 1:
+                del answered_questions[0]
 
             score = 0
             # create blank assessment
@@ -56,7 +58,7 @@ class TakeQuizView(ListView):
             # update assessment with the updated score for the quiz
             Assessment.objects.update(score=score)
             context = {
-                        'answer': answer,
+                        # 'answer': answer,
                         'assessment': assessment,
                         'questions': questions,
                     }
