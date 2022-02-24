@@ -184,7 +184,16 @@ Draft qustions are clearly indicated in the _Quiz detail_ page and can be review
 
 ![Draft questions indicated in the Quiz detail page]()
 
-#### Accessibility and alerts
+#### Deleting question 
+Question can be deleted from the _Question management_ or _Question detail_ page. Before the question is deleted, the application will check whether it is used in any quiz and provide the user with information in which, if this is the case, at the same time preventing deletion. 
+The question needs to be removed from the Quiz before deletion. 
+
+### Managing Categories
+
+Categories are the smalles model and are the simplest to manage. They can be added while creating a new quiz or from their own _Manage categories_ page. 
+An attempt to delete a Category triggers a check for its use in a Quiz or a Question and prevents the deletion if the Category is used in any of these.
+
+### Accessibility and alerts
 
 To increase users' engagement with the application each button that does not contain text has a `title` tag which on hover provides information about the button's function. Each action is also confirmed by an alert, which is dismissed automatically after 3 seconds if the uer does not dissmiss it.
 
@@ -217,20 +226,22 @@ Programming languages used in the project:
 
 ## <a name="libraries-and-programs"></a>Frameworks, Libraries, Plugins and other services used
 - __Django__: main application framework
-- __Bootstrap__
+- __Bootstrap__: CSS styling
 - __GitPod__: primary code editor
 - __Git__:  for version control
 - __[Git Hub](https://github.com/)__: to store project files
 - __[Python Tutor](https://pythontutor.com/)__: used to help with debugging
-- __darw.io__: to create the data models
+- __darw.io__: to create the data model and program logic flow chart
 - __Balsamiq__: for wireframes
 - __Cloudinary__: to store image files uploaded by the user
 - __PostgreSQL Database__: serving as main database
 - __Coverage__: create reporting on level of tests
-- __AllAuth__: user management
-- __django-bootstrap-modal-forms__: to display forms in modals
-
+- __[AllAuth](https://django-allauth.readthedocs.io/en/latest/)__: user management
+- __[django-bootstrap-modal-forms](https://pypi.org/project/django-bootstrap-modal-forms/)__: to display forms in modals
+- __[django-filter](https://django-filter.readthedocs.io/en/stable/)__: used on the Manage questions page to filter the content
 - __[Heroku](https://www.heroku.com/)__: used to deploy the live version of the project
+- __[whitenoise](http://whitenoise.evans.io/en/stable/django.html)__: to serve static files correctly in production
+- __Beautify__: VSCode extenstion to format code
 - __[Am I Responsive?](http://ami.responsivedesign.is/#)__ site to generate the responsive mockup
 
 # <a name="testing"></a>Testing 
