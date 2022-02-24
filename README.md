@@ -10,7 +10,7 @@
 5. [Technologies](#technologies)<br>
   5.1. [Languages used](#languages)<br>
   5.2. [Frameworks, libraries and programs used](#libraries-and-programs)
-6. [Testing](https://github.com/Koko-66/Translate_it/blob/main/TESTING.md)
+6. [Testing](#errors-testing)
 7. [Deployment](#deployment)
 8. [Credits](#credits)
 
@@ -29,7 +29,7 @@ Link to the deployed app: https://teaze.herokuapp.com/accounts/login/
 
 # <a name="ux">UX</a>
 
-The initial user interface design idea was captured in wireframes available [here](),
+The initial user interface design idea was captured in wireframes available [here](/data/teaze_wireframes.pdf),
  <!-- while the application logic captured in the following an algorithm. -->
 The design is driven by the user's needs and ease of use, taking into account the process the user would usually go through when creating a quiz, while at the same time allowing flexibility by providing access to various features of the appliction from different pages adn at different stages of creating a quiz (e.g. editing features or adding and removing questions).
 With user experience in mind, the design of the application is kept simple with primary focus placed on functionality at this first stage of the product. 
@@ -44,9 +44,11 @@ The application was developed using Agile methodology, with User Stories managed
 
 ## Models and functional design
 
-The application uses Postgres relationship database to store its data and the data model comprises of `Quiz`, `Question`, `Option`, `Category`, `Assessment` and `Answer` models. The components of each model and the relationships between them are represented in the model avilable [here]().
+The application uses Postgres relationship database to store its data and the data model comprises of `Quiz`, `Question`, `Option`, `Category`, `Assessment` and `Answer` models. The components of each model and the relationships between them are represented in the model avilable [here](/data/teaze_data_model.pdf).
 
 The decision to keep `Quiz`, `Question` and `Options` as separate models was driven by flexibility. This kind of model means that Questions can be used in different quizzes and do not get deleted if the Quiz is deleted. A quiz can have as many qustions as the user wishes and the number of options per questions is also entirely up to the user. 
+
+<!-- Info about on_delete settings -->
 
 ## <a name="existing-features">Existing Features</a>
 
@@ -55,7 +57,7 @@ The decision to keep `Quiz`, `Question` and `Options` as separate models was dri
 When first accessing the application, the user is directed to a Log in page. The page includes a link to a Sign up form, should the visitor not yet have an account. Sign up and Log in forms are delivered by Allauth django app and are fully validated for correct data input, asking to confim password and with an option to provide an e-mail address.
 <!-- Add information that in order to reset password you need to provide email - if that functionality will be added -->
 
-![Log in form]()
+![Log in form](/data/Sign%20in_unauth_user_landing_p.png)
 
 Users are managed via backend django admin, where superadmin can assign users to Admin group with advanced rights. 
 
@@ -184,9 +186,11 @@ Draft qustions are clearly indicated in the _Quiz detail_ page and can be review
 
 ![Draft questions indicated in the Quiz detail page]()
 
-#### Deleting question 
-Question can be deleted from the _Question management_ or _Question detail_ page. Before the question is deleted, the application will check whether it is used in any quiz and provide the user with information in which, if this is the case, at the same time preventing deletion. 
-The question needs to be removed from the Quiz before deletion. 
+#### Deleting questions and options
+Question can be deleted from the _Manage questions_ or _Question details_ pages however the option is only available if it is not used in any quiz. Before the question is deleted, the application will also performa an  additional check to see if it appears any saved assessments. If yes, the user will be provided with appropriate feedback, and deletion would not be possible.
+Options can be deleted from _Question details_ page as well, and are also checked for appearance in saved answers to prefent Protected error. 
+
+Considering the data model and the fact that assessments and answers need to be stored beyoed the life-cycle of any quiz, question or option, the deletions need further consideation and will be replaced with 'active/disabled' approach instead.
 
 ### Managing Categories
 
@@ -211,8 +215,8 @@ Display one question per page would be especially helpful for questions using an
 
 At present, management of the assessments is only available to the admin user via Django admin page after they have been set as Staff members by a superuser. In the future this functionality would be available for admin users from front-end.
 
-# <a name="django-admin">Management via Django admin site</a>
 
+# <a name="django-admin">Management via Django admin site</a>
 
 
 # <a name="technologies">Technologies used</a>
@@ -244,8 +248,11 @@ Programming languages used in the project:
 - __Beautify__: VSCode extenstion to format code
 - __[Am I Responsive?](http://ami.responsivedesign.is/#)__ site to generate the responsive mockup
 
-# <a name="testing"></a>Testing 
-Information about testing is available in a separate file [here]().
+# <a name="errors-testing">Error handling and testing</a>
+
+The error handling is currently mostly hadnled by the inbuilt functionality of class based views as well as some if-statment based checks within these. Going forward, the application willbe be using a more robust approach using a set of custom error classes.
+
+Information about the application testing is available in a separate file [here]().
 
 # <a name="deployment">Deployment</a>
 The program was deployed to Heroku at the start of the project to ensure it's correct functioning and is accessible here: 
