@@ -29,7 +29,7 @@ Link to the deployed app: https://teaze.herokuapp.com/accounts/login/
 
 # <a name="ux">UX</a>
 
-The initial user interface design idea was captured in wireframes available [here](/data/teaze_wireframes.pdf),
+The initial user interface design idea was captured in wireframes available [here](https://github.com/Koko-66/teaze/blob/main/data/teaze_wireframes.pdf),
  <!-- while the application logic captured in the following an algorithm. -->
 The design is driven by the user's needs and ease of use, taking into account the process the user would usually go through when creating a quiz, while at the same time allowing flexibility by providing access to various features of the appliction from different pages adn at different stages of creating a quiz (e.g. editing features or adding and removing questions).
 With user experience in mind, the design of the application is kept simple with primary focus placed on functionality at this first stage of the product. 
@@ -44,7 +44,7 @@ The application was developed using Agile methodology, with User Stories managed
 
 ## Models and functional design
 
-The application uses Postgres relationship database to store its data and the data model comprises of `Quiz`, `Question`, `Option`, `Category`, `Assessment` and `Answer` models. The components of each model and the relationships between them are represented in the model avilable [here](/data/teaze_data_model.pdf).
+The application uses Postgres relationship database to store its data and the data model comprises of `Quiz`, `Question`, `Option`, `Category`, `Assessment` and `Answer` models. The components of each model and the relationships between them are represented in the model avilable [here](https://github.com/Koko-66/teaze/blob/main/static/data/teaze_data_model.pdf).
 
 The decision to keep `Quiz`, `Question` and `Options` as separate models was driven by flexibility. This kind of model means that Questions can be used in different quizzes and do not get deleted if the Quiz is deleted. A quiz can have as many qustions as the user wishes and the number of options per questions is also entirely up to the user. 
 
@@ -57,60 +57,61 @@ The decision to keep `Quiz`, `Question` and `Options` as separate models was dri
 When first accessing the application, the user is directed to a Log in page. The page includes a link to a Sign up form, should the visitor not yet have an account. Sign up and Log in forms are delivered by Allauth django app and are fully validated for correct data input, asking to confim password and with an option to provide an e-mail address.
 <!-- Add information that in order to reset password you need to provide email - if that functionality will be added -->
 
-![Log in form](/data/Sign%20in_unauth_user_landing_p.png)
+![Log in form](https://github.com/Koko-66/teaze/blob/main/static/data/Sign_in_unauth_user_landing_p.png)
 
 Users are managed via backend django admin, where superadmin can assign users to Admin group with advanced rights. 
 
-![Sign up form]()
+![Sign up form](https://github.com/Koko-66/teaze/blob/main/static/data/Sign_up_page.png)
 
 ### Landing page
 
 After logging in, standard user is redirected to their homepage, where they can see a list of published quizzes available for them to complete. If the quiz has been completed it is marked as such, and the button for taking the quiz is replaced with one taking to the user to a page showing their quiz results.
 
-![Standard user's home page]()
+![Standard user's home page](https://github.com/Koko-66/teaze/blob/main/static/data/Standard_user_home_page.png)
+<img src='https://github.com/Koko-66/teaze/blob/main/static/data/Standard_user_home_page.png' width='400'>
 
 Admin users are redirected to a dashboard with an overview of quizzes, questions and categories existing in the application. From here, via an extended menu, they can manage (create, edit and delete) all of these elements.
 
-![Admin user's home page]()
+![Admin user's home page](https://github.com/Koko-66/teaze/blob/main/static/data/Admin_user_home_page.png)
 
 ### Navigation
 
 Navigation menu is placed at the top of the page and changes depending on whether the user is authenticated or not, and also depending on the type of user. 
 
-![Non-authenticated user's]()
+![Non-authenticated user's menu](https://github.com/Koko-66/teaze/blob/main/static/data/non-authenticated_user_menu.png)
 
-![Standard user's menu]()
+![Standard user's menu](https://github.com/Koko-66/teaze/blob/main/static/data/standard_user_menu.png)
 
-![Admin user's menu]()
+![Admin user's menu](https://github.com/Koko-66/teaze/blob/main/static/data/admin_user_menu.png)
 
 ### Taking the quiz
 
 On their homepage a Standard User can see a list of all published quizes, available for them to take as well as those they have already taken. 
 Upon clicking the _Take quiz_ button, the user is taken to a page with a list of all questions.
-![Take quiz view]()
+![Take quiz view](https://github.com/Koko-66/teaze/blob/main/static/data/take_quiz.png)
 
 The quiz allows only one answer per question, but not all questions have to be answered in order to submit the quiz. On submission, the user is redirected to a page showing their results - total score for the quiz and feedback for each of the questions. These quiz results are available for the user to view at any time via the links on their homepage. Quiz results are saved as assessment against the user and, at present, the user cannot take the same quiz more than once.
-![Quiz results view]()
+![Quiz results view](https://github.com/Koko-66/teaze/blob/main/static/data/quiz_results.png)
 
 ### Quiz creation
 
-In order to create a new quiz, the user needs to be assigned relevant permissions that can be given by adding them to the Admin group. This can be requested from app managers (superusers). Adding quiz is a simple process and can be done either directly from the Dashboard or from the Manage quizzes page accessible from the Menu at the top of the page.
+In order to create a new quiz, the user needs to be assigned relevant permissions that can be given by adding them to the Admin group. This can be requested from app managers (superusers). Adding quiz is a simple process and can be done either directly from the Dashboard or from the _Manage quizzes_ page accessible from the Menu at the top of the page.
 
-![Adding quiz from Dashboad]()
-
-
-![Adding quiz from Manage quizzes]()
+![Adding quiz from Dashboad](https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_dashboard.png)
 
 
-Clicking the _Add_ button initiates `Add quiz form`, where the user needs to fill in the quiz title (required), category (required), description (optional), and image (optional). The form is validated for required fields and duplicated quiz name. 
-![Add quiz form]()
+![Adding quiz from Manage quizzes](https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_manage_quizzes.png)
+
+
+Clicking the _Add_ button initiates _Add quiz_ form, where the user needs to fill in the quiz title (required), category (required), description (optional), and image (optional). The form is validated for required fields and duplicated quiz name. 
+![Add quiz form](https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_form.png)
 
 Quiz can also only be assigned one category, and if the required category does not yet exist, it can be added from this view as well.
-![Add category while creating new quiz]()
+![Add category while creating new quiz](https://github.com/Koko-66/teaze/blob/main/static/data/add_category_while_in_quiz.png)
 
-If the user decides not to save the changes, they can cancel the process at any point by clicking either _Cancel_ button or the X sign in the top right corner of the form.
+If the user decides not to save the changes, they can cancel the process at any point by clicking either __Cancel__ button or the X sign in the top right corner of the form.
 
-Clicking _Save_, redirects the user to a view with quiz details.
+Clicking __Save__, redirects the user to a view with quiz details.
 
 ### Quiz details view
 
@@ -119,43 +120,45 @@ If any questions in the same category as the quiz exist in the database and are 
 Note that this action merely remvoves question from the quiz and does not delete it.
 At present, the question can be added to the quiz only 
 
-![Questions availble to add to quiz]()
+![Questions availble to add to quiz](https://github.com/Koko-66/teaze/blob/main/static/data/available_questions_to_add.png)
 
-The _Edit quiz_ button redirects to editing form, where the user can make tweaks to the quiz details. The form mirros `Add quiz` form, but is populated with exsiting quiz data.
+The __Edit quiz__ button redirects to editing form, where the user can make tweaks to the quiz details. The form mirros _Add quiz_ form, but is populated with exsiting quiz data.
 
-![Edit quiz]()
+![Edit quiz](https://github.com/Koko-66/teaze/blob/main/static/data/edit_quiz.png)
 
 #### Quiz featured image 
 
 The user can upload a feature image to the quiz which is uploaded directly to Cloudinary. The images are then appearing as background on the quiz cards and can be showing as a background to the quiz in the Take Quiz and Resulsts views in the future. Images can be previewed in the Quiz details view, can be removed and updated as needed. There are certain considerations for using images in the application (in relation to size, colouring,  ratios, etc.) which will be addressed in the admin user training and contorlled programmatically in the future.
 
-![Quiz details with image thumbnail]()
+![Quiz details with image thumbnail](https://github.com/Koko-66/teaze/blob/main/static/data/quiz_details_with_img_thumbnail.png)
 
 #### Quiz preview
 
-Once created, admin user has an option to check the quiz as it would appear to a standard user by using _Preview_ button on the quiz card in the Manage quizzes page. The Preview mimics the actual quiz-taking experience of a standard user. Admin user's quizzes get saved into the database to ensure everything is working correctly, but they can take the quiz more than once.
+Once created, admin user has an option to check the quiz as it would appear to a standard user by using __Preview__ button on the quiz card in the Manage quizzes page. The Preview mimics the actual quiz-taking experience of a standard user. Admin user's quizzes get saved into the database to ensure everything is working correctly, but they can take the quiz more than once.
 
 #### Setting quiz status
 
-A quiz can have two statuses - _Draft_ and _Approved_. Until the status is set to _Draft_, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
-At the time of creating, a new quiz is set to _Draft_ as detault and can be toggled to _Approved_ in the Quiz detail view, once admin user is finished setting it up. 
+A quiz can have two statuses - `Draft` and `Approved`. Until the status is set to `Draft`, quiz will not be visible to a standard user to prevent them from completing quizzes which are not completed and verified.
+At the time of creating, a new quiz is set to `Draft` as detault and can be toggled to `Approved` in the Quiz detail view, once admin user is finished setting it up. 
 
-On setting the quiz to Published a pop-up alert informs the user that the status has been changed and the quiz is now available for all test-takers.
+On setting the quiz to `Approved` a pop-up alert informs the user that the status has been changed and the quiz is now available for all test-takers.
 
 ### Managing questions
 
-Questions are a building block of the application and as such, have their own model and can be managed as individual items. The question management page can be accessed from the link in the card on the __Home__ page or link in the menu at the top of the page.
+Questions are a building block of the application and as such, have their own model and can be managed as individual items. The question management page can be accessed from the link in the card on the _Home_ page or link in the menu at the top of the page.
 
 In the Qustion management page the admin user sees a list of questions with their basic details and is able to filter them by category and quiz, and search by keywords typed in. The filter is collapsed by default to make the page cleaner. When a filter is applied a button for clearing it appears. 
-![Manage question page with filter not collapsed]()
-![Manage qestion page with Clear filter button]()
+![Manage question page with filter not collapsed](https://github.com/Koko-66/teaze/blob/main/static/data/manage_question_filters.png)
+
+![Manage qestion page with Clear filter button](https://github.com/Koko-66/teaze/blob/main/static/data/question_filters_when_selected.png)
 
 #### Adding questions
 
 A new question can be added from _Quiz detail_ page , in which case the Quiz property of the question is being automatically set to that of the quiz viewed, or from _Manage questions_ page, where the question can be created without selecting a quiz and added to a quiz when needed.
 
-![Adding question from Quiz details page]()
-![Adding question from Manage questions page]()
+![Adding question from Quiz details page](https://github.com/Koko-66/teaze/blob/main/static/data/create_question_in_quiz.png)
+
+![Adding question from Manage questions page](https://github.com/Koko-66/teaze/blob/main/static/data/add_question_from_question_manag.png)
 
 A question can be assigned more than one category by holding down `Ctrl` button (or `Cmd` on a Mac) and making a selection. The user is informed about this on the form.
 
@@ -170,26 +173,27 @@ As in quiz, the images can have their own images with a view that some questions
 The question details view follows the same layout as quiz view, including image preview.
 The user can edit question elements individually by clicking on the edit icon. Each edit form opens in a separate modal showing over the page, which helps the user stay focused on the task. 
 
-![Question details page with modal open]()
+![Question details page with modal open](https://github.com/Koko-66/teaze/blob/main/static/data/edit_question_modal_view.png)
 
 On this page the user also gets an opprotunity to manage options - they can add and delete them as required. Because options are not part of a question model but have model of their own, the number of options per qustions is not determined by design and can be set individually per question. 
 
 #### Option uniqueness checks
 
 At present, the application design allows for only one option to be set as correct. To prevent the user from setting more than one answer as correct, and once one option is set as such, the tick box for is_correct is replaced with information that one correct option already exists.
-![Adding option when correct answer already exists]()
+![Adding option when correct answer already exists](https://github.com/Koko-66/teaze/blob/main/static/data/add_option_when_correct_exists.png)
 
 #### Question status
 
 As quizzes, questions have two statuses _Draft_ and _Approved_. At present this feature is simply for to the admin user to keep track of questions that still needs to be reviewed, but they can still be used in the quiz, if the user wishes to use them. 
 Draft qustions are clearly indicated in the _Quiz detail_ page and can be reviewed and approved before adding to the quiz and publishing the latter.
 
-![Draft questions indicated in the Quiz detail page]()
+![Draft questions indicated in the Quiz detail page](https://github.com/Koko-66/teaze/blob/main/static/data/draft_qustions_in_quiz_details.png)
 
 #### Deleting questions and options
 Question can be deleted from the _Manage questions_ or _Question details_ pages however the option is only available if it is not used in any quiz. Before the question is deleted, the application will also performa an  additional check to see if it appears any saved assessments. If yes, the user will be provided with appropriate feedback, and deletion would not be possible.
 Options can be deleted from _Question details_ page as well, and are also checked for appearance in saved answers to prefent Protected error. 
 
+!()
 Considering the data model and the fact that assessments and answers need to be stored beyoed the life-cycle of any quiz, question or option, the deletions need further consideation and will be replaced with 'active/disabled' approach instead.
 
 ### Managing Categories
