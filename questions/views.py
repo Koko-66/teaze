@@ -151,22 +151,6 @@ class QuestionDetailsView(BSModalReadView):
         return render(request, self.template_name, context)
 
 
-# class QuestionListView(ListView):
-#     """View listing all questions in the databae."""
-#     model = Question
-#     template_name = 'questions/manage_questions.html'
-
-#     def get(self, request, *args, **kwargs):
-#         if request.user.groups.filter(name='Admin').exists():
-#             question_list = Question.objects.order_by('category')
-#             return render(request, self.template_name, {
-#                 'question_list': question_list,
-#                 }
-#             )
-#         else:
-#             return redirect('login.html')
-
-
 class EditQuestionView(BSModalUpdateView):
     """Edit question elements base class."""
 
@@ -231,6 +215,31 @@ class DeleteQuestionView(BSModalDeleteView):
     template_name = 'questions/question_confirm_delete.html'
     success_message = 'Question deleted successfully.'
     # success_url = reverse_lazy('questions:manage_questions')
+
+    def get(self, *args, **kwargs):
+        """Override the default get function."""
+        pk = self.kwargs.get('pk')
+        question = get_object_or_404(Question, pk=pk)
+        quizzes = Quiz.objects.all()
+        protected = False
+        protected_message = ''
+
+        # Check if question is used in a quiz:
+        # if yes, prevent deletion displaying message to the user,
+        # if not, ask the user to confirm deletion.
+        for quiz in quizzes:
+            if quiz == question.quiz:
+                protected_message = f"""This quetion is used in quiz
+                 <strong>{quiz.title}</strong> and cannot be deleted."""
+                protected = True
+
+        context = {
+            'protected_message': protected_message,
+            'protected': protected,
+            'question': question,
+        }
+        return render(self.request, 'questions/question_confirm_delete.html',
+                      context)
 
     def get_success_url(self, *args, **kwargs):
         """
