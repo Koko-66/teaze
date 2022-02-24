@@ -60,7 +60,10 @@
                     {% for question in quiz.questions.all %}
 
                         <div class="d-flex justify-content-between my-2 m-md-2 p-2 ms-0 ps-4 rounded highlight">
+                            {% if question.status == 0 %}<li class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></li>
+                            {% else %}
                             <li>{{ question.body }}</li>
+                            {% endif %}
                                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                                         <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="text-dark bs-modal" alt="Details" title="Details">
                                             <i class="fas fa-info-circle mx-2 icon"></i></a></li>
@@ -88,13 +91,14 @@
                         <ul class="list-unstyled">
                             {% for question in available_questions %}
                             <div class="d-flex justify-content-between my-2 m-md-2 p-2 rounded highlight">
+                                {% if question.status == 0 %}<li class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></li>
+                                {% else %}
                                 <li>{{ question.body }}</li>
+                                {% endif %}
                                         <ul class="d-flex list-unstyled mt-auto justify-content-between">
         
                                             <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.pk %}" class="text-dark bs-modal" alt="Details" title="Details">
                                                 <i class="fas fa-info-circle mx-2 icon"></i></a></li>
-                                            <!-- <li><a href="{% url 'questions:edit_question' question.pk %}" class="edit-question bs-modal" alt="Edit" title="Edit">
-                                                <i class="fas fa-edit mx-2 icon"></i></a></li> -->
                                             <li><a href="{% url 'quiz:add_question' quiz.slug question.pk %}" title="Add to quiz">
                                                 <i class="fas fa-plus mx-2 icon"></i></a></li>
                                         </ul>

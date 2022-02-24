@@ -3,15 +3,7 @@
 
 {% block content %}
 
-<!-- Modal displaying form for adding new category"-->
-<!-- <div class="modal fade" id="add-category-modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content"> -->
-            <!-- Form goes here -->
-        <!-- </div>
-    </div>
-</div> -->
-<!-- Modal diplaying edit and delete forms -->
+<!-- Modal for edit and delete forms -->
 <div class="modal fade" tabindex="-1" role="dialog" id="modal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -20,8 +12,8 @@
     </div>
 </div>
 
-<!-- Main container that holds all cards -->
-<div class="container px-md-4 py-2 pb-5 py-md-5" id="custom-cards">
+<!-- Main container for cards -->
+<div class="container px-0 px-md-4 py-2 pb-5 py-md-5" id="custom-cards">
     <div class="d-flex justify-content-between border-bottom">
         <div>
             <h2 class="pb-2">Categories</h2>
@@ -38,12 +30,6 @@
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow">
                 <div class="d-flex flex-column h-100 p-4 p-md-5 pb-3 text-white text-shadow-1">
                     <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">{{ category.name }}</h5>
-
-                    <!-- Information about when category was created and modified. Modified shows only if the modified and created short dates are different. -->
-                    <p>Created on: {{ category.created_on|date:'d M Y' }} by {{ category.author }}</p>
-                    {% if category.updated_on|date:'d M Y' != category.created_on|date:'d M Y' %}<p>Modified on:
-                        {{ category.updated_on|date:'d M Y' }} by {{ category.author }}</p>{% endif %}
-                    
                     <!-- List element with Edit and Delete links and icons -->
                     <ul class="d-flex list-unstyled mt-auto justify-content-end">
                         <li class="d-flex align-items-center me-3">

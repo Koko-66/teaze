@@ -5,6 +5,7 @@
 <html lang="en">
 
 <head>
+    <!-- Metadata -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,56 +23,70 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark flex-nowrap">
         <!-- Main navbar container -->
         <div class="container-fluid">
-                <!-- Teaze logo -->
-                <a href="{% url 'quiz:home' %}">
+            <!-- Teaze logo -->
+            <a href="{% url 'quiz:home' %}">
                 <img src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639319548/teaze/teaze-logo_no-bkg_sm_z6cza3.png"
-                    class="img-fluid" alt="Teaze logo" srcset="">
-                </a>
+                    class="img-fluid" alt="Teaze logo">
+            </a>
+            <!-- Menu -->
             <div class="d-flex flex-wrap mr-auto me-2 pb-0 lh-1 justify-content-end">
+                <!-- Collapsed menu button -->
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <!-- Menu item -->
                 <div class="collapse navbar-collapse mr-auto" id="navbarSupportedContent">
                     <ul class="navbar-nav me-2 mb-2 mb-lg-0 align-items-end">
                         {% if user.is_authenticated %}
+                        <!-- Admin menu -->
                             {% if request.user|has_group:"Admin" %}
                             <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page" href="{% url 'quiz:home' %}">Home</a>
+                                <a class="nav-link {% if request.path == '/' %}active{% endif %}" aria-current="page"
+                                    href="{% url 'quiz:home' %}">Home</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/quizzes/' %}active{% endif %}" href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
+                                <a class="nav-link {% if request.path == '/quizzes/' %}active{% endif %}"
+                                    href="{% url 'quiz:manage_quizzes' %}">Manage quizzes</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/questions/' %}active{% endif %}" href="{% url 'questions:manage_questions' %}">Manage questions</a>
+                                <a class="nav-link {% if request.path == '/questions/' %}active{% endif %}"
+                                    href="{% url 'questions:manage_questions' %}">Manage questions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/categories/' %}active{% endif %}" href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
+                                <a class="nav-link {% if request.path == '/categories/' %}active{% endif %}"
+                                    href="{% url 'categories:manage_categories' %}" tabindex="-1">Manage categories</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/accounts/logout/' %}active{% endif %}" href="{% url 'account_logout' %}">Log out</a>
+                                <a class="nav-link {% if request.path == '/accounts/logout/' %}active{% endif %}"
+                                    href="{% url 'account_logout' %}">Log out</a>
                             </li>
+                            <!-- Standard user menu -->
                             {% else %}
                             <li class="nav-item">
-                                <a class="nav-link {% if request.path == '/accounts/signin/' %}active{% endif %}" href="{% url 'account_logout' %}">Log out</a>
+                                <a class="nav-link {% if request.path == '/accounts/signin/' %}active{% endif %}"
+                                    href="{% url 'account_logout' %}">Log out</a>
                             </li>
                             {% endif %}
                         {% else %}
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'account_signup' %}">Sign up</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="{% url 'account_login' %}">Log in</a>
-                            </li>
+                        <!-- Anonymous user menu -->
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_signup' %}">Sign up</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'account_login' %}">Log in</a>
+                        </li>
                         {% endif %}
                     </ul>
                 </div>
             </div>
         </div>
     </nav>
+    <!-- Current user info -->
     {% if user.is_authenticated %}
-    <div class="my-0 px-4 pb-1 text-lightgray text-smaller d-flex justify-content-end bg-dark">Current user:&nbsp;<span class="small-caps">{{ request.user }}</span></div>
+    <div class="my-0 px-4 pb-1 text-lightgray text-smaller d-flex justify-content-end bg-dark">Current user:&nbsp;<span
+            class="small-caps">{{ request.user }}</span></div>
     {% endif %}
     <!-- Alerts -->
     <div class="container">
@@ -88,8 +103,7 @@
     </div>
     <!-- Main content -->
     <main class="flex-shrink-0 main-bg">
-       
-        <div class="py-md-2 pb-md-5 my-auto mx-2">
+        <div class="py-md-2 pb-5 my-auto mx-2">
             {% block content %}
             <!-- Content goes here -->
             {% endblock content %}
@@ -100,15 +114,16 @@
     <footer class="mt-5">
         <!-- <div class="footer-img"></div> -->
         <div class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 mb-0">
-            <div class="col-md-4 d-flex align-items-center" bis_skin_checked="1">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1"></a>
-                <span class="text-muted justify-content-sm-center">© 2022 kokoMedia</span>
-            </div>
-
-            <ul class="nav col-md-4 justify-content-end px-3 list-unstyled d-flex">
-                <li class="ms-3"><a class="text-muted" href="#" title="twitter" aria-label="twitter"><i class="fab fa-twitter"></i></a></li>
-                <li class="ms-3"><a class="text-muted" href="#" title="instagram" aria-label="instagram"><i class="fab fa-instagram"></i></a></li>
-                <li class="ms-3"><a class="text-muted" href="#" title="facebook" aria-label="facebook"><i class="fab fa-facebook"></i></a></li>
+            <!-- <div class="col-md-4 d-flex align-items-center" bis_skin_checked="1"> -->
+                <span class="ms-2 text-muted justify-content-sm-center">© 2022 kokoMedia</span>
+            <!-- </div> -->
+                        <ul class="nav col-md-4 justify-content-end px-3 list-unstyled d-flex">
+                <li class="ms-3"><a class="text-muted" href="#" title="twitter" aria-label="twitter"><i
+                            class="fab fa-twitter"></i></a></li>
+                <li class="ms-3"><a class="text-muted" href="#" title="instagram" aria-label="instagram"><i
+                            class="fab fa-instagram"></i></a></li>
+                <li class="ms-3"><a class="text-muted" href="#" title="facebook" aria-label="facebook"><i
+                            class="fab fa-facebook"></i></a></li>
             </ul>
         </div>
     </footer>
