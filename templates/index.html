@@ -15,11 +15,11 @@
     </div>
 </div>
 <!-- List quizzes, questions and categories for managing if user is in the Admin group -->
-<div class="container px-md-4 py-md-5" id="custom-cards">
+<div class="container px-md-4 mb-5" id="custom-cards">
     <h2 class="pb-2 border-bottom">Dashboard</h2>
 <!-- Quizzes -->
     <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-md-5">
-        <div class="col"><a href="{% url 'quiz:manage_quizzes' %}">
+        <div class="col"><a href="{% url 'quiz:manage_quizzes' %}" class="linked">
                 <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
                     <div class="d-flex flex-column h-100 p-4 p-md-5 pb-3 text-white text-shadow-1">
                         <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">Quizzes</h5>
@@ -27,11 +27,11 @@
                         <h6 class="card-title">Drafts: <small>{{ quiz_draft_count }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li class="d-flex align-items-center me-3">
-                                <a href="{% url 'quiz:add_quiz' %}"><i class="far fa-edit"></i>
+                                <a href="{% url 'quiz:add_quiz' %}" class="linked"><i class="far fa-edit"></i>
                                     <small class="p-md-2">Add new</small></a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <a href="{% url 'quiz:manage_quizzes' %}"><i class="fas fa-book-open"></i>
+                                <a href="{% url 'quiz:manage_quizzes' %}" class="linked"><i class="fas fa-book-open"></i>
                                     <small class="p-md-2">Manage quizzes</small></a>
                             </li>
                         </ul>
@@ -41,7 +41,7 @@
         </div>
         <!-- Questions -->
         <div class="col">
-            <a href="{% url 'questions:manage_questions' %}">
+            <a href="{% url 'questions:manage_questions' %}" class="linked">
                 <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
                     <div class="d-flex flex-column h-100 p-4 p-md-5 pb-3 text-white text-shadow-1">
                         <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">Questions</h5>
@@ -49,11 +49,11 @@
                         <h6 class="card-title">Drafts: <small>{{ question_draft_count }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li class="d-flex align-items-center me-3">
-                                <a href=""><i class="far fa-edit"></i>
+                                <a href="{% url 'questions:add_new_question' %}" class="linked"><i class="far fa-edit"></i>
                                     <small class="p-md-2">Add new</small></a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <a href="{% url 'questions:manage_questions' %}"><i class="fas fa-book-open"></i>
+                                <a href="{% url 'questions:manage_questions' %}" class="linked"><i class="fas fa-book-open"></i>
                                     <small class="p-md-2">Manage questions</small></a>
                             </li>
                         </ul>
@@ -63,19 +63,19 @@
         </div>
         <!-- Categories -->
         <div class="col">
-            <a href="{% url 'categories:manage_categories' %}">
+            <a href="{% url 'categories:manage_categories' %}" class="linked">
                 <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
                     <div class="d-flex flex-column h-100 p-4 p-md-5 pb-3 text-white text-shadow-1">
                         <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">Categories</h5>
                         <h6 class="card-title">Total: <small>{{ categories_count }}</small></h6>
                         <ul class="d-flex list-unstyled mt-auto justify-content-end">
                             <li class="d-flex align-items-center me-3">
-                                <a data-form-url="{% url 'categories:add_category' %}" class="add-category"
+                                <a data-form-url="{% url 'categories:add_category' %}" class="add-category linked"
                                     alt="Add category"><i class="far fa-edit"></i>
                                     <small class="p-md-2">Add new</small></a>
                             </li>
                             <li class="d-flex align-items-center">
-                                <a href="{% url 'categories:manage_categories' %}"><i class="fas fa-book-open"></i>
+                                <a href="{% url 'categories:manage_categories' %}" class="linked"><i class="fas fa-book-open"></i>
                                     <small class="p-md-2">Manage categories</small></a>
                             </li>
                         </ul>
@@ -87,10 +87,10 @@
 </div>
     {% else %}
 <!-- Displays list of quizzes available for the user if logged in as generic user -->
-<div class="container px-md-4 py-md-5" id="custom-cards">
+<div class="container px-md-4 mt-2" id="custom-cards">
     <h2 class="pb-2 border-bottom">Your quizzes</h2>
     
-    <div class="row row-cols-1 {% if quiz_list.count < 3 %}row-cols-lg-{{quiz_list.count}}{% else %}row-cols-lg-3{% endif %} h-100 align-items-stretch g-4 py-3 py-md-5">
+    <div class="row row-cols-1 {% if quiz_list.count < 3 %}row-cols-lg-{{quiz_list.count}}{% else %}row-cols-lg-3{% endif %} h-100 align-items-stretch g-4 mt-3 mb-5 m-md-5">
     <!-- <div class="row row-cols-1 row-cols-lg-3 h-100 align-items-stretch g-4 py-5"> -->
         {% for quiz in quiz_list %}
         <div class="col">
@@ -106,7 +106,7 @@
                             <!-- If yes display 'Completed' with a checkbox and a link to see results -->
                             <li class="d-flex align-items-center me-3">Completed<i class="fas fa-check-square ms-3"></i>
                             </li>
-                            <li class="d-flex align-items-center me-3 btn"><a class=""
+                            <li class="d-flex align-items-center me-3 btn"><a class="linked"
                                     href="{% url 'results:assessment_details' assessment.quiz.slug assessment.pk %}">
                                     Results</a></li>
                             <!-- if not completed, show button with link to take quiz -->

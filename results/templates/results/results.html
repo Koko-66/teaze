@@ -3,7 +3,7 @@
 {% block content %}
 <!-- Quiz title -->
 <div class="container">
-    <div class="row m-md-5">
+    <div class="row row mt-3 mb-5 m-md-5">
         <div class="col-lg-8 box-shadow m-auto transparent-gray">
             <div class="modal-header">
                 <h3 class="modal-title">{{ assessment.quiz.title }}</h3>
@@ -15,7 +15,7 @@
             </div>
                 
             <!-- Display quiz questions and results -->
-            <div class="modal-body m-md-3 mt-md-3 shadow">
+            <div class="modal-body m-md-3 mt-3 shadow">
                 <ol class="mx-md-3">
                     <!-- Loop through questions in assessment -->
                     {% for answer in assessment.get_answers.all %}

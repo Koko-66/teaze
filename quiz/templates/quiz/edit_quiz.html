@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="container">
-    <div class="row m-5">
+    <div class="row m-md-5 mb-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
 
             <form enctype="multipart/form-data" method="post" >
@@ -24,7 +24,11 @@
                     {% for field in form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {% if field.label == "Currently" %}
+                        <div class="shadow">{% render_field field class="form-control text-dark" placeholder=field.label %}</div>
+                        {% else %}
                         <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
+                        {% endif %}
                         <div class="{% if field.errors %} invalid{% endif %}">
                             {% for error in field.errors %}
                             <p class="help-block">{{ error }}</p>
@@ -36,7 +40,6 @@
 
                 <div class="modal-footer">
                     <input type="submit" class="btn" value="Save">
-                    <!-- <a href="{% url 'quiz:delete_quiz' quiz.slug %}" class="btn">Delete</a> -->
                     <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn">Cancel</a>
                 </div>
         </div>

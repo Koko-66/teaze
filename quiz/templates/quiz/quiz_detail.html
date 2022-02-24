@@ -12,7 +12,7 @@
 </div>
 
 <div class="container">
-    <div class="row m-5">
+    <div class="row mt-3 mb-5 m-md-5">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <div class="modal-header">
                 <h3 class="modal-title">{{ quiz.title }}
@@ -27,13 +27,13 @@
                 <a href="{% url 'quiz:toggle' quiz.slug %}"
                     class="btn py-0">{% if quiz.status == 0 %}Draft{% else %}Approved{% endif %}</a>
             </div>
-            <div class="d-flex flex-col m-2 p-1 align-items-baseline rounded bg-white shadow">
+            <div class="d-flex flex-col m-md-2 p-1 align-items-baseline rounded bg-white shadow">
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="p-1 highlight rounded">Description:</h6>
                     <h6 class="ms-2 my-0 flex-grow-1">{{ quiz.description }}</h6>
                 </div>
             </div>
-            <div class="d-flex flex-col m-2 p-1 align-items-baseline rounded bg-white shadow">
+            <div class="d-flex flex-col m-md-2 p-1 align-items-baseline rounded bg-white shadow">
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="p-1 highlight rounded">Category:</h6>
                     <h6 class="ms-2 my-0 flex-grow-1">{{ quiz.category }}</h6>
@@ -41,7 +41,7 @@
                 <div class="m-1 p-1 w-100 rounded">
                     <h6 class="p-1 highlight rounded">Image:</h6>
                     {% if 'placeholder' not in quiz.featured_image.url %}
-                    <h6 class="ms-2 my-0 flex-grow-1"><img src="{{ quiz.featured_image.url }}" class=" img-thumbnail"></h6>
+                    <h6 class="ms-2 my-0 flex-grow-1"><img src="{{ quiz.featured_image.url }}" class="img-thumbnail" alt="quiz featured image"></h6>
                     {% else %}
                     <h6 class="ms-2 my-0 flex-grow-1">None</h6>
                     {% endif %}
@@ -55,11 +55,11 @@
                 </div>
             </div>
             <div>
-                <ol class="modal-body m-2  bg-light shadow">
+                <ol class="modal-body m-md-2  bg-light shadow">
                     <h5 class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
                     {% for question in quiz.questions.all %}
 
-                        <div class="d-flex justify-content-between m-2 p-2 ms-0 ps-4 rounded highlight">
+                        <div class="d-flex justify-content-between my-2 m-md-2 p-2 ms-0 ps-4 rounded highlight">
                             <li>{{ question.body }}</li>
                                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                                         <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="text-dark bs-modal" alt="Details" title="Details">
@@ -81,13 +81,13 @@
                     </div>
                 </div>
 
-                <div class="modal-body m-2 bg-light shadow">
+                <div class="modal-body m-md-2 bg-light shadow">
                     <h5>Other questions available in this category: </h5>
                     <div>
                         {% if available_questions %}
                         <ul class="list-unstyled">
                             {% for question in available_questions %}
-                            <div class="d-flex justify-content-between m-2 p-2 rounded highlight">
+                            <div class="d-flex justify-content-between my-2 m-md-2 p-2 rounded highlight">
                                 <li>{{ question.body }}</li>
                                         <ul class="d-flex list-unstyled mt-auto justify-content-between">
         

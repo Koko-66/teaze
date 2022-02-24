@@ -17,17 +17,17 @@
 			<h2 class="pb-2">Questions</h2>
 		</div>
 		<h3 class="pb-2"><a href="{% url 'questions:add_new_question' %}" id="add-question" alt="Add question"
-				class="add-question text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
+				class="add-question text-dark linked">Add new<i class="fas fa-plus ms-1 ms-md-3"></i></a></h3>
 	</div>
 	<div>
 		<!-- A href 'button' to toggle filter -->
 		<div class="pt-2">
-			<a class="btn-secondary p-1 m-2 ms-md-4 rounded collapsed border border-2" data-bs-toggle="collapse" href="#collapseFilter"
+			<a class="btn-secondary p-1 m-2 ms-md-4 rounded collapsed border border-2 linked" data-bs-toggle="collapse" href="#collapseFilter"
 				role="button" aria-expanded="false" aria-controls="collapseFilter">Show filter
 				<i class="fas fa-filter ms-2"></i>
 			</a>
 			{% if has_filter %}
-			<a href="{%  url 'questions:manage_questions' %}" class="btn-secondary p-1 m-4 rounded border border-2">Clear filters</a>
+			<a href="{%  url 'questions:manage_questions' %}" class="btn-secondary p-1 m-4 rounded border border-2 linked">Clear filters</a>
 			{% endif %}
 		</div>
 		<!-- For with options for filtering -->
@@ -65,7 +65,7 @@
 		</form>
 	</div>
 	<!-- Display a list of questions - all or filtered results -->
-	<div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 pt-3 pb-md-5">
+	<div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 pt-3 mb-5">
 		{% for question in filter.qs %}
 		<div class="col">
 			<!-- Check if question has image and add overlay if yes -->
@@ -78,12 +78,12 @@
 						<div class="d-flex flex-column h-100 p-md-5 pb-3 text-white text-shadow-1">
 							{% endif %}
 							<h5 class="modal-header">{{ question.body }}</h5>
-							<div class="d-flex d-row align-items-center justify-content-between">
-								<a class="p-1 m-2 collapsed" data-bs-toggle="collapse" href="#collapseQ-{{question.pk}}"
+							<div class="d-flex d-row align-items-center justify-content-between ">
+								<a class="p-1 m-2 collapsed linked" data-bs-toggle="collapse" href="#collapseQ-{{question.pk}}"
 								role="button" aria-expanded="false" aria-controls="collapseFilter">More...
 								</a>
 								<a data-form-url="{% url 'questions:delete_question' question.id %}"
-									class="delete-question bs-modal" aria-label="Delete question" title="Delete">
+									class="delete-question bs-modal linked" aria-label="Delete question" title="Delete">
 									<i class="fas fa-trash me-3 ms-2 fs-6"></i>
 								</a>
 							</div>
@@ -97,13 +97,10 @@
 									<small>{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</small></h6>
 								<ul class="d-flex list-unstyled mt-auto justify-content-end">
 
-									<li><a href="{% url 'questions:question_details' question.id %}" class=""
+									<li><a href="{% url 'questions:question_details' question.id %}" class="linked"
 											alt="Details" title="Details">
-											View and edit
-											<i class="fa fa-eye me-3 ms-2"></i></a></li>
-									<!-- <li><a data-form-url="{% url 'questions:delete_question' question.id %}" class="delete-question bs-modal" aria-label="Delete question" title="Delete">
-                                    Delete
-                                    <i class="fas fa-trash me-3 ms-2"></i></a></li> -->
+											View / edit
+											<i class="fa fas fa-edit me-3 ms-2"></i></a></li>
 								</ul>
 							</div>
 						</div>

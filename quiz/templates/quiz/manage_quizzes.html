@@ -13,14 +13,14 @@
     </div>
 </div>
 <!-- Main content -->
-<div class="container px-md-4 py-md-5" id="custom-cards">
+<div class="container px-0 px-md-4 py-md-5 mt-3 mb-5" id="custom-cards">
     <!-- Page header and add new quiz button -->
     <div class="d-flex justify-content-between border-bottom">
         <div>
             <h2 class="pb-2">Quizzes</h2>
         </div>
         <div class="me-3">
-            <h3 class="pb-2"><a href="{% url 'quiz:add_quiz' %}" alt="Add category" class="text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
+            <h3 class="pb-2"><a href="{% url 'quiz:add_quiz' %}" alt="Add category" class="text-dark linked">Add new<i class="fas fa-plus ms-1 ms-md-3"></i></a></h3>
         </div>
     </div>
     <div class="row row-cols-1 row-cols-lg-2 align-items-stretch g-4 py-md-5">
@@ -34,10 +34,9 @@
             <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
                 <div class="d-flex flex-column h-100 p-2 p-md-5 text-white text-shadow-1">
             {% endif %}
-                            <!-- <div class="h-100 bg-dark rounded"> -->
                             <div class="modal-header">
                                 <h5 class="">{{ quiz.title }}</h5><a
-                                    data-form-url="{% url 'quiz:delete_quiz' quiz.slug %}" class="delete-quiz"
+                                    data-form-url="{% url 'quiz:delete_quiz' quiz.slug %}" class="delete-quiz linked"
                                     aria-label="Delete" title="Delete"><i class="fas fa-trash me-3 ms-2"></i></a>
                             </div>
                             <div class="modal-body">
@@ -46,14 +45,13 @@
                                 <h6 class="card-title">Number of questions: <small>{{ quiz.questions.count }}</small>
                                 </h6>
                                 <ul class="d-flex list-unstyled mt-4 mb-2 justify-content-end">
-                                    <li><a href="{% url 'quiz:quiz_details' quiz.slug %}" class="" alt="Details"
-                                            title="Details">View and edit<i
-                                                class="fas fa-info-circle me-3 ms-2"></i></a></li>
-                                    <li><a href="{% url 'results:take_quiz' quiz.slug %}" class=""> Preview</a><i
+                                    <li><a href="{% url 'quiz:quiz_details' quiz.slug %}" class="linked" alt="Details"
+                                            title="Details">View / edit<i
+                                                class="fas fas fa-edit me-3 ms-2"></i></a></li>
+                                    <li><a href="{% url 'results:take_quiz' quiz.slug %}" class="linked"> Preview</a><i
                                             class="fas fa-search me-3 ms-2"></i></li>
 
                                 </ul>
-                                <!-- </div> -->
                             </div>
                 </div>
             </div>

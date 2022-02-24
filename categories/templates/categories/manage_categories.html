@@ -21,13 +21,13 @@
 </div>
 
 <!-- Main container that holds all cards -->
-<div class="container px-md-4 py-2 py-md-5" id="custom-cards">
+<div class="container px-md-4 py-2 pb-5 py-md-5" id="custom-cards">
     <div class="d-flex justify-content-between border-bottom">
         <div>
             <h2 class="pb-2">Categories</h2>
         </div>
         <div class="me-3">
-            <h3 class="pb-2"><a data-form-url="{% url 'categories:add_category' %}" alt="Add category" class="add-category text-dark">Add new<i class="fas fa-plus ms-3"></i></a></h3>
+            <h3 class="pb-2"><a data-form-url="{% url 'categories:add_category' %}" alt="Add category" class="add-category text-dark linked">Add new<i class="fas fa-plus ms-1 ms-md-3"></i></a></h3>
         </div>
 
     </div>
@@ -35,8 +35,8 @@
         <!-- loop through the database to find all categories and create card for each -->
         {% for category in category_list %}
         <div class="col pt-2">
-            <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow-lg">
-                <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+            <div class="card card-cover h-100 overflow-hidden text-white rounded-5 shadow">
+                <div class="d-flex flex-column h-100 p-4 p-md-5 pb-3 text-white text-shadow-1">
                     <h5 class="pt-3 mt-2 mb-4 lh-1 fw-bold border-bottom">{{ category.name }}</h5>
 
                     <!-- Information about when category was created and modified. Modified shows only if the modified and created short dates are different. -->
@@ -47,13 +47,12 @@
                     <!-- List element with Edit and Delete links and icons -->
                     <ul class="d-flex list-unstyled mt-auto justify-content-end">
                         <li class="d-flex align-items-center me-3">
-                            <a data-form-url="{% url 'categories:edit_category' category.id %}" class="edit-category bs-modal"><i class="far fa-edit"></i>
-                                <small class="p-2">Edit</small></a>
+                            <a data-form-url="{% url 'categories:edit_category' category.id %}" class="edit-category bs-modal linked">
+                                <small class="p-2">Edit</small><i class="fas fa-edit"></i></a>
                         </li>
                         <li class="d-flex align-items-center">
-                        </li>
-                        <a data-form-url="{% url 'categories:delete_category' category.pk %}"  class="delete-category bs-modal" aria-label="Delete category"><i class="fas fa-trash"></i>
-                            <small class="p-2">Delete</small></a>
+                        <a data-form-url="{% url 'categories:delete_category' category.pk %}"  class="delete-category bs-modal linked" aria-label="Delete category">
+                            <small class="p-2">Delete</small><i class="fas fa-trash"></i></a>
                         </li>
                     </ul>
                 </div>

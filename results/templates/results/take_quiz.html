@@ -4,7 +4,7 @@
 
 <!-- Quiz title -->
 <div class="container">
-    <div class="row m-5" >
+    <div class="row row mt-3 mb-5 m-md-5" >
         <div class="col-lg-8 box-shadow m-auto transparent-gray" style="background: {% if 'placeholder' not in quiz.featured_image.url %} url('{{quiz.featured_image.url}}'){% endif %} centr center no-repeat;">
             <div class="modal-header">
                 <h3 class="modal-title">{{ quiz.title }}</h3>
@@ -12,7 +12,7 @@
             </div>
 
         <!-- Quiz content -->
-        <div class="modal-body m-3 mt-3 shadow">    
+        <div class="modal-body m-md-3 mt-3 shadow">    
             <form action="" method="POST">
                 {% csrf_token %}
                     <ol class="mx-3">
