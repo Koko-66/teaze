@@ -163,7 +163,7 @@ class QuizDetailsView(generic.DetailView):
         available_questions = []
         for question in questions:
             question_categories = question.get_categories()
-            if str(quiz_category) in question_categories and question.quiz != quiz:
+            if str(quiz_category) in question_categories and question.quiz is None:
                 available_questions.append(question)
         context = {
             'quiz': quiz,
@@ -217,10 +217,9 @@ def remove_question_from_quiz(request, pk, *args, **kwargs):
     """Remove question from the selected quiz. """
 
     question = get_object_or_404(Question, pk=pk)
-    print(question.quiz)
     question.quiz = None
     question.save()
-    print(question.quiz)
+    messages.success(request, 'Question removed to quiz successfully.')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
@@ -229,11 +228,9 @@ def add_question_to_quiz(request, pk, slug, *args, **kwargs):
 
     quiz = get_object_or_404(Quiz, slug=slug)
     question = get_object_or_404(Question, pk=pk)
-    print(quiz.slug)
-    # print(question.quiz)
     question.quiz = quiz
     question.save()
-    # print(question.quiz)
+    messages.success(request, 'Question added to quiz successfully.')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
