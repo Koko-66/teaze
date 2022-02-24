@@ -26,7 +26,7 @@
             <!-- Teaze logo -->
             <a href="{% url 'quiz:home' %}">
                 <img src="https://res.cloudinary.com/dcslh2m3b/image/upload/v1639319548/teaze/teaze-logo_no-bkg_sm_z6cza3.png"
-                    class="img-fluid" alt="Teaze logo">
+                    class="img-fluid w-10" alt="Teaze logo">
             </a>
             <!-- Menu -->
             <div class="d-flex flex-wrap mr-auto me-2 pb-0 lh-1 justify-content-end">
@@ -37,7 +37,7 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <!-- Menu item -->
-                <div class="collapse navbar-collapse mr-auto" id="navbarSupportedContent">
+                <div class="collapse navbar-collapse mr-auto mt-2" id="navbarSupportedContent">
                     <ul class="navbar-nav me-2 mb-2 mb-lg-0 align-items-end">
                         {% if user.is_authenticated %}
                         <!-- Admin menu -->
