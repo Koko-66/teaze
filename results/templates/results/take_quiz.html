@@ -4,49 +4,51 @@
 
 <!-- Quiz title -->
 <div class="container">
-    <div class="row row mt-3 mb-5 m-md-5" >
-        <div class="col-lg-8 box-shadow m-auto transparent-gray">
+    <div class="row row mt-3 mb-5 m-md-5">
+        <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <div class="modal-header">
                 <h3 class="modal-title">{{ quiz.title }}</h3>
                 <a href="{% url 'quiz:home' %}" class="btn-close" aria-label="Close"></a>
             </div>
-        <!-- Quiz content -->
-        <div class="modal-body px-0 m-md-3 mt-3 shadow">    
-            <form method="POST">
-                {% csrf_token %}
+            <!-- Quiz content -->
+            <div class="modal-body px-0 m-md-3 mt-3 shadow">
+                <form method="POST">
+                    {% csrf_token %}
                     <ol class="mx-md-3">
                         <!-- Loop through questions and list each -->
                         {% for question in questions %}
                         <li><strong>{{ question.body }}</strong>
                             <!-- Hidden preselected input field to get data from questions that were not answered -->
-                            <input class="form-check-input d-none" type="radio" name="{{ question.pk }}"
-                            value="0" checked>
+                            <input class="form-check-input d-none" type="radio" name="{{ question.pk }}" value="0"
+                                checked>
                             <!-- Loop through options for each qustion and list each -->
-                            <div class="d-flex flex-row my-2 me-2 border-bottom align-items-center justify-content-left">
-                                <div class="col pb-2 flex-shrink-1">
-                                {% for option in question.get_options.all %}
-                                    <div class=""p-1>
+                            <div
+                                class="d-flex flex-row my-3 me-2 border-bottom align-items-center justify-content-left">
+                                <div class="col pb-2">
+                                    {% for option in question.get_options.all %}
+                                    <div class="p-1">
                                         <input class="form-check-input" type="radio" name="{{ question.pk }}"
                                             value="{{option.pk}}">
-                                        <label class="form-check-label" for="{{ question.pk }}">{{ option.option }}</label>
+                                        <label class="form-check-label"
+                                            for="{{ question.pk }}">{{ option.option }}</label>
                                     </div>
-                                {% endfor %}
+                                    {% endfor %}
                                 </div>
                                 {% if 'placeholder' not in question.featured_image.url %}
-                                <div class="col pb-2">
-                                    <img src="{{ question.featured_image.url }}" class="img-fluid feat-img-border rounded shadow" alt="featured image">  
+                                <div class="col pb-2 mb-3">
+                                    <img src="{{ question.featured_image.url }}"
+                                        class="img-fluid feat-img-border rounded shadow" alt="featured image">
                                 </div>
                                 {% endif %}
                             </div>
                         </li>
-                        <!-- <hr> -->
                         {% endfor %}
                     </ol>
-                </div>
-                <div class="modal-footer d-flex">
-                    <button type="submit" class="btn ms-5 my-3">Submit answers</button>
-                </div>
-            </form>
+                    <div class="modal-footer d-flex">
+                        <button type="submit" class="btn ms-5 my-3">Submit answers</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
