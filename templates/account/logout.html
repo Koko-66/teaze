@@ -13,7 +13,7 @@
             <h1 class="pb-2 border-bottom">{% trans "Log out" %}</h1>
 
             <div class="row">
-                <h6 class="p-2">{% trans 'Are you sure you want to Log out?' %}</h6>
+                <p class="p-2 fs-6 fw-bolder">{% trans 'Are you sure you want to Log out?' %}</p>
                 <!-- Log out form -->
                 <form method="post" action="{% url 'account_logout' %}">
                     {% csrf_token %}

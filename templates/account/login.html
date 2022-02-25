@@ -13,8 +13,8 @@
             <h1 class="pb-2 border-bottom">{% trans "Log in" %}</h1>
 
             <div class="row">
-                <h6 class="p-2">{% blocktrans %}Don't have an account yet?
-                    <a href="{{ signup_url }}" class="text-warning ms-2">Sign up here</a>.{% endblocktrans %}</h6>
+                <p class="p-2 fs-6 fw-bolder">{% blocktrans %}Don't have an account yet?
+                    <a href="{{ signup_url }}" class="text-warning ms-2">Sign up here</a>.{% endblocktrans %}</p>
                 <!-- Form starts here-->
                 <form class="login" method="POST" action="{% url 'account_login' %}">
                     {% csrf_token %}

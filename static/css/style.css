@@ -19,6 +19,10 @@ body {
     padding-bottom: 7%;
 }
 
+#logo{
+    max-height: 100px;
+}
+
 footer {
     position: absolute;
     bottom: 0;
@@ -185,7 +189,8 @@ input {
     color: darkred; 
 }
 
-/* Cards styling */
+/* Cards styling 
+from https://getbootstrap.com/docs/5.0/examples/features/ */
 .b-example-divider {
     height: 3rem;
     background-color: rgba(0, 0, 0, .1);
