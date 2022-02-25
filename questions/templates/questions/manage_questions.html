@@ -30,7 +30,7 @@
 			<a href="{%  url 'questions:manage_questions' %}" class="btn-secondary p-1 m-4 rounded border border-2 linked">Clear filters</a>
 			{% endif %}
 		</div>
-		<!-- For with options for filtering -->
+		<!-- Form with options for filtering -->
 		<form method="get" class="collapse m-2 mt-3" id="collapseFilter">
 			<div class="well shadow transparent-gray p-3">
 				<h4 style="margin-top: 0">Filter</h4>
@@ -100,7 +100,7 @@
 								<ul class="d-flex list-unstyled mt-auto justify-content-end">
 
 									<li><a href="{% url 'questions:question_details' question.id %}" class="linked"
-											alt="Details" title="Details">
+										 title="Details">
 											View / edit
 											<i class="fa fas fa-edit me-3 ms-2"></i></a></li>
 								</ul>
