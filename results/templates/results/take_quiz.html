@@ -21,6 +21,7 @@
                             <!-- Hidden preselected input field to get data from questions that were not answered -->
                             <input class="form-check-input d-none" type="radio" name="{{ question.pk }}" value="0"
                                 checked>
+                            <label class="form-check-label d-none" for="{{ question.pk }}">{{ option.option }}</label>
                             <!-- Loop through options for each qustion and list each -->
                             <div
                                 class="d-flex flex-row my-3 me-2 border-bottom align-items-center justify-content-left">
