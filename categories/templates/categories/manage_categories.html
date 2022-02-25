@@ -38,8 +38,9 @@
                         </li>
                         {% if category in protected_categories %}
                         <li class="d-flex align-items-center">
-                            <a class="linked" aria-label="Category cannot be deleted">
-                                <small class="p-2 text-decoration-line-through">Delete</small><i class="fas fa-exclamation-circle"></i></a>
+                            <a class="linked" aria-label="Category used in quiz and cannot be deleted">
+                                <small class="p-2 text-decoration-line-through" data-bs-toggle="tooltip" data-bs-placement="right" title="Category used in quiz and cannot be deleted">
+                                    Delete</small><i class="fas fa-exclamation-circle"></i></a>
                             </li>
                         {% else %}
                         <li class="d-flex align-items-center">
