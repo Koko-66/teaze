@@ -39,9 +39,7 @@
                                 </div>
                                 {% endif %}
                             </div>
-                    
                         <!-- Loop through the question to check which has been answered and which answers are correct -->
-                    
                             <div
                                 class="p-2 my-3 rounded {% if answer.answer.is_correct %}alert-success{% else %}alert-danger{% endif %}">
                                 {% if answer.answer.is_correct %}
@@ -55,7 +53,6 @@
                             </div>
                         </div>
                     </li>
-                    <!-- <hr> -->
                     {% endfor %}
                 </ol>
             </div>

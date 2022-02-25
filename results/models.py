@@ -1,13 +1,12 @@
-""""Test """
+""""Assessment and answer models"""
 from django.db import models
 from django.contrib.auth.models import User
-# from cloudinary.models import CloudinaryField
 from questions.models import Option, Question
 from quiz.models import Quiz
 
 
 class Assessment(models.Model):
-    """Crate assessment"""
+    """Crate an instance of assessment"""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE,
                              related_name='assessment')
@@ -24,11 +23,12 @@ class Assessment(models.Model):
 
 
 class Answer(models.Model):
-    """Create user answer"""
+    """Create an instance of ansawer"""
 
     question = models.ForeignKey(Question, on_delete=models.CASCADE,
                                  related_name='answered_question')
-    answer = models.ForeignKey(Option, on_delete=models.PROTECT, null=True, related_name='answer_option')
+    answer = models.ForeignKey(Option, on_delete=models.PROTECT,
+                               null=True, related_name='answer_option')
     assessment = models.ForeignKey(Assessment, on_delete=models.CASCADE,
                                    related_name='answer')
     created_on = models.DateTimeField(auto_now_add=True)
@@ -36,4 +36,3 @@ class Answer(models.Model):
 
     def __str__(self):
         return f'{str(self.question)} - {self.answer}'
-

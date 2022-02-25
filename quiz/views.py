@@ -1,4 +1,3 @@
-# from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.shortcuts import (
@@ -11,13 +10,11 @@ from django.views import generic
 # views provided by django-bootstrap-modal-forms
 from bootstrap_modal_forms.generic import (
     BSModalCreateView,
-    # BSModalReadView,
     BSModalUpdateView,
 )
 from categories.models import Category
 from categories.forms import NewCategoryForm
 from questions.forms import (
-    # NewOptionForm,
     EditQuestionTextForm,
     EditQuestionFeedbackForm,
     EditQuestionQuizForm,
@@ -38,17 +35,7 @@ from .models import Quiz
 from .forms import (
     NewQuizForm,
     AddQuestionToQuizForm,
-    # ToggleQuizStatusForm,
 )
-
-
-# class Error(Exception):
-#     """Base class for other exceptions"""
-#     pass
-
-# class CorrectAlreadyExists(Error):
-#     """Raised when the input value is too small"""
-#     pass
 
 
 def welcome_page_view(request):
@@ -61,14 +48,14 @@ def welcome_page_view(request):
     categories_count = Category.objects.all().count()
     assessment = None
     completed_quizzes = []
-    
+
     if request.user.groups.filter(name='Admin').exists():
         quiz_list = Quiz.objects.order_by('-created_on')
     else:
         quiz_list = Quiz.objects.filter(status=1).order_by('-created_on')
 
     if request.user.is_authenticated:
-        assessments = Assessment.objects.filter(user=request.user)    
+        assessments = Assessment.objects.filter(user=request.user)
         for assessment in assessments:
             completed_quizzes.append(assessment.quiz)
             assessment = assessment
@@ -83,7 +70,6 @@ def welcome_page_view(request):
         'categories_count': categories_count,
 
         'completed_quizzes': completed_quizzes,
-        # 'assessments': assessments,
         'quiz_list': quiz_list,
         'assessment': assessment
     }
@@ -153,7 +139,7 @@ class QuizDetailsView(generic.DetailView):
     def get(self, *args, **kwargs):
         """Overwrite the default get function to render available qustions
         with the same category."""
-        
+
         slug = self.kwargs.get('slug')
         quiz = get_object_or_404(Quiz, slug=slug)
 
@@ -174,39 +160,13 @@ class QuizDetailsView(generic.DetailView):
         return render(self.request, self.template_name, context)
 
 
-# class ToggleQuizStatusView(BSModalUpdateView):
-#     """Toggle quiz status"""
-#     model = Quiz
-#     template_name = 'quiz/confirm_change_status.html'
-#     form_class = ToggleQuizStatusForm
-#     success_message = "Status changed"
-    
-#     def get(self, *args, **kwargs):
-#         slug = self.kwargs.get('slug')
-#         quiz = get_object_or_404(Quiz, slug=slug)
-#         form = self.form_class
-#         if quiz.status == 0:
-#             message = "will change to approve"
-            
-#         if quiz.status == 1:
-#             message = "will change to approve"
-#         quiz.toggle_status()
-#         context = {
-#             'quiz': quiz,
-#             'message': message,
-#             'form': form,
-#         }
-#         return render(self.request, self.template_name, context)
-
-    # def get_success_url(self, *args, **kwargs):
-    #     slug = self.kwargs.get('slug')
-    #     return reverse_lazy('quiz:quiz_details', args=[slug])
-
 def toggle_status(request, slug, *args, **kwargs):
     """"Togge quiz status."""
     quiz = get_object_or_404(Quiz, slug=slug)
     if quiz.status == 0:
-        messages.warning(request, 'Quiz has been set as Approved. It is now accessible to test takers.')
+        messages.warning(request, """
+        Quiz has been set as Approved. It is now accessible
+         to test takers.""")
     else:
         messages.success(request, 'Quiz status changed to Draft.')
     quiz.toggle_status()
@@ -245,8 +205,8 @@ class AddCategoryInQuizView(BSModalCreateView):
 
 class CreateQuestionInQuizView(CreateQuestionView):
     """
-    Add new question from quiz details view. Inherits from 
-    CreateQuestionView in questions app and changes the form.
+    Add new question from quiz details view. Inherits from
+     CreateQuestionView in questions app and changes the form.
     """
     form_class = AddQuestionToQuizForm
 
@@ -264,6 +224,7 @@ class EditOptionInQuizView(EditOptionView):
         pk = self.object.question.pk
         slug = self.kwargs.get('slug')
         return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
+
 
 class DeleteOptionQuizView(DeleteOptionView):
     """Delete option."""
@@ -283,7 +244,8 @@ class EditQuestionInQuizView(EditQuestionView):
         pk = self.kwargs.get('pk')
         return reverse_lazy('quiz:quiz_question_details', args=[slug, pk])
 
-    # ---- Views to edit question elments ---
+
+# ---- Views to edit question elments ---
 class EditQuestionText(EditQuestionInQuizView, BSModalUpdateView):
     """Edit the question's content."""
 
@@ -326,4 +288,3 @@ class DeleteQuestionInQuizView(DeleteQuestionView):
 class QuestionDetailsInQuizView(QuestionDetailsView):
     """View question details in quiz details view.
     Inherits from QuestionDetailView in question app with different path."""
-

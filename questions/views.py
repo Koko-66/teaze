@@ -62,16 +62,16 @@ class CreateQuestionView(CreateView):
                 category = [quiz.category]
             else:
                 quiz = form.cleaned_data.get('quiz')
-                question.category.set(category)
+                category = form.cleaned_data.get('category')
 
             body = form.cleaned_data.get('body')
             featured_image = form.cleaned_data.get('featured_image')
             feedback = form.cleaned_data.get('feedback')
-            category = form.cleaned_data.get('category')
             question = Question.objects.create(body=body, quiz=quiz,
                                                featured_image=featured_image,
                                                author=user, status=0,
                                                feedback=feedback)
+            question.category.set(category)
             print(form.cleaned_data)
             return redirect(f'../{question.pk}/details/')
         else:

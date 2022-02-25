@@ -3,7 +3,6 @@ from django.contrib import admin
 from results.models import Assessment, Answer
 
 
-# @admin.register(Answer)
 class AnswerInline(admin.TabularInline):
     """Show answers inline with Assessment in django admin."""
     model = Answer

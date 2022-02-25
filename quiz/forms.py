@@ -43,7 +43,10 @@ class AddQuestionToQuizForm(forms.ModelForm):
             'feedback',
         )
 
-class ToggleQuizStatusForm(PopRequestMixin, CreateUpdateAjaxMixin, forms.ModelForm):
+
+class ToggleQuizStatusForm(PopRequestMixin,
+                           CreateUpdateAjaxMixin,
+                           forms.ModelForm):
     """Form to create new quiz."""
 
     STATUS = ((0, 'Draft'), (1, 'Published'))

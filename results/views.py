@@ -58,7 +58,7 @@ class TakeQuizView(ListView):
             # update assessment with the updated score for the quiz
             Assessment.objects.update(score=score)
             context = {
-                        # 'answer': answer,
+                        'answer': answer,
                         'assessment': assessment,
                         'questions': questions,
                     }
