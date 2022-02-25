@@ -1,11 +1,13 @@
 
-"""Register Quiz with question as inline"""
+"""Settings for Django admin page"""
+
 from django.contrib import admin
 from quiz.models import Quiz
 from questions.models import Question
 
 
 class QuestionInline(admin.TabularInline):
+    """Set question settings, with question as inline"""
     model = Question
 
     list_filter = ('created_on', 'category')
@@ -13,6 +15,7 @@ class QuestionInline(admin.TabularInline):
 
 
 class QuizAdmin(admin.ModelAdmin):
+    """View settings for quiz"""
     inlines = [QuestionInline]
     prepopulated_fields = {"slug": ("title",)}
 
