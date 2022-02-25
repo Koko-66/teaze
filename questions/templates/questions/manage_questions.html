@@ -82,12 +82,25 @@
 							<a class="p-1 m-2 collapsed linked" data-bs-toggle="collapse" href="#collapseQ-{{question.pk}}"
 								role="button" aria-expanded="false" aria-controls="collapseFilter">More...
 							</a>
-							{% if question.quiz is None %}
-							<a data-form-url="{% url 'questions:delete_question' question.id %}"
-									class="delete-question bs-modal linked" aria-label="Delete question" title="Delete">
-									<i class="fas fa-trash me-3 ms-2 fs-6"></i>
-							</a>
-							{% endif %}
+							<ul class="d-flex list-unstyled mt-auto justify-content-end">
+								{% if question.quiz is None %}
+								<li>
+								<a data-form-url="{% url 'questions:delete_question' question.id %}"
+										class="delete-question bs-modal linked" aria-label="Delete question" title="Delete" class="linked">
+										Delete<i class="fas fa-trash me-3 ms-2 fs-6"></i></a>
+								</li>
+								{% else %}
+								<li>
+								<a aria-label="Question cannot be deleted" title="Question cannot be deleted" class="linked">
+										Delete<i class="fas fa-exclamation-circle me-3 ms-2 fs-6"></i></a>
+								</li>
+								{% endif %}
+								<li><a href="{% url 'questions:question_details' question.id %}" class="linked"
+									 title="Details">
+										View / edit
+										<i class="fa fas fa-edit me-3 ms-2"></i></a>
+								</li>
+							</ul>
 						</div>
 							
 						<div id="collapseQ-{{question.pk}}" class="collapse ms-3">
@@ -97,12 +110,6 @@
 								<h6 class="card-title">Quizzes: <small>{{ question.quiz}}</small></h6>
 								<h6 class="card-title">Status:
 									<small>{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</small></h6>
-								<ul class="d-flex list-unstyled mt-auto justify-content-end">
-
-									<li><a href="{% url 'questions:question_details' question.id %}" class="linked"
-										 title="Details">
-											View / edit
-											<i class="fa fas fa-edit me-3 ms-2"></i></a></li>
 								</ul>
 						</div>
 				</div>	
