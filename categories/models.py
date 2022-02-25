@@ -10,15 +10,17 @@ class Category(models.Model):
     name = models.CharField(max_length=50, unique=True)
     author = models.ForeignKey(User, on_delete=models.PROTECT)
     created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)   
+    updated_on = models.DateTimeField(auto_now=True)
 
     class Meta:
-        """Set pluaral name for Category"""
+        """Set plural name for Category"""
         verbose_name_plural = 'Categories'
         ordering = ['name']
 
     def __str__(self):
+        """Define string value for object"""
         return self.name
 
     def get_absolute_url(self):
+        """Set absolute url"""
         return reverse('categories:manage_categories')

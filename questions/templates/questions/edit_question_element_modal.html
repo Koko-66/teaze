@@ -1,6 +1,6 @@
 {% load widget_tweaks %}
 <!-- Form with question details that is being edited. -->
-<form method="post" action="" enctype="multipart/form-data">
+<form method="post" enctype="multipart/form-data">
   {% csrf_token %}
 
   <div class="modal-header">
@@ -25,11 +25,11 @@
       <div class="form-group">
         {% if field.label == "Body" %}
           {% render_field field class="form-control" placeholder="Question text" %}
-          {% elif field.label == "Image" %}
+        {% elif field.label == "Image" %}
           {% render_field field class="form-control" %}
-          {% elif field.label == "Categories" %}
-          {% render_field field class="form-check-input" %}
-          {% else %}
+        {% elif field.label == "Category" %}
+          {% render_field field %}
+        {% else %}
           {% render_field field placeholder=field.label %}
         {% endif %}
         <div class="{% if field.errors %} invalid{% endif %}">

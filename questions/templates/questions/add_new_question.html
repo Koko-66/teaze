@@ -6,15 +6,15 @@
     <div class="row m-md-5 my-3">
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <!-- Form to add question directly to quiz -->
-            <form method="post" action="" enctype="multipart/form-data">
+            <form method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h3 class="modal-title">Add new question</h3>
                     <!-- Cancel button -->
                     {% if slug %} 
-                    <button type="button" class="btn-close" aria-label="Close"><a href="{% url 'quiz:quiz_details' slug %}"></a></button>
+                    <a href="{% url 'quiz:quiz_details' slug %}" class="btn-close"></a>
                     {% else %}
-                    <button type="button" class="btn-close" aria-label="Close"><a href="{% url 'questions:manage_questions' %}"></a></button>
+                    <a href="{% url 'questions:manage_questions' %}" class="btn-close"></a>
                     {% endif %}
                 </div>
 
@@ -54,9 +54,13 @@
 
                 <div class="modal-footer">
                     <input type="submit" class="btn" value="Save">
+                    {% if slug %} 
+                    <a href="{% url 'quiz:quiz_details' slug %}" class="btn">Cancel</a>
+                    {% else %}
                     <a href="{% url 'questions:manage_questions' %}" class="btn">Cancel</a>
-
+                    {% endif %}
                 </div>
+            </form>
         </div>
     </div>
 </div>

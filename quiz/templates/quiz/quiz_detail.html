@@ -19,7 +19,7 @@
                     <!-- <span class="text-muted small ms-2">(Details)</span> -->
                 </h3>
                 <!-- Cancel button -->
-                <button type="button" class="btn-close" aria-label="Close"><a href="../../"></a></button>
+                <a href="../../" class="btn-close" aria-label="Close"></a>
             </div>
             <!-- Quiz info -->
             <div class="me-3 d-flex align-items-center justify-content-end">
@@ -56,10 +56,10 @@
             </div>
             <div>
                 <ol class="modal-body m-md-2  bg-light shadow">
-                    <p class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
+                    <h5 class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
                     {% for question in quiz.questions.all %}
 
-                        <div class="d-flex justify-content-between my-2 m-md-2 p-2 ms-0 ps-4 rounded highlight">
+                        <span class="d-flex justify-content-between my-2 m-md-2 p-2 ms-0 ps-4 rounded highlight">
                             {% if question.status == 0 %}<li class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></li>
                             {% else %}
                             <li>{{ question.body }}</li>
@@ -72,7 +72,7 @@
                                         <li><a href="{% url 'quiz:remove_question' quiz.slug question.pk %}" title="Remove from quiz">
                                             <i class="fas fa-times-circle mx-2 icon"></i></a></li>
                                     </ul>
-                        </div>
+                        </span>
                     {% endfor %}
                 </ol>
                 <div class="modal-footer mt-3">
@@ -90,7 +90,7 @@
                         {% if available_questions %}
                         <ul class="list-unstyled">
                             {% for question in available_questions %}
-                            <div class="d-flex justify-content-between my-2 m-md-2 p-2 rounded highlight">
+                            <span class="d-flex justify-content-between my-2 m-md-2 p-2 rounded highlight">
                                 {% if question.status == 0 %}<li class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></li>
                                 {% else %}
                                 <li>{{ question.body }}</li>
@@ -102,18 +102,18 @@
                                             <li><a href="{% url 'quiz:add_question' quiz.slug question.pk %}" title="Add to quiz">
                                                 <i class="fas fa-plus mx-2 icon"></i></a></li>
                                         </ul>
-                            </div>
+                            </span>
                             {% endfor %}
+                        </ul>
                         {% else %}
                         <p>There are currently no other questions available in this category.</p>
-                        </ul>
                     {% endif %}
                     </div>
                 </div>
                 <div class="modal-footer mt-3">
                     <div class="">
                         <a data-form-url="{% url 'quiz:delete_quiz' quiz.slug %}" class="delete-quiz btn" aria-label="Delete" title="Delete">Delete</a>
-                        <a href="{% url 'quiz:manage_quizzes' %}"><button type="submit" class="btn" aria-label="Save">OK</button></a>   
+                        <a href="{% url 'quiz:manage_quizzes' %}" class="btn" aria-label="Save">OK</button></a>   
                     </div>
                 </div>
             </div>

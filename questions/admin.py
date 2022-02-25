@@ -7,7 +7,7 @@ from questions.models import Option, Question
 class OptionInline(admin.TabularInline):
     """Register option to show inline with question"""
     model = Option
-    
+
 
 @admin.register(Question)
 class QuestionAdmin(admin.ModelAdmin):

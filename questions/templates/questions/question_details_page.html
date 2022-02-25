@@ -20,9 +20,9 @@
                 <div>
                 <!-- Change redirection depending on starting point -->
                     {% if quiz.slug %}
-                    <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn-close" aria-label="Close"></a>
                     {% else %}
-                    <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    <a href="{% url 'questions:manage_questions' %}" class="btn-close" aria-label="Close"></a>
                     {% endif %}
                 </div>
             </div>
@@ -42,7 +42,7 @@
                         <i class="fas fa-edit mx-2 ps-2 py-3 icon"></i></a></h4>
                     {% else %}
                     <a data-form-url="{% url 'questions:edit_question_text' question.pk %}" class="edit-question">
-                        <i class="fas fa-edit mx-2 ps-2 py-3 icon"></i></a></h4>
+                        <i class="fas fa-edit mx-2 ps-2 py-3 icon"></i></a>
                     {% endif %}
                 </div>
             </div>
@@ -111,17 +111,15 @@
                 </div>
             </div>
             <ol class="modal-body m-md-3 bg-light shadow rounded">
-                <div class="d-flex flex-row justify-content-between">
+                <span class="d-flex flex-row justify-content-between">
                     <h5 class="py-1"><small>Answer options:</small></h5>
-                    <div class="">
-                
+                    <span>
                         <a data-form-url="{% url 'questions:add_option' question.pk %}" class="add-option bs-modal btn py-0"
                         alt="Add option" title="Add option">Add new option</a>
-
-                    </div>
-                </div>
+                    </span>
+                </span>
                 {% for option in question.options.all %}
-                <div class="d-flex m-2 p-2 ms-0 ps-4 rounded highlight">
+                <span class="d-flex m-2 p-2 ms-0 ps-4 rounded highlight">
                     <li class="flex-grow-1">{{ option.option }} {% if option.is_correct %}<span class="small text-muted">
                             (Correct)</span>{% endif %}</li>
                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
@@ -139,8 +137,9 @@
                             {% endif %}
                         </li>
                     </ul>
-                </div>
+                </span>
                 {% endfor %}
+                    
             </ol>
             <!-- Correct options: {{ correct_option_counter }} -->
             {% if correct_option_counter > 1 %}
@@ -150,17 +149,17 @@
 
                 <div class="d-flex justify-content-md-end justify-content-sm-center">
                     {% if question.quiz %}
-                    <a class="btn">To delete question, unassign it from quiz</a>
+                    <a data-form-url="{% url 'quiz:edit_question_quiz_in_quiz' quiz.slug question.pk %}" class="edit-question btn">To delete question, unassign it from quiz</a>
                     {% else %}
                     <a data-form-url="{% url 'questions:delete_question' question.pk %}"
                         class="delete-question btn">Delete</a>
                     {% endif %}
                         {% if quiz.slug %}
-                        <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="submit" class="btn"
-                                aria-label="Save">OK</button></a>
+                        <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn"
+                                aria-label="Save">OK</a>
                         {% else %}
-                        <a href="{% url 'questions:manage_questions' %}"><button type="submit" class="btn"
-                                aria-label="Save">OK</button></a>
+                        <a href="{% url 'questions:manage_questions' %}" class="btn"
+                                aria-label="Save">OK</a>
                         {% endif %}
                 </div>
             </div>
