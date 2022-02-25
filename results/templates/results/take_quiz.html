@@ -19,19 +19,19 @@
                         {% for question in questions %}
                         <li><strong>{{ question.body }}</strong>
                             <!-- Hidden preselected input field to get data from questions that were not answered -->
-                            <input class="form-check-input d-none" id="{{ question.pk }}" type="radio" name="{{ question.pk }}" value="0"
+                            <input class="form-check-input d-none" id="{{ option.pk }}" type="radio" name="{{ question.pk }}" value="0"
                                 checked>
-                            <label class="form-check-label d-none" for="{{ question.pk }}">{{ option.option }}</label>
+                            <label class="form-check-label d-none" for="{{ option.pk }}">{{ option.option }}</label>
                             <!-- Loop through options for each qustion and list each -->
                             <div
                                 class="d-flex flex-row my-3 me-2 border-bottom align-items-center justify-content-left">
                                 <div class="col pb-2">
                                     {% for option in question.get_options.all %}
                                     <div class="p-1">
-                                        <input id="{{ question.pk }}" class="form-check-input me-1" type="radio" name="{{ question.pk }}"
+                                        <input id="{{ option.pk }}" class="form-check-input me-1" type="radio" name="{{ question.pk }}"
                                             value="{{option.pk}}">
                                         <label class="form-check-label"
-                                            for="{{ question.pk }}">{{ option.option }}</label>
+                                            for="{{ option.pk }}">{{ option.option }}</label>
                                     </div>
                                     {% endfor %}
                                 </div>
