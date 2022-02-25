@@ -73,7 +73,6 @@ class CreateQuestionView(CreateView):
                                                author=user, status=0,
                                                feedback=feedback)
             print(form.cleaned_data)
-            # question.category.set(category)
             return redirect(f'../{question.pk}/details/')
         else:
             print(form.errors)
@@ -216,7 +215,6 @@ class DeleteQuestionView(BSModalDeleteView):
     model = Question
     template_name = 'questions/question_confirm_delete.html'
     success_message = 'Question deleted successfully.'
-    # success_url = reverse_lazy('questions:manage_questions')
 
     def get(self, *args, **kwargs):
         """Override the default get function."""
@@ -271,7 +269,6 @@ class DeleteOptionView(BSModalDeleteView):
         # Check if question exists in answers:
         # if yes, prevent deletion displaying message to the user,
         # if not, ask the user to confirm deletion.
-
         for answer in answers:
             if answer.answer == option:
                 protected_message = """This option appears in an

@@ -39,7 +39,8 @@ class Question(models.Model):
         """"Get all options associated with the question."""
         return self.options.all()
 
-    # code adapted from https://www.dev2qa.com/how-to-get-many-to-many-model-field-values-in-django-view/
+    # code adapted from
+    # https://www.dev2qa.com/how-to-get-many-to-many-model-field-values-in-django-view/
     def get_categories(self):
         """Get list of categories to display in the template."""
         categories = ''
@@ -80,12 +81,6 @@ class Option(models.Model):
         """
         Set meta data for the object: uniqueness, ordering and plural name
         """
-        # unique_together = [
-        # #     # no duplicated option per question
-        #     ("question", "option"),
-        # # # #     # no duplicated position per question
-        # # #     ("question", "position")
-        # ]
         ordering = ["pk"]
         verbose_name_plural = 'Answer options'
 

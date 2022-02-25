@@ -1,5 +1,4 @@
 """Views to manage categories - CRUD"""
-from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 # views provided by django-bootstrap-modal-forms
@@ -9,8 +8,6 @@ from bootstrap_modal_forms.generic import (
     BSModalDeleteView
 )
 from quiz.models import Quiz
-from questions.models import Question
-
 from .forms import NewCategoryForm
 from .models import Category
 
@@ -57,6 +54,6 @@ class CategoriesListView(ListView):
         for quiz in quizzes:
             protected_categories.append(quiz.category)
             print(protected_categories)
-        
+
         context['protected_categories'] = protected_categories
         return context

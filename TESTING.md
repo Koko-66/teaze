@@ -5,7 +5,6 @@ The program was tested at each step of the development within the development en
 2. [Programmatic testing](#programmatic-testing)
 3. [Performance testing](#performance-testing)
 4. [Development testing](#bugs-and-fixes)
-5. [Deployment testing](#deployement-testing)
 
 ## <a name="user-stories-testing"></a>User Story testing
 Functionality was tested at each stage of development and as each of the stories in the Git Project was completed. Refer [here](https://github.com/Koko-66/teaze/projects/1) for details of the stories.
@@ -13,12 +12,13 @@ The testing entailed going through each feature of the app and ensuring that the
 
 ## <a name="validator-testing"></a>Validator testing 
 Each view file has been checked with [Pep 8 online check](http://pep8online.com/) validator. The development took place also in an environment  with enabled linters: pylint, flake8 and cornflakes-linter (VS Code extensions).
-HTML and CSS were checked in their relevant W3C validators. Results are available [here]().
+Some errors raised by Pep 8 refer to the length of links to code refernced in comments and have not been resolved.
+HTML and CSS were checked in their relevant W3C validators. Results with some notes are available [here]().
 
 ## <a name="programmatic-testing"></a>Programmatic testing 
 In addition to testing the code during the development using various print statments, the code was also tested programmatically using Unittest.
 Each application has its own `tests` with test files divided according to the part they are testing - `models`, `views` and `forms`. 
-The testing is done in a SQlite database separate from the production one, which uses its own `test_settings.py` file.
+The testing is done in an SQlite database separate from the production one, which uses its own `test_settings.py` file.
 The decisions on which part of code needed testing were based on reports generated with the use of __Coverage__ plugin and at the most current report stands at 92%.
 
 ## <a name="performance-testing"></a>Performance and responsiveness testing
@@ -52,7 +52,8 @@ File "/app/.heroku/python/lib/python3.9/site-packages/requests/structures.py", l
 KeyError: 'etag'`
 __FIXED__: Since the error message from the deployment log pointed clearly to Cloudinary storage as the failing point, removed: `STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'` and `DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'` from the `settings.py` file for testing, which seemed to resoved the problem and did not cause any issues with uploading images to the application, thus removed from the settings file.
 
-### Issues pending fixing 
-1. Saving option when one with the same name and selected as correct and if same text, but not correct - doesn't save the first time, but does the second.
+### Issues pending fixing
+1. Saving an option whose text matches exactly one that already exists results in the second option to be added, however, if the already existing option is selected as correct, the duplicate is not created and the operation fails silently in the background without an error. 
+This needs to be investigated further.
 
-2. When editing Category in quiz, the form does not allow set it to None, throwing Field is Required error. This seems to be caused by the form itself, rather than being dictated by the model and requires further investigation.
+2. When editing a category in a question, the form does not allow saving if no option is selected, thus preventing `category` from being set to None. This seems to be caused by form validation settings and would also need further investigation.

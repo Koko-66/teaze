@@ -181,7 +181,7 @@ Once created, an Admin user has an option to check the quiz as it would appear t
 
 The _Manage questions_ page can be accessed from the link in the card on the _Home_ page or via the Menu at the top of the page.
 
-In the _Manage questions_ page the admin user sees a list of questions with their basic details and can filter them by category and quiz, and search by text that might show in the question text. Filtering options are collapsed by default to make the page cleaner but are easily accessible at the top of the page.
+In the _Manage questions_ page the admin user sees a list of questions with their basic details, which are by default hidden to take less space on the page, and can filter them by category and quiz, and search by text that might show in the question text. Filtering options are collapsed by default to make the page cleaner but are easily accessible at the top of the page.
 
 Filter optons<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/manage_question_filters.png" width="500">
@@ -207,9 +207,9 @@ Once the user is happy with the information they provided and click `Save`, they
 
 #### __*Featured images in questions*__
 
-As in a #### Featured images in questions
+As in a quiz, a question can have a featured image with a view that some questions might require images for illustration purposes or which can be part of the question. The uploaded images are also uploaded into Cloudinary and the setup is the same way as in the case of quizzes.
 
-As in a quiz, a question can have a featured image with a view that some questions might require images for illustration purposes or which can be part of the question. This is also handled by Cloudinary and works in the same way as in the case of quizzes.quiz, a question can have a featured image with a view that some questions might require images for illustration purposes or which can be part of the question. This is also handled by Cloudinary and works in the same way as in the case of quizzes.
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/take_quiz_with_image.png" width="500">
 
 #### __*Editing questions and managing options*__
 
@@ -237,20 +237,29 @@ Draft questions indicated in the Quiz detail page<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/draft_qustions_in_quiz_details.png" width="500">
 
 #### __*Deleting questions and options*__
-A question can be deleted from the _Manage questions_ or _Question details_ pages, however, the option to delete it is only available if it is not used in any of the existing quizzes. Before the question is deleted, the application will also perform an additional check to see if it appears in any of the saved assessments. If yes, the user will be provided with appropriate feedback, and the deletion would not be possible.
-Options can be deleted from the _Question details_ page as well, and are also checked for appearance in saved answers to prevent ProtectedError. 
+A question can be deleted from the _Manage questions_ or _Question details_ pages, however, a question can only be deleted if the question is not used in any of the existing quizzes. 
+In the _Manage questions_ page the __Bin icon__ is replaced with a __Warning sign__ and the Delete text is stricken through. On hover, a tooltip appears informing the user about the reason why options are not available. 
+On the _Question details_ page, the __Delete__ button is replaced with a button instructing the user to unlink the question from the quiz if they wish to delete it. The button triggers the _Edit question quiz_ form for ease.
 
-!()
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/button_replacing_delete.png" width="500">
+
+Before the question is deleted, the application will also perform an additional check to see if it appears in any of the saved assessments. If yes, the user will be provided with appropriate feedback in a modal (this might be handled differently in the future), and the deletion is not possible.
+Options can be deleted from the _Question details_ page as well, and are also checked for appearance in assessments to prevent ProtectedError and loss of data. 
+
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/question_in_assessment_warning.png" width="500">
+
 As explained above, considering the data model and the fact that assessments and answers need to be stored beyond the life-cycle of any quiz, question or option, the deletions need further consideration and will be replaced with an `Active/Disabled` approach instead.
  
 ### <a name="#managing-categories"></a>__Managing Categories__
 
 Categories are the smallest model and are the simplest to manage. They can be added while creating a new quiz or from their own _Manage categories_ page. 
-An attempt to delete a Category triggers a check for its use in a Quiz or a Question and prevents the deletion if the Category is used in any of these.
+Only categories that are not assigned to a quiz can be deleted and __Delete__ is disabled on cards for these categories.
+
+<img src="https://github.com/Koko-66/teaze/blob/main/static/data/deletion_in_manage_categories.png" width="500">
 
 ### <a name="#user-feedback"></a>__User feedback and alerts__
 
-To increase users' engagement with the application the user is offered feedback on various operations via alerts as well as the use of `title` tags.
+To increase users' engagement with the application the user is offered feedback on various operations via alerts as well as the use of _Bootstrap's tooltips_ and _title_ tags to help users navigate the page.
 
 ## <a name="left-to-implement"></a>Features Left to Implement
 
@@ -327,7 +336,7 @@ Programming languages used in the project:
 - __[django-filter](https://django-filter.readthedocs.io/en/stable/)__: used on the Manage questions page to filter the content
 - __[Heroku](https://www.heroku.com/)__: used to deploy the live version of the project
 - __[whitenoise](http://whitenoise.evans.io/en/stable/django.html)__: to serve static files correctly in production
-- __Beautify__: VSCode extenstion to format code
+- __Beautify__: VSCode extension to format code
 - __[Am I Responsive?](http://ami.responsivedesign.is/#)__ site to generate the responsive mockup
 
 
@@ -374,4 +383,3 @@ A great thank you to:
 - TO Izen Oku: for his [blog post](https://medium.com/swlh/overview-building-a-full-stack-quiz-app-with-django-and-react-57fd07449e2f) on creating a Quiz app and pointers on how to organise my database models.
 - [To PyPlane](https://www.youtube.com/channel/UCQtHyVB4O4Nwy1ff5qQnyRw) and [Lara Code](https://www.youtube.com/channel/UClXcbBNNhFU9ATAcXB6U7eQ) for their tutorials on creating a quiz in Django.
 - Creators of Django and Heroku documentation as well as authors of all the plugins and libraries used in this application.
-
