@@ -8,14 +8,11 @@
             <div class="modal-header">
                 <h3 class="modal-title">{{ assessment.quiz.title }}</h3>
                  <!-- Score summary -->
-                <!-- <h4 class="modal-title me-2">Your score: {{ assessment.score }} out of {{ assessment.get_answers.all.count }}</h4> -->
-                <div><h5 class="modal-title m-3 btn shadow">Your score: {{ assessment.score }} out of {{ assessment.get_answers.all.count }}</h5>
-                <a href="{% url 'quiz:home' %}"><button type="button" class="btn-close" aria-label="Close"></button></a></div>
-
-            </div>
-                
+                <a href="{% url 'quiz:home' %}" class="btn-close" aria-label="Close"></a>
+            </div>  
+            <h5 class="modal-title m-3 me-auto btn shadow">Your score: {{ assessment.score }} out of {{ assessment.get_answers.all.count }}</h5>
             <!-- Display quiz questions and results -->
-            <div class="modal-body m-md-3 mt-3 shadow">
+            <div class="modal-body px-0 m-md-3 mt-3 shadow">
                 <ol class="mx-md-3">
                     <!-- Loop through questions in assessment -->
                     {% for answer in assessment.get_answers.all %}
@@ -23,7 +20,6 @@
                         <!-- Loop through options for each qustion and list these -->
                         <ol>
                             {% for option in answer.question.get_options.all %}
-                            <!-- <li class="{% if option.is_correct %}text-success{% elif option == answer.answer and not answer.answer.is_correct%}text-danger{% endif %}"> -->
                             <li class="{% if option.is_correct %}text-success fw-bolder{% endif %}">
                                 {{ option.option }}</li>
                             {% endfor %}
@@ -33,7 +29,6 @@
                         <div
                             class="p-2 rounded {% if answer.answer.is_correct %}alert-success{% else %}alert-danger{% endif %}">
                             {% if answer.answer.is_correct %}
-                            <!-- <p>Your answer: <strong>{{ answer.answer }}</strong></p> -->
                             <span class="fw-bolder">Correct</span>.
                             {% elif answer.answer == None %}
                             <span class="fw-bolder">Question not answered</span>.
@@ -50,10 +45,6 @@
                 <!-- Link to go back to the main page -->
                 <div class="modal-footer ms-5 my-3"><a href="{% url 'quiz:home' %}" class="btn">OK</a>
                 </div>
-
-            <!-- <div class="col">
-            <img src="{{ quiz.featured_image.url }}" class="question-feat-img" alt="">
-            </div> -->
         </div>
     </div>
 </div>
