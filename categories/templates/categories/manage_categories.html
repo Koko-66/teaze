@@ -36,10 +36,17 @@
                             <a data-form-url="{% url 'categories:edit_category' category.id %}" class="edit-category bs-modal linked">
                                 <small class="p-2">Edit</small><i class="fas fa-edit"></i></a>
                         </li>
+                        {% if category in protected_categories %}
+                        <li class="d-flex align-items-center">
+                            <a class="linked" aria-label="Category cannot be deleted">
+                                <small class="p-2 text-decoration-line-through">Delete</small><i class="fas fa-exclamation-circle"></i></a>
+                            </li>
+                        {% else %}
                         <li class="d-flex align-items-center">
                         <a data-form-url="{% url 'categories:delete_category' category.pk %}"  class="delete-category bs-modal linked" aria-label="Delete category">
                             <small class="p-2">Delete</small><i class="fas fa-trash"></i></a>
                         </li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>

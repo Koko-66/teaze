@@ -10,6 +10,7 @@ from bootstrap_modal_forms.generic import (
 )
 from quiz.models import Quiz
 from questions.models import Question
+
 from .forms import NewCategoryForm
 from .models import Category
 
@@ -40,41 +41,22 @@ class DeleteCategoryView(BSModalDeleteView):
     success_message = 'Success: Category was deleted.'
     success_url = reverse_lazy('categories:manage_categories')
 
-    def get(self, *args, **kwargs):
-        """Override the default get function."""
-        category_id = self.kwargs.get('pk')
-        category = get_object_or_404(Category, pk=category_id)
-        questions = Question.objects.all()
-        quizzes = Quiz.objects.all()
-        protected = False
-        protected_message = ''
-
-        # Handle ProtectedError - check if category is used in questions or quizzes:
-        # if yes, prevent deletion displaying message to the user,
-        # if not, ask the user to confirm deletion.
-        for question in questions:
-            question_categories = question.get_categories()
-            if str(category.name) in question_categories:
-                protected_message = f"""This category is used in question
-                 <strong>{question.body}</strong> and cannot be deleted."""
-                protected = True
-
-        for quiz in quizzes:
-            if category == quiz.category:
-                protected_message = f"""This category is used in quiz
-                 <strong>{quiz.title}</strong> and cannot be deleted."""
-                protected = True
-
-        context = {
-            'protected_message': protected_message,
-            'protected': protected,
-            'category': category,
-        }
-        return render(self.request, 'categories/category_confirm_delete.html',
-                      context)
-
 
 class CategoriesListView(ListView):
     """List all available categories."""
     model = Category
     template_name = 'categories/manage_categories.html'
+
+    def get_context_data(self, **kwargs):
+        """Get list of categories used in quizzes as additional context data"""
+        context = super(CategoriesListView, self).get_context_data(**kwargs)
+        # Get all categories used in quizzes
+        quizzes = Quiz.objects.all()
+        protected_categories = []
+
+        for quiz in quizzes:
+            protected_categories.append(quiz.category)
+            print(protected_categories)
+        
+        context['protected_categories'] = protected_categories
+        return context
