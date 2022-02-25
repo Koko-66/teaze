@@ -13,7 +13,7 @@
             <div class="row">
                 <h6 class="p-2">{% blocktrans %}Already have an account? <a href="{{ login_url }}"
                         class="text-warning ms-2">Sign in</a>.{% endblocktrans %}
-                    </p>
+                </h6>
                     <!-- Form starts here -->
                     <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
                         {% csrf_token %}
