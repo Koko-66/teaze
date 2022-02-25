@@ -149,7 +149,13 @@
 
                 <div class="d-flex justify-content-md-end justify-content-sm-center">
                     {% if question.quiz %}
-                    <a data-form-url="{% url 'quiz:edit_question_quiz_in_quiz' quiz.slug question.pk %}" class="edit-question btn">To delete question, unassign it from quiz</a>
+                        {% if quiz.slug %}
+                        <a data-form-url="{% url 'quiz:edit_question_quiz_in_quiz' quiz.slug question.pk %}" class="edit-question btn">
+                            To delete question, unassign it from quiz</a></a>
+                        {% else %}
+                        <a data-form-url="{% url 'questions:edit_question_quiz' question.pk %}" class="edit-question btn">
+                            To delete question, unassign it from quiz</a></a>
+                        {% endif %}
                     {% else %}
                     <a data-form-url="{% url 'questions:delete_question' question.pk %}"
                         class="delete-question btn">Delete</a>
