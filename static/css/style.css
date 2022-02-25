@@ -5,9 +5,9 @@
 /* purple: rgb(100, 65, 93) */
 /* beige: #e1dfc9 */
 
+/* fonts */
 @import url('https://fonts.googleapis.com/css2?family=Festive&family=Oswald:wght@300;400;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital@0;1&family=Spline+Sans:wght@300&display=swap');
-
 
 /* ____Global____ */
 /* Page background color and positioning  */
@@ -34,6 +34,7 @@ hr {
     width: 30vw;
     margin: 20px auto;
 }
+
 /* links */
 .linked {
     color: rgb(240,240,243);
@@ -48,7 +49,6 @@ button {
 
 a:active, 
 a:hover{
-    /* color: rgb(231,151,15); */
     color: rgb(240,240,243);
     transform: scale(0.9);
 }
@@ -63,33 +63,20 @@ a:hover{
     font-weight: 300;
 }
 
-
 /* Links to add quiz, question and category at the top of their management pages */
 .add-button {
     border: none;
     background: none;
 }
 
-/* .nav-tabs .nav-item.show, .nav-tabs .nav-link.active {
-    /* color: #2b2e31; */
-    /* background-color: rgb(100, 65, 93, 0.3); */
-    /* border-color: #dee2e6 #dee2e6 #fff; */
-} */
-
-/* .nav-link:hover,
-.nav-link:active {
-    color: #941445;;
-} */
-
-.centered {
+/* .centered {
     width: 100vw;
     text-align: center;
     margin: auto;
-}
+} */
 
 /* Buttons */
 .btn {
-    /* background: rgb(231,151,15); */
     background: rgba(10, 76, 104, 1);
     color: #fff; 
     margin: 2px;
@@ -152,11 +139,6 @@ footer span {
     border-color: #6392da;
 }
 
-/* input[type=checkbox]:checked {
-    background-color: rgb(231,151,15) !important;
-    border-color: #0d6efd;
-} */
-
 /* hr in the quiz */
 form hr {
     width: 30vw;
@@ -186,8 +168,11 @@ input {
 
 /* Error messages in the forms */
 .help-block {
-    /* color: rgb(172, 110, 3); */
     color: darkred; 
+}
+
+.feat-img-border {
+    border: 1px solid rgba(10, 76, 104, 1);
 }
 
 /* Cards styling 

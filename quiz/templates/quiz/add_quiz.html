@@ -18,12 +18,12 @@
     <div class="row">
         <div class="col-md-7 my-2 mb-5 mx-auto box-shadow transparent-gray">
             <!-- <form enctype="multipart/form-data" method="POST" action=""> -->
-                <form method="POST" action="" enctype="multipart/form-data">
+                <form method="POST"nenctype="multipart/form-data">
                 {% csrf_token %}
                 <div class="modal-header">
                     <h3 class="modal-title">Add quiz</h3>
                     <!-- Cancel button -->
-                    <a href="{% url 'quiz:manage_quizzes' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    <a href="{% url 'quiz:manage_quizzes' %}" class="btn-close" aria-label="Close"></a>
                 </div>
                 <div class="modal-body">
                     <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
@@ -36,10 +36,12 @@
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
                         <!-- Check if field is category and add button to add new category -->
                         {% if field.label == "Category" %}
-                        <div class="d-flex flex-row shadow">{% render_field field class="form-select" placeholder=field.label %}
+                        <div class="d-flex flex-row shadow">{% render_field field class="form-select" %}
                         <a data-form-url="{% url 'quiz:add_category_in_quiz' %}" class="add-category" title="Add new category" aria-label="Add new category"><i class="fas fa-plus btn py-2"></i></a></div>
                         {% elif field.label == "Status" %}
-                        <div class="shadow">{% render_field field class="form-select" placeholder=field.label %}</div>
+                        <div class="shadow">{% render_field field class="form-select" %}</div>
+                        {% elif field.label == "Image" %}
+                        <div class="shadow">{% render_field field class="form-control" %}</div>
                         {% else %}
                         <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
                         {% endif %}
@@ -54,7 +56,7 @@
                 <!-- Form footer -->
                 <div class="modal-footer m-auto">
                     <div class="m-auto">
-                        <a href="{% url 'quiz:manage_quizzes' %}"><button type="button" class="btn" aria-label="Cancel">Cancel</button></a>
+                        <a href="{% url 'quiz:manage_quizzes' %}" class="btn">Cancel</a>
                         <button type="submit" class="btn" aria-label="Save">Save</button>
                     </div>
                 </div>

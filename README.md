@@ -26,7 +26,6 @@
 
 # <a name="intro"></a>Teaze
 
-![Responsive Mockup]()
 
 Teaze is a web-based application built for use as an internal self-testing tool in aid of training as well as for use in more fun team building activities. In the future, its use might be extended to external users as a marketing tool aiming at increasing the engagement of the existing and potential customers and encouraging them up for the company's newsletter.
 
@@ -65,10 +64,10 @@ At present, the relationship between quiz and question is One-to-Many, though it
 
 When first accessing the application, the user is directed to a _Log in_ page. The page includes a link to a _Sign up_ form, should the visitor not yet have an account. _Sign up_ and _Log in_ forms are delivered by __Allauth__ Django app. The forms are fully validated for correct data input, and the _Sign up_ form asks to confirm the inserted password and an option to provide an e-mail address.
 
-Log in form 
+Log in form<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/Sign_in_unauth_user_landing_p.png" width="500">
 
-Sign up form
+Sign up form<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/Sign_up_page.png" width="500">
 
 All users are managed via backend Django admin site, where __superadmin__ user can assign users to the __Admin__ group with advanced rights. 
@@ -78,25 +77,25 @@ At the moment, the application is not linked to any e-mail address and the passw
 
 After logging in, a standard User is redirected to their homepage, where they can see a list of quizzes that have been published (i.e. set to `Approved`. If the quiz has been completed it is marked as such, and the button for taking the quiz is replaced with __Results__ that take the user to a page showing their results for that particular quiz.
 
-Standard user's home page
+Standard user's home page<br>
 <img src='https://github.com/Koko-66/teaze/blob/main/static/data/Standard_user_home_page.png' width="500">
 
 Admin users, on the other hand, are redirected to a dashboard with an overview of quizzes, questions and categories existing in the application. From here, via an extended menu, they can manage (create, edit and delete) all of these elements.
 
-Admin user's home page
+Admin user's home page<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/Admin_user_home_page.png" width="500">
 
 ### <a name="#navigation"></a>__Navigation__
 
 The navigation menu is placed at the top of the page and changes depending on whether the user is authenticated or not, and also depending on the type of user. 
 
-Non-authenticated user's menu
+Non-authenticated user's menu<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/non-authenticated_user_menu.png" width="200">
 
-Standard user's menu
+Standard user's menu<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/standard_user_menu.png" width="200">
 
-Admin user's menu
+Admin user's menu<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/admin_user_menu.png" width="500">
 
 The menu is also responsive and collapses into a button on smaller devices.
@@ -105,12 +104,13 @@ The menu is also responsive and collapses into a button on smaller devices.
 
 On their homepage, a standard User can see a list of all published quizzes available for them to take as well as those they have already taken. 
 Upon clicking the _Take quiz_ button, the user is taken to a page with a list of all questions.
-Take quiz view
+
+Take quiz view<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/take_quiz.png" width="500">
 
 The quiz allows only one answer per question, however, not all questions have to be answered to submit the quiz. On submission, the User is redirected to a page showing their results - total score for the quiz and feedback for each of the questions. These quiz results are available for the User to view at any time via the links on each quiz card on their homepage.
 
-Quiz results view
+Quiz results view<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/quiz_results.png" width="500">
 
 Each response is saved as an individual answer assigned to an assessment which is saved against the user and, at present, the user cannot take the same quiz more than once. This again is something to be discussed and agreed on with the stakeholders.
@@ -120,26 +120,26 @@ Each response is saved as an individual answer assigned to an assessment which i
 
 The _Manage quizzes_ page can be accessed from the link in the card on the _Home_ page or via the Menu at the top of the page. Each quiz has its own card with some basic information and links to delete or edit a quiz, as well as add a new one.
 
-<img scr="" width="500">
+<img scr="https://github.com/Koko-66/teaze/blob/main/static/data/manage_quizzes.png" width="500">
 
 #### __*Creating a quiz*__
 
 To create a new quiz, the user needs to be assigned relevant permissions by the superuser, e.g. by adding them to the __Admin__ group. Adding a quiz is a simple process and can be done either directly from the Dashboard or the _Manage quizzes_ page accessible from the __Menu__ at the top of the page.
 
-Adding quiz from Dashboad
+Adding quiz from Dashboad<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_dashboard.png" width="500">
 
-Adding quiz from Manage quizzes
+Adding quiz from Manage quizzes<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_from_manage_quizzes.png" width="500">
 
 Clicking the __Add__ button initiates the _Add quiz_ form, where the user can fill in the quiz Title (required), Category (required), Description (optional), and Image (optional). The form is validated for required fields and checks if a quiz with the same title already exists.
 
-Add quiz form 
+Add quiz form<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_quiz_form.png" width="500">
 
 A quiz can only be assigned one category, and if the required category does not yet exist, it can be added from the _Add quiz_ view as well.
 
-Add category while creating new quiz
+Add category while creating new quiz<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_category_while_in_quiz.png" width="500">
 
 If the user decides not to save the changes, they can cancel the process at any point by clicking either the __Cancel__ button or the __X__ sign in the top right corner of the form.
@@ -152,7 +152,7 @@ After creating a quiz, the Admin user is redirected to a _Quiz detail_ page, whe
 If there are any questions in the database that are assigned the same category as the quiz and are not assigned to any other quiz, they are listed below the main quiz details and can be added to the quiz by clicking the small __+__ icon showing to the right. Similarly, questions can be as easily removed from the quiz by clicking the __x__ icon in the quiz questions list.
 Note that this action merely removes the question from the quiz and does not delete it.
 
-List of questions availble for adding to the quiz
+List of questions availble for adding to the quiz<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/available_questions_to_add.png" width="500">
 
 The __Edit quiz__ button redirects the user to the _Edit quiz_ page, where the user can make tweaks to the quiz details. The form mirrors the _Add quiz_ form but is populated with existing quiz data.
@@ -170,7 +170,7 @@ On setting the quiz to `Approved` a pop-up alert informs the user that the statu
 
 The user can upload an image to act as a feature image for the quiz which is uploaded directly from the form to Cloudinary. The uploaded images are then appearing as background on the quiz cards and can be set as showing as a background to the quiz in the _Take Quiz_ and _Resulsts_ pages in the future. Images appear on the _Quiz details_ page as thumbnails and can be removed and updated as needed. There are certain considerations for using images in the application (in relation to size, colouring,  ratios, etc.) that will be addressed in the Admin user training and controlled programmatically in the future.
 
-Quiz details with image thumbnail
+Quiz details with image thumbnail<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/quiz_details_with_img_thumbnail.png" width="500">
 
 #### __*Quiz preview*__
@@ -183,22 +183,22 @@ The _Manage questions_ page can be accessed from the link in the card on the _Ho
 
 In the _Manage questions_ page the admin user sees a list of questions with their basic details and can filter them by category and quiz, and search by text that might show in the question text. Filtering options are collapsed by default to make the page cleaner but are easily accessible at the top of the page.
 
-Filter optons
+Filter optons<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/manage_question_filters.png" width="500">
 
 When a filter is applied a button __Clear filters__  appears that clears all filters and shows all questions in the database.
 
-Manage qestion page with __Clear filter__ button
+Manage qestion page with __Clear filter__ button<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/question_filters_when_selected.png" width="500">
 
 #### __*Adding questions*__
 
 A new question can be added from the _Quiz detail_ page, in which case the `quiz` and `category` properties of the question are set based on those of the quiz, or from the _Manage questions_ page, where the question can be created without selecting a quiz or category and added to a quiz when needed.
 
-Adding question from Quiz details page
+Adding question from Quiz details page<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/create_question_in_quiz.png" width="500">
 
-Adding question from Manage questions page
+Adding question from Manage questions page<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_question_from_question_manag.png" width="500">
 
 A question can be assigned more than one category by holding down the `Ctrl` button (or `Cmd` on a Mac) and making a selection. The user is informed about this option on the form.
@@ -216,7 +216,7 @@ As in a quiz, a question can have a featured image with a view that some questio
 The _Question details_ follows the same layout as the _Quiz details_ page, including the image preview as a thumbnail.
 For convenience, the user can edit question elements individually by clicking on the __Edit__ icon. The edit form for each of the elements opens in a separate modal showing over the page, which helps the user stay focused on the task. 
 
-Question details page with modal open
+Question details page with modal open<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/edit_question_modal_view.png" width="500">
 
 On this page the user also gets an opportunity to manage options - they can create and delete them as required. Because options are not part of a question model but have a model of their own, the number of options per question is not determined by design and can be set individually per question. Creating and editing forms for options are also opened in modals for convenience.
@@ -225,7 +225,7 @@ On this page the user also gets an opportunity to manage options - they can crea
 
 At present, the quiz design allows only one option to be set as correct. To prevent the Admin user from setting more than one answer as correct, the tick box for `is_correczt is replaced with information that one correct option already exists if this is the case.
 
-Adding option when correct answer already exists
+Adding option when correct answer already exists<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/add_option_when_correct_exists.png" width="500">
 
 #### __*Question status*__
@@ -233,7 +233,7 @@ Adding option when correct answer already exists
 As quizzes, questions have two statuses _Draft_ and _Approved_. At present this feature is simply for the Admin user to keep track of questions that still need to be reviewed, but they can still be used in the quiz if the Admin wishes so. 
 Draft questions are clearly indicated in the _Quiz detail_ page and can be reviewed and approved before adding to the quiz and publishing the latter.
 
-Draft questions indicated in the Quiz detail page
+Draft questions indicated in the Quiz detail page<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/draft_qustions_in_quiz_details.png" width="500">
 
 #### __*Deleting questions and options*__
@@ -281,22 +281,22 @@ Admin user Django admin access
 
 To make the management easier in the Django admin site, the models have been set up to be viewed as sets of data (e.g. questions can be added within quiz and options within questions). The views also include filters and display information on the main page deemed most important. Again, this can be easily adjusted depending on the stakeholders and admin preferences.
 
-__Quiz details__
+__Quiz details__<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/djangp_admin_gr_quiz_details.png" width="500">
 
-__Question list__
+__Question list__<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/django_admin_gr_question_list.png" width="500">
 
-__Question details__
+__Question details__<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/django_admin_gr_questions.png" width="500">
 
-__Assessment list__
+__Assessment list__<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/django_admin_gr_assessment_list.png" width="500">
 
-__Assessment_details__
+__Assessment_details__<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/django_admin_gr_assessment_details.png" width="500">
 
-__Answers__
+__Answers__<br>
 <img src="https://github.com/Koko-66/teaze/blob/main/static/data/django_admin_gr_answer_list.png" width="500">
 
 
@@ -310,6 +310,7 @@ Programming languages used in the project:
 - JavaScript
 
 ## <a name="libraries-and-programs"></a>Frameworks, Libraries, Plugins and other services used
+
 - __Django__: main application framework
 - __Bootstrap__: CSS styling
 - __GitPod__: primary code editor
@@ -329,11 +330,13 @@ Programming languages used in the project:
 - __Beautify__: VSCode extenstion to format code
 - __[Am I Responsive?](http://ami.responsivedesign.is/#)__ site to generate the responsive mockup
 
+
 # <a name="errors-testing"></a>Error handling and testing
 
 The error handling is currently mostly handled by the inbuilt functionality of class-based views as well as some if-statement based checks within these. Going forward, the application will be using a more robust approach using a set of custom error classes.
 
 Information about the application testing is available in a separate file [here](https://github.com/Koko-66/teaze/blob/main/TESTING.md).
+
 
 # <a name="deployment"></a>Deployment
 The program was deployed to Heroku at the start of the project to ensure its correct functioning and is accessible here: 
@@ -359,6 +362,7 @@ The steps taken to deploy the app:
 7. Once the first build was complete, changed the settings to deploy automatically. 
 8. Towards the end of development, enabled static files by changing the value of DISABLE_COLLECTSTATIC to 0. Resolved issues caused by settings for Cloudinary in the static files setup in the settings.py file (see Testing file for more details).
 9. Installed Whitenoise to ensure static files are served in production mode.
+ 
  
 # Requirements
 All requirements are contained in the requirements.txt file.

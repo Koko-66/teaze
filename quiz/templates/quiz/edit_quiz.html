@@ -8,13 +8,13 @@
 
             <form enctype="multipart/form-data" method="post" >
                 {% csrf_token %}
-
+                <!-- Form header -->
                 <div class="modal-header">
                     <h3 class="modal-title">Edit Quiz</h3>
-                    <!-- Cancel button -->
-                    <a href="{% url 'quiz:quiz_details' quiz.slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    <!-- Close x button -->
+                    <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn-close" aria-label="Close"></a>
                 </div>
-
+                <!-- Main form content -->
                 <div class="modal-body">
                     <div class="{% if form.non_field_errors %}invalid{% endif %} mb-2">
                         {% for error in form.non_field_errors %}
@@ -24,8 +24,12 @@
                     {% for field in form %}
                     <div class="form-group">
                         <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        {% if field.label == "Currently" %}
-                        <div class="shadow">{% render_field field class="form-control text-dark" placeholder=field.label %}</div>
+                        {% if field.label == "Category" %}
+                        <div class="d-flex flex-row shadow">{% render_field field class="form-select" %}</div>
+                        {% elif field.label == "Status" %}
+                        <div class="shadow">{% render_field field class="form-select" %}</div>
+                        {% elif field.label == "Image" %}
+                        <div class="shadow">{% render_field field class="form-control" %}</div>
                         {% else %}
                         <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
                         {% endif %}
@@ -42,6 +46,7 @@
                     <input type="submit" class="btn" value="Save">
                     <a href="{% url 'quiz:quiz_details' quiz.slug %}" class="btn">Cancel</a>
                 </div>
+            </form>
         </div>
     </div>
 </div>

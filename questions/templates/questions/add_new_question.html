@@ -12,9 +12,9 @@
                     <h3 class="modal-title">Add new question</h3>
                     <!-- Cancel button -->
                     {% if slug %} 
-                    <a href="{% url 'quiz:quiz_details' slug %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    <button type="button" class="btn-close" aria-label="Close"><a href="{% url 'quiz:quiz_details' slug %}"></a></button>
                     {% else %}
-                    <a href="{% url 'questions:manage_questions' %}"><button type="button" class="btn-close" aria-label="Close"></button></a>
+                    <button type="button" class="btn-close" aria-label="Close"><a href="{% url 'questions:manage_questions' %}"></a></button>
                     {% endif %}
                 </div>
 

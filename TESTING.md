@@ -53,4 +53,6 @@ KeyError: 'etag'`
 __FIXED__: Since the error message from the deployment log pointed clearly to Cloudinary storage as the failing point, removed: `STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'` and `DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'` from the `settings.py` file for testing, which seemed to resoved the problem and did not cause any issues with uploading images to the application, thus removed from the settings file.
 
 ### Issues pending fixing 
-6. Saving option when one with the same name and selected as correct and if same text, but not correct - doesn't save the first time, but does the second.
+1. Saving option when one with the same name and selected as correct and if same text, but not correct - doesn't save the first time, but does the second.
+
+2. When editing Category in quiz, the form does not allow set it to None, throwing Field is Required error. This seems to be caused by the form itself, rather than being dictated by the model and requires further investigation.
