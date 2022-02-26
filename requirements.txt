@@ -6,11 +6,13 @@ dj3-cloudinary-storage==0.0.6
 Django==3.2.9
 django-allauth==0.47.0
 django-bootstrap-modal-forms==2.2.0
+django-cloudinary-storage==0.3.0
 django-filter==21.1
 django-summernote==0.8.20.0
 django-widget-tweaks==1.4.9
 gunicorn==20.1.0
 oauthlib==3.1.1
+Pillow==9.0.1
 psycopg2==2.9.2
 PyJWT==2.3.0
 pylint-django==2.4.4
