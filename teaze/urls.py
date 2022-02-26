@@ -23,5 +23,4 @@ urlpatterns = [
     path('', include('results.urls'), name='results_urls'),
     path('', include('questions.urls'), name='questions_urls'),
     path('', include('categories.urls'), name='categories_urls'),
-
 ]

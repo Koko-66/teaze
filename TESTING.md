@@ -13,7 +13,8 @@ The testing entailed going through each feature of the app and ensuring that the
 ## <a name="validator-testing"></a>Validator testing 
 Each view file has been checked with [Pep 8 online check](http://pep8online.com/) validator. The development took place also in an environment  with enabled linters: pylint, flake8 and cornflakes-linter (VS Code extensions).
 Some errors raised by Pep 8 refer to the length of links to code refernced in comments and have not been resolved.
-HTML and CSS were checked in their relevant W3C validators. Results with some notes are available [here]().
+HTML and CSS were checked in their relevant W3C validators and results with some notes on remaining errors and warnings are available [here](https://github.com/Koko-66/teaze/blob/main/static/data/CSS%20and%20HTML%20validation.pdf).
+Lighthouse reports can be accessed [here]
 
 ## <a name="programmatic-testing"></a>Programmatic testing 
 In addition to testing the code during the development using various print statments, the code was also tested programmatically using Unittest.
