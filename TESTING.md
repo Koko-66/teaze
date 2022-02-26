@@ -14,7 +14,7 @@ The testing entailed going through each feature of the app and ensuring that the
 Each view file has been checked with [Pep 8 online check](http://pep8online.com/) validator. The development took place also in an environment  with enabled linters: pylint, flake8 and cornflakes-linter (VS Code extensions).
 Some errors raised by Pep 8 refer to the length of links to code refernced in comments and have not been resolved.
 HTML and CSS were checked in their relevant W3C validators and results with some notes on remaining errors and warnings are available [here](https://github.com/Koko-66/teaze/blob/main/static/data/CSS%20and%20HTML%20validation.pdf).
-Lighthouse reports can be accessed [here]
+The deployed application was also checked with __Lighthouse__ and some reports can be accessed [here](https://github.com/Koko-66/teaze/tree/main/static/data/lighthouse_reports).
 
 ## <a name="programmatic-testing"></a>Programmatic testing 
 In addition to testing the code during the development using various print statments, the code was also tested programmatically using Unittest.
@@ -51,7 +51,8 @@ __FIXED__: Based `quiz` class views relating to the question and options managem
 File "/app/.heroku/python/lib/python3.9/site-packages/requests/structures.py", line 54, in __getitem__
   return self._store[key.lower()][1]
 KeyError: 'etag'`
-__FIXED__: Since the error message from the deployment log pointed clearly to Cloudinary storage as the failing point, removed: `STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'` and `DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'` from the `settings.py` file for testing, which seemed to resoved the problem and did not cause any issues with uploading images to the application, thus removed from the settings file.
+Since the error message from the deployment log pointed clearly to Cloudinary storage as the failing point, removed: `STATICFILES_STORAGE = 'cloudinary_storage.storage.StaticHashedCloudinaryStorage'` and `DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'` from the `settings.py` file for testing, which seemed to resoved the problem and did not cause any issues with uploading images to the application, thus removed from the settings file. This solution worked fine when in DEBUG mode, however meant that in production no static files were served. 
+__FIXED__: Used __Whitenoise__ for serving the static files and Cloudinary for handling media uploads only. Needed to remove'cloudinary_storage' from installed aps to avoid conflict. 
 
 ### Issues pending fixing
 1. Saving an option whose text matches exactly one that already exists results in the second option to be added, however, if the already existing option is selected as correct, the duplicate is not created and the operation fails silently in the background without an error. 
