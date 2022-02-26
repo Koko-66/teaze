@@ -86,7 +86,7 @@
 								{% if question.quiz is None %}
 								<li>
 								<a data-form-url="{% url 'questions:delete_question' question.id %}"
-										class="delete-question bs-modal linked" aria-label="Delete question" title="Delete" class="linked">
+										class="delete-question bs-modal linked" aria-label="Delete question" title="Delete">
 										Delete<i class="fas fa-trash me-3 ms-2 fs-6"></i></a>
 								</li>
 								{% else %}
@@ -110,7 +110,6 @@
 								<h6 class="card-title">Quizzes: <small>{{ question.quiz}}</small></h6>
 								<h6 class="card-title">Status:
 									<small>{% if question.status == 0 %}Draft{% else %}Approved{% endif %}</small></h6>
-								</ul>
 						</div>
 				</div>	
 			</div>
