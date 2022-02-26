@@ -17,14 +17,15 @@
         {% for field in form %}
         <div class="form-group">
             {% if field.label == "Is correct" %}
-                {% if correct_options_count < 1 %}
-                <div class="d-flex flex-row my-1">
-                    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                    <div class="mx-2">{% render_field field class="form-check-input" placeholder=field.label %}</div>
-                    {% else %}
-                    <div class="mt-1 text-smaller">Correct answer already exists.<br>Deselect current option to set this one as correct.</div>
-                </div>
-                {% endif %}
+            {% if correct_options_count < 1 %}
+            <div class="d-flex flex-row my-1">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                <div class="mx-2">{% render_field field class="form-check-input" placeholder=field.label %}</div>
+                {% else %}
+                <div class="mt-1 text-smaller">Correct answer already exists.<br>Deselect current option to set this one
+                    as correct.</div>
+            </div>
+            {% endif %}
             {% else %}
             <label for="{{ field.id_for_label }}">{{ field.label }}</label>
             <div class="shadow">{% render_field field class="form-control" placeholder=field.label %}</div>
