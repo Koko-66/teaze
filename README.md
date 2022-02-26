@@ -275,6 +275,10 @@ Displaying one question per page would be especially helpful for questions using
 
 At present, management of the assessments is only available to the admin user via the Django admin page after they have been set as Staff members by a user with superuser rights. In the future, this functionality would be available for Admin users from the front-end as well.
 
+### Greater control of navigation
+
+It is important to add to the application some degree of control over the navigation while using browser back/forward buttons as well as manually providing the browser with url paths. This is not controlled at the moment and might cause issues.
+
 ### Other
 
 There are a lot of additional features that can be added to the application to improve the user experience and add functionality. These will be discussed with the stakeholders, changed into new User Stories and prioritised as appropriate.
