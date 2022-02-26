@@ -65,7 +65,7 @@
                 <div class="m-1 p-1 w-100 rounded border-start">
                     <h6 class="ms-2 p-1 highlight rounded">Image:</h6>
                     {% if 'placeholder' not in question.featured_image.url %}
-                    <h6 class="ms-2 my-0 flex-grow-1"><img src="{{ question.featured_image.url }}" class=" img-thumbnail"></h6>
+                    <img src="{{ question.featured_image.url }}" class=" img-thumbnail" alt="question featured image">
                     {% else %}
                     <h6 class="ms-2 my-0 flex-grow-1">None</h6>
                     {% endif %}
@@ -115,7 +115,7 @@
                     <h5 class="py-1"><small>Answer options:</small></h5>
                     <span>
                         <a data-form-url="{% url 'questions:add_option' question.pk %}" class="add-option bs-modal btn py-0"
-                        alt="Add option" title="Add option">Add new option</a>
+                        title="Add option">Add new option</a>
                     </span>
                 </li>
                 {% for option in question.options.all %}
@@ -124,7 +124,7 @@
                             (Correct)</span>{% endif %}</div>
                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                         <li><a data-form-url="{% if quiz.slug %}{% url 'quiz:edit_option_in_quiz' quiz.slug option.pk %}{% else %}{% url 'questions:edit_option' option.pk %}{% endif %}" class="edit-option bs-modal"
-                                alt="Edit" title="Edit">
+                                title="Edit">
                                 <i class="fas fa-edit icon"></i></a></li>
                         <li>{% if quiz.slug %}
                             <a data-form-url="{% url 'quiz:delete_option_in_quiz' quiz.slug option.pk %}"
@@ -153,7 +153,7 @@
                             To delete question, unassign it from quiz</a></a>
                         {% else %}
                         <a data-form-url="{% url 'questions:edit_question_quiz' question.pk %}" class="edit-question btn">
-                            To delete question, unassign it from quiz</a></a>
+                            To delete question, unassign it from quiz</a>
                         {% endif %}
                     {% else %}
                     <a data-form-url="{% url 'questions:delete_question' question.pk %}"
