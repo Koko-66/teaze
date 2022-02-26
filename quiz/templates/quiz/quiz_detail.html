@@ -55,14 +55,16 @@
                 </div>
             </div>
             <div>
-                <ol class="modal-body m-md-2  bg-light shadow">
+                <div class="modal-body m-md-2  bg-light shadow">
                     <h5 class="py-1">Quiz questions: {{ quiz.questions.all.count }}</h5>
+                <ol>
                     {% for question in quiz.questions.all %}
-
-                        <span class="d-flex justify-content-between my-2 m-md-2 p-2 ms-0 ps-4 rounded highlight">
-                            {% if question.status == 0 %}<li class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></li>
+                    <li class="highlight rounded ms-0">
+                        <div class="d-flex justify-content-between my-2 m-md-2 p-2 ms-0">
+                            {% if question.status == 0 %}
+                            <div class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></div>
                             {% else %}
-                            <li>{{ question.body }}</li>
+                            <div>{{ question.body }}</div>
                             {% endif %}
                                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                                         <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="text-dark bs-modal" alt="Details" title="Details">
@@ -72,9 +74,11 @@
                                         <li><a href="{% url 'quiz:remove_question' quiz.slug question.pk %}" title="Remove from quiz">
                                             <i class="fas fa-times-circle mx-2 icon"></i></a></li>
                                     </ul>
-                        </span>
+                                </div>
+                    </li>
                     {% endfor %}
                 </ol>
+                </div>
                 <div class="modal-footer mt-3">
                     <div class="d-flex col-12 flex-row justify-content-end align-items-center">
                         <div>
@@ -90,10 +94,12 @@
                         {% if available_questions %}
                         <ul class="list-unstyled">
                             {% for question in available_questions %}
-                            <span class="d-flex justify-content-between my-2 m-md-2 p-2 rounded highlight">
-                                {% if question.status == 0 %}<li class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></li>
+                            <li class="rounded highlight"> 
+                            <div class="d-flex justify-content-between my-2 m-md-2 p-2 ">
+                                {% if question.status == 0 %}
+                                <div class="text-secondary">{{ question.body }}<span class="ms-2 small-caps">(Draft)</span></div>
                                 {% else %}
-                                <li>{{ question.body }}</li>
+                                <div>{{ question.body }}</div>
                                 {% endif %}
                                         <ul class="d-flex list-unstyled mt-auto justify-content-between">
         
@@ -102,7 +108,8 @@
                                             <li><a href="{% url 'quiz:add_question' quiz.slug question.pk %}" title="Add to quiz">
                                                 <i class="fas fa-plus mx-2 icon"></i></a></li>
                                         </ul>
-                            </span>
+                            </div>
+                            </li>
                             {% endfor %}
                         </ul>
                         {% else %}
