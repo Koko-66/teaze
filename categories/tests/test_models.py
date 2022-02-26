@@ -1,3 +1,4 @@
+"""Tests for category models"""
 from django.test import TestCase
 from django.contrib.auth.models import User
 from django.shortcuts import reverse
@@ -34,11 +35,11 @@ class CategoryTestCase(TestCase):
     def test_ordering_method(self):
         """Test ordering method"""
         category_list = Category.objects.all()
-        self.assertEquals(category_list[1].name, 'books')
+        self.assertEqual(category_list[1].name, 'books')
 
     def test_str_method(self):
         """Test string method"""
-        
+
         self.assertEqual(str(self.category), self.category.name)
         self.assertEqual(str(self.category2), self.category2.name)
 

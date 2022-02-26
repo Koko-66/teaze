@@ -51,14 +51,13 @@ class TakeQuizView(ListView):
                         score += 1
                 else:
                     response = None
-                answer = Answer.objects.create(question=answered_question,
+                Answer.objects.create(question=answered_question,
                                                answer=response,
                                                assessment=assessment)
 
             # update assessment with the updated score for the quiz
             Assessment.objects.update(score=score)
             context = {
-                        'answer': answer,
                         'assessment': assessment,
                         'questions': questions,
                     }
