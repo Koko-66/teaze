@@ -16,7 +16,6 @@
         <div class="col-lg-9 box-shadow m-auto transparent-gray">
             <div class="modal-header">
                 <h3 class="modal-title">{{ quiz.title }}
-                    <!-- <span class="text-muted small ms-2">(Details)</span> -->
                 </h3>
                 <!-- Cancel button -->
                 <a href="../../" class="btn-close" aria-label="Close"></a>
@@ -69,8 +68,6 @@
                                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                                         <li><a href="{% url 'quiz:quiz_question_details' quiz.slug question.id %}" class="text-dark bs-modal" alt="Details" title="Details">
                                             <i class="fas fa-info-circle mx-2 icon"></i></a></li>
-                                        <!-- <li><a href="{% url 'questions:edit_question' question.pk %}" alt="Edit" title="Edit">
-                                            <i class="fas fa-edit mx-2 icon"></i></a></li> -->
                                         <li><a href="{% url 'quiz:remove_question' quiz.slug question.pk %}" title="Remove from quiz">
                                             <i class="fas fa-times-circle mx-2 icon"></i></a></li>
                                     </ul>
@@ -82,7 +79,6 @@
                 <div class="modal-footer mt-3">
                     <div class="d-flex col-12 flex-row justify-content-end align-items-center">
                         <div>
-                            <!-- <a href="{% url 'quiz:edit_quiz' quiz.slug %}" class="btn">Edit quiz</a> -->
                             <a href="{% url 'quiz:add_question_in_quiz' quiz.slug %}" class="btn">Add new question</a>
                         </div>
                     </div>
