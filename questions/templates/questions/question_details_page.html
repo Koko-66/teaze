@@ -111,17 +111,17 @@
                 </div>
             </div>
             <ol class="modal-body m-md-3 bg-light shadow rounded">
-                <span class="d-flex flex-row justify-content-between">
+                <li class="d-flex flex-row justify-content-between">
                     <h5 class="py-1"><small>Answer options:</small></h5>
                     <span>
                         <a data-form-url="{% url 'questions:add_option' question.pk %}" class="add-option bs-modal btn py-0"
                         alt="Add option" title="Add option">Add new option</a>
                     </span>
-                </span>
+                </li>
                 {% for option in question.options.all %}
-                <span class="d-flex m-2 p-2 ms-0 ps-4 rounded highlight">
-                    <li class="flex-grow-1">{{ option.option }} {% if option.is_correct %}<span class="small text-muted">
-                            (Correct)</span>{% endif %}</li>
+                <li class="d-flex m-2 p-2 ms-0 ps-4 rounded highlight">
+                    <div class="flex-grow-1">{{ option.option }} {% if option.is_correct %}<span class="small text-muted">
+                            (Correct)</span>{% endif %}</div>
                     <ul class="d-flex list-unstyled mt-auto justify-content-between">
                         <li><a data-form-url="{% if quiz.slug %}{% url 'quiz:edit_option_in_quiz' quiz.slug option.pk %}{% else %}{% url 'questions:edit_option' option.pk %}{% endif %}" class="edit-option bs-modal"
                                 alt="Edit" title="Edit">
@@ -137,7 +137,7 @@
                             {% endif %}
                         </li>
                     </ul>
-                </span>
+                </li>
                 {% endfor %}
                     
             </ol>
