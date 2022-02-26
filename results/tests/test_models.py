@@ -7,7 +7,6 @@ from questions.models import Question, Option
 from quiz.models import Quiz
 
 
-
 class ResultsTestCase(TestCase):
     """Test methods of Assessment and Answer objects"""
 
@@ -16,11 +15,13 @@ class ResultsTestCase(TestCase):
         """Set up instance of Assessment and Answer for testing"""
         cls.user = User.objects.create_user(username='user')
         cls.category = Category.objects.create(name='Test', author=cls.user)
-        cls.quiz = Quiz.objects.create(title='Test Quiz', category=cls.category)
+        cls.quiz = Quiz.objects.create(
+            title='Test Quiz', category=cls.category)
         cls.question = Question.objects.create(body='New question text',
                                                author=cls.user,
                                                quiz_id=cls.quiz.pk)
-        cls.assessment = Assessment.objects.create(user=cls.user, quiz=cls.quiz, score=8, pk=1)
+        cls.assessment = Assessment.objects.create(
+            user=cls.user, quiz=cls.quiz, score=8, pk=1)
         cls.option = Option.objects.create(option='Test option 1',
                                            question=cls.question,
                                            author=cls.user, is_correct=True)
@@ -30,9 +31,15 @@ class ResultsTestCase(TestCase):
         cls.option2 = Option.objects.create(option='Test option 3',
                                             question=cls.question,
                                             author=cls.user)
-        cls.answer = Answer.objects.create(question=cls.question, answer=cls.option, assessment=cls.assessment,)
-        cls.answer2 = Answer.objects.create(question=cls.question, answer=cls.option1, assessment=cls.assessment,)
-        cls.answer3 = Answer.objects.create(question=cls.question, answer=cls.option2, assessment=cls.assessment,)
+        cls.answer = Answer.objects.create(
+            question=cls.question, answer=cls.option,
+            assessment=cls.assessment)
+        cls.answer2 = Answer.objects.create(
+            question=cls.question, answer=cls.option1,
+            assessment=cls.assessment)
+        cls.answer3 = Answer.objects.create(
+            question=cls.question, answer=cls.option2,
+            assessment=cls.assessment)
 
     def test_assessment_string_value(self):
         """Test string method"""

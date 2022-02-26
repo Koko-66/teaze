@@ -33,7 +33,8 @@ class QuestionTestCase(TestCase):
                                             question=cls.question2,
                                             author=cls.user)
         cls.category = Category.objects.create(name='trivia', author=cls.user)
-        cls.category2 = Category.objects.create(name='animals', author=cls.user)
+        cls.category2 = Category.objects.create(
+            name='animals', author=cls.user)
         cls.quiz = Quiz.objects.create(title='New Quiz',
                                        category=cls.category)
 
@@ -61,13 +62,13 @@ class QuestionTestCase(TestCase):
         """"Test getting options associated with the question."""
         options = self.question.get_options()
         self.assertEqual(len(options), 2)
-    
+
     def test_get_categories(self):
         """Test getting a list of categories to display in templates."""
         categories = 'animals, trivia'
         self.question.category.add(self.category, self.category2)
         self.assertEqual(self.question.get_categories(), categories)
-    
+
     def test_correct_options_count(self):
         """Test counter for correct options."""
         self.assertEqual(self.question.correct_options_count(), 2)
@@ -80,8 +81,8 @@ class QuestionTestCase(TestCase):
     def test_ordering_method(self):
         """Test ordering method"""
         question_list = Question.objects.all()
-        self.assertEquals(question_list[1].body, 'New question text')
+        self.assertEqual(question_list[1].body, 'New question text')
 
     def test_option_str_method(self):
-            """Test string method"""
-            self.assertEqual(str(self.option), 'Test option 1')
+        """Test string method"""
+        self.assertEqual(str(self.option), 'Test option 1')

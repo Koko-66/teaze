@@ -1,14 +1,7 @@
 """Tests for views in questions app."""
 from django.test import RequestFactory, TestCase
 from django.contrib.auth.models import User
-
 from categories.models import Category
-# from questions.views import (
-#     CreateQuestionView,
-#     DeleteQuestionView,
-# #     DeleteOptionView,
-# #     EditOptionView,
-#     )
 from questions.models import Question, Option
 from quiz.models import Quiz
 
@@ -20,7 +13,8 @@ class QuestionViewsTestCase(TestCase):
     def setUpTestData(cls):
         """Set up instance of Question and Option for testing"""
         cls.factory = RequestFactory()
-        cls.user = User.objects.create_user(username='admin', password='password')
+        cls.user = User.objects.create_user(
+            username='admin', password='password')
         cls.question = Question.objects.create(body='New question text',
                                                author=cls.user,
                                                quiz_id=1, status=0)
@@ -31,18 +25,17 @@ class QuestionViewsTestCase(TestCase):
                                            question=cls.question,
                                            author=cls.user, is_correct=True)
         cls.category = Category.objects.create(name='animals', author=cls.user,
-                                               pk=1)                        
+                                               pk=1)
         cls.quiz = Quiz.objects.create(title='Test Quiz',
                                        category=cls.category,
                                        slug='test-quiz')
- 
 
     def test_create_question_view(self):
         """Test view creating new question"""
         user = User.objects.get(pk=1)
         response = self.client.get('/questions/add_new_question/')
         self.assertEqual(response.status_code, 200)
-# 
+#
         # test post
 
         # https://stackoverflow.com/questions/65790933/unit-testing-in-django-for-createview
@@ -55,38 +48,40 @@ class QuestionViewsTestCase(TestCase):
         }
 
         response = self.client.post('/questions/add_new_question/', data=data)
-        self.assertRedirects(response, f'/questions/3/details/')
-        self.assertEqual(Question.objects.filter(body='Test question').count(), 1)
+        self.assertRedirects(response, '/questions/3/details/')
+        self.assertEqual(Question.objects.filter(
+            body='Test question').count(), 1)
 
     def test_create_option_view(self):
         """Test view creating new question"""
 
-        response = self.client.get(f'/questions/add_new_question/')
+        response = self.client.get('/questions/add_new_question/')
         self.assertEqual(response.status_code, 200)
-
-        # test post
-        # request = self.factory.post('/questions/add_new_question/')
-        # CreateQuestionView.as_view()(request)
 
     def test_edit_question_view(self):
         """Test edit question get success url"""
-        response = self.client.post(f'/questions/{self.question.pk}/edit_question/')
+        response = self.client.post(
+            f'/questions/{self.question.pk}/edit_question/')
         self.assertEqual(response.status_code, 200)
-    
+
     def test_edit_option_view(self):
         """Test edit option get success url"""
-        response = self.client.post(f'/questions/{self.option.pk}/edit_option/')
+        response = self.client.post(
+            f'/questions/{self.option.pk}/edit_option/')
         self.assertEqual(response.status_code, 200)
 
     def test_delete_question_view(self):
         """Test delete question get success url"""
-        response = self.client.post(f'/questions/delete_question/{self.question.pk}/')
+        response = self.client.post(
+            f'/questions/delete_question/{self.question.pk}/')
         self.assertEqual(response.url, '/questions/')
 
     def test_delete_option_view(self):
         """Test delete option get success url"""
-        response = self.client.post(f'/questions/{self.option.pk}/delete_option/')
-        self.assertRedirects(response, f'/questions/{self.question.pk}/details/')
+        response = self.client.post(
+            f'/questions/{self.option.pk}/delete_option/')
+        self.assertRedirects(
+            response, f'/questions/{self.question.pk}/details/')
 
     def test_toggle_quiz_status(self):
         """Test toggling question status"""

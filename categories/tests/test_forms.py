@@ -9,8 +9,8 @@ class CategoryTestCase(TestCase):
     @classmethod
     def setUpTestData(cls):
         """Set up instance of Category for testing"""
-        cls.user = User.objects.create_user(username='admin',
-                                            password='password')
+        cls.user = User.objects.create_user(
+            username='admin', password='password')
 
     def test_new_category_form(self):
         """Test override save method."""

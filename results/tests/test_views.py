@@ -7,6 +7,7 @@ from quiz.models import Quiz
 from results.models import Assessment, Answer
 from results.views import TakeQuizView
 
+
 class ResultsFunctionTestCase(TestCase):
     """Test methods of Assessment and Answer objects"""
 
@@ -15,7 +16,8 @@ class ResultsFunctionTestCase(TestCase):
         """Set up instance of Assessment and Answer for testing"""
         cls.user = User.objects.create_user(username='user')
         cls.category = Category.objects.create(name='Test', author=cls.user)
-        cls.quiz = Quiz.objects.create(title='Test Quiz', category=cls.category,
+        cls.quiz = Quiz.objects.create(title='Test Quiz',
+                                       category=cls.category,
                                        slug='test-quiz')
         cls.question = Question.objects.create(body='New question text',
                                                author=cls.user,
@@ -23,11 +25,12 @@ class ResultsFunctionTestCase(TestCase):
         cls.option = Option.objects.create(option='Test option 1',
                                            question=cls.question,
                                            author=cls.user, is_correct=True)
-        cls.assessment = Assessment.objects.create(user=cls.user, quiz=cls.quiz,
+        cls.assessment = Assessment.objects.create(user=cls.user,
+                                                   quiz=cls.quiz,
                                                    score=8)
-        cls.answer = Answer.objects.create(question=cls.question, answer=cls.option,
+        cls.answer = Answer.objects.create(question=cls.question,
+                                           answer=cls.option,
                                            assessment=cls.assessment)
-
 
     def test_take_quiz_view_get_method(self):
         """Test TakeQuizView get method"""
@@ -51,5 +54,3 @@ class ResultsFunctionTestCase(TestCase):
         TakeQuizView.as_view()(request, slug='test-quiz')
         response = TakeQuizView.as_view()(request, slug='test-quiz')
         self.assertEqual(response.status_code, 200)
-
-        
