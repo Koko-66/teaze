@@ -18,7 +18,8 @@ if os.path.isfile('env.py'):
     import env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'django_filters',
     'widget_tweaks',
+    'whitenoise',
 
     'categories',
     'quiz',
