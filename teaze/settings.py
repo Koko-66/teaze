@@ -134,11 +134,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-# CLOUDINARY_STORAGE = {
-#     'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
-#     'API_KEY': os.environ.get('CLOUDINARY_API_SECRET'),
-#     'API_SECRET': os.environ.get('CLOUDINARY_API_KEY')
-# }
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUDINARY_CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUDINARY_API_SECRET'),
+    'API_SECRET': os.environ.get('CLOUDINARY_API_KEY')
+}
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
