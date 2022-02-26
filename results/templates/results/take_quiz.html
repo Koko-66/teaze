@@ -19,9 +19,9 @@
                         {% for question in questions %}
                         <li><strong>{{ question.body }}</strong>
                             <!-- Hidden preselected input field to get data from questions that were not answered -->
-                            <input class="form-check-input d-none" id="placeholder" type="radio" name="{{ question.pk }}" value="0"
+                            <input class="form-check-input d-none" id="{{option.pk}}" type="radio" name="{{ question.pk }}" value="0"
                                 checked>
-                            <label class="form-check-label d-none" for="placeholder">None</label>
+                            <label class="form-check-label d-none" for="{{option.pk}}">None</label>
                             <!-- Loop through options for each qustion and list each -->
                             <div
                                 class="d-flex flex-row my-3 me-2 border-bottom align-items-center justify-content-left">
