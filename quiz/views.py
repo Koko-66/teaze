@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.shortcuts import (
     render,
@@ -77,7 +78,7 @@ def welcome_page_view(request):
 
 
 # Add, Edit and display quizzes views
-class CreateQuizView(generic.CreateView):
+class CreateQuizView(LoginRequiredMixin, generic.CreateView):
     """Create new quiz."""
 
     template_name = 'quiz/add_quiz.html'
@@ -89,21 +90,21 @@ class CreateQuizView(generic.CreateView):
         return reverse_lazy('quiz:quiz_details', args=[slug])
 
 
-class EditQuizView(generic.UpdateView):
+class EditQuizView(LoginRequiredMixin, generic.UpdateView):
     """Edit quiz"""
     template_name = 'quiz/edit_quiz.html'
     form_class = NewQuizForm
     queryset = Quiz.objects.all()
 
 
-class DeleteQuizView(generic.DeleteView):
+class DeleteQuizView(LoginRequiredMixin, generic.DeleteView):
     """Delete quiz"""
     queryset = Quiz.objects.all()
     template = 'quiz/delete_quiz.html'
     success_url = reverse_lazy('quiz:manage_quizzes')
 
 
-class QuizListView(generic.ListView):
+class QuizListView(LoginRequiredMixin, generic.ListView):
     """Display list of quizzes depending on type of user."""
     model = Quiz
     template_name = 'quiz/manage_quizzes.html'
@@ -131,7 +132,7 @@ class QuizListView(generic.ListView):
             return redirect('account_login')
 
 
-class QuizDetailsView(generic.DetailView):
+class QuizDetailsView(LoginRequiredMixin, generic.DetailView):
     """Quiz details view."""
 
     template_name = 'quiz/quiz_detail.html'
@@ -194,7 +195,7 @@ def add_question_to_quiz(request, pk, slug, *args, **kwargs):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-class AddCategoryInQuizView(BSModalCreateView):
+class AddCategoryInQuizView(LoginRequiredMixin, BSModalCreateView):
     """Add new category within add new quiz view."""
 
     template_name = 'categories/add_category.html'

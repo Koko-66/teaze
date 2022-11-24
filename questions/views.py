@@ -1,4 +1,5 @@
 """Question app views."""
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import (
     render,
     get_object_or_404,
@@ -85,7 +86,7 @@ class CreateQuestionView(CreateView):
         return render(self.request, 'questions/add_new_question.html', context)
 
 
-class CreateOptionView(BSModalCreateView):
+class CreateOptionView(LoginRequiredMixin, BSModalCreateView):
     """Create a new option for question."""
 
     form_class = NewOptionForm
@@ -127,7 +128,7 @@ class CreateOptionView(BSModalCreateView):
         return redirect('../details')
 
 
-class QuestionDetailsView(BSModalReadView):
+class QuestionDetailsView(LoginRequiredMixin, BSModalReadView):
     """Question details view."""
     model = Question
     template_name = 'questions/question_details_page.html'
@@ -142,7 +143,6 @@ class QuestionDetailsView(BSModalReadView):
         if self.kwargs.get('slug'):
             slug = self.kwargs.get('slug')
             quiz = get_object_or_404(Quiz, slug=slug)
-            # print(slug)
 
         context = {
             'question': question,
@@ -152,7 +152,7 @@ class QuestionDetailsView(BSModalReadView):
         return render(request, self.template_name, context)
 
 
-class EditQuestionView(BSModalUpdateView):
+class EditQuestionView(LoginRequiredMixin, BSModalUpdateView):
     """Edit question elements base class."""
 
     model = Question
@@ -196,7 +196,7 @@ class EditQuestionImage(EditQuestionView, BSModalUpdateView):
     form_class = EditQuestionImageForm
 
 
-class EditOptionView(BSModalUpdateView):
+class EditOptionView(LoginRequiredMixin, BSModalUpdateView):
     """Edit options."""
 
     model = Option
@@ -209,7 +209,7 @@ class EditOptionView(BSModalUpdateView):
         return reverse_lazy('questions:question_details', args=[pk])
 
 
-class DeleteQuestionView(BSModalDeleteView):
+class DeleteQuestionView(LoginRequiredMixin, BSModalDeleteView):
     """Delete question."""
 
     model = Question
@@ -252,7 +252,7 @@ class DeleteQuestionView(BSModalDeleteView):
         return reverse_lazy('questions:manage_questions')
 
 
-class DeleteOptionView(BSModalDeleteView):
+class DeleteOptionView(LoginRequiredMixin, BSModalDeleteView):
     """Delete option."""
     model = Option
     template_name = 'questions/option_confirm_delete.html'
