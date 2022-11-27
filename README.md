@@ -31,7 +31,7 @@ Teaze is a web-based application built for use as an internal self-testing tool 
 
 At present, the application is at Stage 1 of development and the focus of the development efforts has been placed on achieving a functioning Minimum Viable Product (MVP) that allows the users to take and create quizzes. Further improvements to the application UI and functionality will be ventured after the main stakeholders' input and testing.
 
-Link to the deployed app: https://teaze.herokuapp.com/accounts/login/
+Link to the deployed app: https://teaze.onrender.com
 
 
 # <a name="ux"></a>UX
